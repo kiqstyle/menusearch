@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author matthewshields
  */
- class Parameters{
+ public class Parameters{
         private String searchPhrase;
         private Boolean requiresPictures;
         private ArrayList<String> allowedIngredients = new ArrayList();
