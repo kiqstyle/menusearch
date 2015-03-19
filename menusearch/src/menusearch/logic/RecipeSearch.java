@@ -22,7 +22,7 @@ public class RecipeSearch {
             String eHollidays, String nutrition, int nmax, int nmin, String flavor,
             int m) {
         
-        ArrayList<RecipeSummary> recipeList;
+        ArrayList<RecipeSummary> recipeList = null;
         JSONProcessor jsonp = new JSONProcessor();
         Parameters p = new Parameters();
         String result = null;
@@ -46,7 +46,7 @@ public class RecipeSearch {
             System.out.println("error: " + e.getMessage());
         }
         
-        recipeList = parceRecipes(result);
+//        recipeList = parceRecipes(result);
         
         return recipeList;
     }
