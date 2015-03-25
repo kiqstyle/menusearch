@@ -6,6 +6,7 @@
 package menusearch.logic;
 
 import java.util.ArrayList;
+import menusearch.domain.*;
 
 /**
  *

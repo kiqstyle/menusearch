@@ -38,6 +38,63 @@ public class DishDBAccess {
           }
           return dish;
       }
+
+    /**
+     *
+     * @param menuItemID
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public static Dish retrieveByMenuItemID(int menuItemID) throws ClassNotFoundException, SQLException
+      {
+         Dish dish = null;
+        conn =DBConnection.getMyConnection();
+
+        String query = ("select * from MenuItem where menu_items_id = \"" + menuItemID + "\"");
+        System.out.println("query is " + query);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+         if (!rs.next())
+              return null;   //no menuitem found
+          else{
+             dish = buildDish(rs);
+          }
+          stmt.close();
+          return dish;
+          
+      }
+
+    /**
+     *
+     * @param menu_id
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public static ArrayList<Dish> retrieveByMenu(int menu_id)throws ClassNotFoundException, SQLException
+      {
+          ArrayList <Dish> dishes = null;
+          Dish dish;
+        conn =DBConnection.getMyConnection();
+
+        String query = ("select * from MenuItem where menu_id = \"" + menu_id + "\"");
+        System.out.println("query is " + query);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        if(!rs.next())
+            return null;
+        else{
+            while(rs.next())
+            dishes.add(dish = buildDish(rs));
+        }
+                
+            
+        
+        stmt.close();
+        return dishes;
+      }
+      
       private static Dish buildDish(ResultSet rs) throws SQLException
       {
           int dish_id = rs.getInt("dish_id");

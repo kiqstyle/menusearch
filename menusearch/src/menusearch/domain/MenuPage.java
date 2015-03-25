@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menusearch.db;
+package menusearch.domain;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +19,7 @@ public class MenuPage {
     private String image_id;
     private int full_height;
     private int full_width;
+     private ArrayList<MenuItem> menuItems;
 
     public MenuPage() {
     }
@@ -81,5 +84,14 @@ public class MenuPage {
     public void setFull_width(int full_width) {
         this.full_width = full_width;
     }
+
+    public ArrayList<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(ArrayList<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+    
 
 }

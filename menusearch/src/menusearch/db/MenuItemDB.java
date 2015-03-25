@@ -12,6 +12,9 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.*;
+import menusearch.domain.Dish;
+import menusearch.domain.MenuItem;
+import menusearch.domain.MenuPage;
 
 /**
  *
@@ -29,7 +32,6 @@ public class MenuItemDB {
         static final String xpos = "xpos";
         static final String ypos = "ypos";
     }
-        
     private ArrayList<Dish> dish;
     private ArrayList<MenuPage> menuPage;
    
@@ -47,7 +49,7 @@ public class MenuItemDB {
         MenuItem menuItem;
         conn =DBConnection.getMyConnection();
 
-        String query = ("select * from MenuItem where menu_items_id = \"" + id + "\"");
+        String query = ("select * from menu_items where menu_items_id = \"" + id + "\"");
         System.out.println("query is " + query);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
@@ -73,7 +75,7 @@ public class MenuItemDB {
         Dish dish = new Dish(dish_id);
         MenuPage menuPage = new MenuPage(menu_page_id);
 
-        MenuItem menuItem = new MenuItem(menu_items_id, dish_id, price, high_price, created_at, updated_at, xpos, ypos, dish, menuPage);
+        MenuItem menuItem = new MenuItem(menu_items_id, price, high_price, created_at, updated_at, xpos, ypos, dish, menuPage);
         return menuItem;
     }
     
@@ -83,7 +85,14 @@ public class MenuItemDB {
      * @return ArrayList<MenuItem> 
      * @throws SQLException 
      */
-    
+     
+    public static void populateDish(MenuItem item) throws SQLException, ClassNotFoundException {
+    int menuItemID = item.getMenu_items_id();
+    Dish dish = DishDBAccess.retrieveByID(menuItemID);
+    item.setDish(dish);
+    }
+      
+     
     private static ArrayList<MenuItem> buildMenuItemList (ResultSet rs) throws SQLException
     {
         ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
@@ -95,4 +104,4 @@ public class MenuItemDB {
         }
     }
     
-
+  

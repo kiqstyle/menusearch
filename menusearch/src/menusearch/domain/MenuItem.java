@@ -7,6 +7,7 @@ package menusearch.domain;
 
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,7 +21,7 @@ public class MenuItem {
     private LocalDateTime updated_at;
     private float xpos;
     private float ypos;
-    private ArrayList<Dish> dish;
+    private Dish dish;
     private ArrayList<MenuPage> menuPages;
 
 public MenuItem() {}
@@ -30,7 +31,7 @@ public MenuItem (int menu_items_id)
     this.menu_items_id = menu_items_id;
 }
     
-public MenuItem(int menu_items_id, float price, float high_price, LocalDateTime created_at, LocalDateTime updated_at, float xpos, float ypos/*, Dish dish, MenuPage menuPage*/) 
+public MenuItem(int menu_items_id, float price, float high_price, LocalDateTime created_at, LocalDateTime updated_at, float xpos, float ypos, Dish dish, MenuPage menuPage) 
 {
     this.menu_items_id = menu_items_id;
     this.price = price;
@@ -41,14 +42,11 @@ public MenuItem(int menu_items_id, float price, float high_price, LocalDateTime 
     this.ypos = ypos;
     this.dish = dish;
     this.menuPages = menuPages;
+   
 }
 
     public void addMenuPage (MenuPage menuPage) {
         menuPages.add(menuPage);
-    }
-    
-    public void addDish (Dish dishes) {
-        dish.add(dishes);
     }
     
     public int getMenu_items_id() {
@@ -107,12 +105,12 @@ public MenuItem(int menu_items_id, float price, float high_price, LocalDateTime 
         this.ypos = ypos;
     }
 
-   public ArrayList<Dish> getDish() {
-        return dish;
+    public void setDish (Dish dish) {
+        this.dish=dish;
     }
-
-    public void setDish(ArrayList<Dish> dish) {
-        this.dish = dish;
+    
+   public Dish getDish() {
+        return dish;
     }
 
     public ArrayList<MenuPage> getMenupage() {

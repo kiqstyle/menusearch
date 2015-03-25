@@ -640,11 +640,57 @@ public class MenuDBAccess {
     
     /**
      * Builds an ArrayList of Menu objects from a whole result set.
-     * 
+     *
      * @param rs - a SQL query result set.
      * @return ArrayList<Menu>
      * @throws SQLException 
      */
+ 
+    
+    public static void populateMenupages (Menu menu) throws ClassNotFoundException, SQLException {
+        int menuID = menu.getMenu_id();
+        menu.setMenuPages(retrievePagesByID(menuID));
+    }
+    
+    private static ArrayList<MenuPage> retrievePagesByID (int menu_id) throws ClassNotFoundException, SQLException {
+        ArrayList<MenuPage> menuPages = null;
+        MenuPage menuPage;
+        conn = DBConnection.getMyConnection();
+        
+        String query = ("select * from menu_pages where menu_id = \"" + menu_id + "\"");
+        System.out.println("query is " + query);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        if(!rs.next())
+            return null;
+        else 
+            
+            while(rs.next())
+   
+                menuPages.add(menuPage = MenuPageDBAccess.buildMenuPage(rs));
+        
+        return menuPages;
+}
+
+    
+    public static Menu retrieveByMenuID(int id) throws ClassNotFoundException, SQLException
+    {
+        Menu menu;
+        conn =DBConnection.getMyConnection();
+
+        String query = ("select * from Menu where menu_id = \"" + id + "\"");
+        System.out.println("query is " + query);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+         if (!rs.next())
+              menu = null;   //no menuitem found
+          else{
+             menu = buildMenu(rs);
+          }
+          stmt.close();
+          return menu;
+      }
+    
     private static ArrayList<Menu> buildMenuList(ResultSet rs) throws 
             SQLException {
         
@@ -676,3 +722,4 @@ public class MenuDBAccess {
         return true; 
     }
 }
+
