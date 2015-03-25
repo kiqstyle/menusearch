@@ -42,7 +42,7 @@ public class MenuSearcher{
         p.setDishCount(dishCount);
         
         try{
-            MenuDBAccess.retrieveByComplexSearch(p);
+            menus = MenuDBAccess.retrieveByComplexSearch(p);
         }catch(Exception e){
             System.out.println("");
         }
