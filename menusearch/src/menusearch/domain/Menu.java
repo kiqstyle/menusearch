@@ -18,12 +18,12 @@ public class Menu {
     private ArrayList<MenuPage> menuPages;
     
     /**
-     * Create totally empty menu.
+     * Create totally empty Menu.
      */
     public Menu() { }
     
     /**
-     * Create menu from just an ID.
+     * Create Menu from just an ID.
      * 
      * @param menu_id 
      */
@@ -33,7 +33,7 @@ public class Menu {
     }
     
     /**
-     * Create a menu with all variables accounted for.
+     * Create Menu with all variables accounted for.
      * 
      * @param menu_id
      * @param name
@@ -89,7 +89,7 @@ public class Menu {
     /**
      * Add a MenuPage to this Menu.
      * 
-     * @param menuPage the MenuPage to add
+     * @param menuPage - the MenuPage to add.
      */
     public void addMenuPage(MenuPage menuPage) {
         menuPages.add(menuPage);
@@ -103,7 +103,7 @@ public class Menu {
     }
 
     /**
-     * @param menu_id the menu_id to set
+     * @param menu_id - the menu_id to set.
      */
     public void setMenu_id(int menu_id) {
         this.menu_id = menu_id;
@@ -117,7 +117,7 @@ public class Menu {
     }
 
     /**
-     * @param page_count the page_count to set
+     * @param page_count - the page_count to set.
      */
     public void setPage_count(int page_count) {
         this.page_count = page_count;
@@ -131,7 +131,7 @@ public class Menu {
     }
 
     /**
-     * @param dish_count the dish_count to set
+     * @param dish_count - the dish_count to set.
      */
     public void setDish_count(int dish_count) {
         this.dish_count = dish_count;
@@ -145,7 +145,7 @@ public class Menu {
     }
 
     /**
-     * @param name the name to set
+     * @param name - the name to set.
      */
     public void setName(String name) {
         this.name = name;
@@ -159,7 +159,7 @@ public class Menu {
     }
 
     /**
-     * @param sponsor the sponsor to set
+     * @param sponsor - the sponsor to set.
      */
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor;
@@ -173,7 +173,7 @@ public class Menu {
     }
 
     /**
-     * @param event the event to set
+     * @param event - the event to set.
      */
     public void setEvent(String event) {
         this.event = event;
@@ -187,7 +187,7 @@ public class Menu {
     }
 
     /**
-     * @param venue the venue to set
+     * @param venue - the venue to set.
      */
     public void setVenue(String venue) {
         this.venue = venue;
@@ -201,7 +201,7 @@ public class Menu {
     }
 
     /**
-     * @param place the place to set
+     * @param place - the place to set.
      */
     public void setPlace(String place) {
         this.place = place;
@@ -215,7 +215,7 @@ public class Menu {
     }
 
     /**
-     * @param occasion the occasion to set
+     * @param occasion - the occasion to set.
      */
     public void setOccasion(String occasion) {
         this.occasion = occasion;
@@ -229,7 +229,7 @@ public class Menu {
     }
 
     /**
-     * @param call_number the call_number to set
+     * @param call_number - the call_number to set.
      */
     public void setCall_number(String call_number) {
         this.call_number = call_number;
@@ -243,7 +243,7 @@ public class Menu {
     }
 
     /**
-     * @param location the location to set
+     * @param location - the location to set.
      */
     public void setLocation(String location) {
         this.location = location;
@@ -257,7 +257,7 @@ public class Menu {
     }
 
     /**
-     * @param location_type the location_type to set
+     * @param location_type - the location_type to set.
      */
     public void setLocation_type(String location_type) {
         this.location_type = location_type;
@@ -271,7 +271,7 @@ public class Menu {
     }
 
     /**
-     * @param currency the currency to set
+     * @param currency - the currency to set.
      */
     public void setCurrency(String currency) {
         this.currency = currency;
@@ -285,7 +285,7 @@ public class Menu {
     }
 
     /**
-     * @param currency_symbol the currency_symbol to set
+     * @param currency_symbol - the currency_symbol to set.
      */
     public void setCurrency_symbol(String currency_symbol) {
         this.currency_symbol = currency_symbol;
@@ -299,7 +299,7 @@ public class Menu {
     }
 
     /**
-     * @param status the status to set
+     * @param status - the status to set.
      */
     public void setStatus(String status) {
         this.status = status;
@@ -313,7 +313,7 @@ public class Menu {
     }
 
     /**
-     * @param language the language to set
+     * @param language - the language to set.
      */
     public void setLanguage(String language) {
         this.language = language;
@@ -327,7 +327,7 @@ public class Menu {
     }
 
     /**
-     * @param physical_description the physical_description to set
+     * @param physical_description - the physical_description to set.
      */
     public void setPhysical_description(String physical_description) {
         this.physical_description = physical_description;
@@ -341,7 +341,7 @@ public class Menu {
     }
 
     /**
-     * @param keywords the keywords to set
+     * @param keywords - the keywords to set.
      */
     public void setKeywords(String keywords) {
         this.keywords = keywords;
@@ -355,7 +355,7 @@ public class Menu {
     }
 
     /**
-     * @param notes the notes to set
+     * @param notes - the notes to set.
      */
     public void setNotes(String notes) {
         this.notes = notes;
@@ -369,7 +369,7 @@ public class Menu {
     }
 
     /**
-     * @param menu_date the menu_date to set
+     * @param menu_date - the menu_date to set.
      */
     public void setMenu_date(LocalDate menu_date) {
         this.menu_date = menu_date;
@@ -383,7 +383,7 @@ public class Menu {
     }
 
     /**
-     * @param menuPages the menuPages to set
+     * @param menuPages - the menuPages to set.
      */
     public void setMenuPages(ArrayList<MenuPage> menuPages) {
         this.menuPages = menuPages;
