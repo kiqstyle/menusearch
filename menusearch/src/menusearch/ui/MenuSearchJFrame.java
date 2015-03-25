@@ -1,13 +1,24 @@
+package menusearch.ui;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menusearch.ui;
+
+import menusearch.json.RecipeSummary;
+import menusearch.logic.RecipeSearch;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  *
  * @author mackellb
+ * @AUTHOR LI YU
  */
 public class MenuSearchJFrame extends javax.swing.JFrame {
 
@@ -27,21 +38,236 @@ public class MenuSearchJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        IngreField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        AllerField = new javax.swing.JTextField();
+        DietField = new javax.swing.JTextField();
+        ClearButton = new javax.swing.JButton();
+        SearchButton = new javax.swing.JButton();
+        CuiField = new javax.swing.JTextField();
+        CourField = new javax.swing.JTextField();
+        HoliField = new javax.swing.JTextField();
+        ExitButton = new javax.swing.JButton();
+        resultPanel = buildResultPanel();
+        //jPanel3.setBackground(Color.RED);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 272, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Menu Search", jPanel1);
+
+        jLabel1.setText("Ingredient(s):");
+
+        jLabel2.setText("Allergies:");
+
+        jLabel3.setText("Diet:");
+
+        jLabel4.setText("Cuisines:");
+
+        jLabel5.setText("Courses:");
+
+        jLabel6.setText("Holidays:");
+
+        ClearButton.setText("Clear");
+        ClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClearButtonActionPerformed(evt);
+            }
+        });
+
+        SearchButton.setText("Search");
+        SearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchButtonActionPerformed(evt);
+            }
+        });
+
+        ExitButton.setText("Exit");
+        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(IngreField)
+                            .addComponent(AllerField)
+                            .addComponent(DietField)
+                            .addComponent(CuiField)
+                            .addComponent(CourField)
+                            .addComponent(HoliField, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(ClearButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SearchButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ExitButton)))
+                .addContainerGap(184, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(IngreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(AllerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(DietField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(CuiField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(CourField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(HoliField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ClearButton)
+                    .addComponent(SearchButton)
+                    .addComponent(ExitButton))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Recipe Search", jPanel2);
+
+        jTabbedPane1.addTab("Results", resultPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTabbedPane1)
         );
-
+        recipeSearch = new RecipeSearch();
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
+        // TODO add your handling code here:
+        IngreField.setText("");
+        AllerField.setText("");
+        DietField.setText("");
+        CuiField.setText("");
+        CourField.setText("");
+        HoliField.setText("");
+    }//GEN-LAST:event_ClearButtonActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_ExitButtonActionPerformed
+
+    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
+        // TODO add your handling code here:
+        String ingredient, allergy, diet, cuisine, course, holiday, result;
+        ingredient = IngreField.getText();
+        allergy = AllerField.getText();
+        diet = DietField.getText();
+        cuisine = CuiField.getText();
+        course = CourField.getText();
+        holiday = HoliField.getText();
+        /*Code here to get search results and place in Results Field */
+
+
+        /*hardcoded code to get summary result*/
+        ArrayList<RecipeSummary> results = recipeSearch.search("beef");
+        for(final RecipeSummary recipeSummary : results){
+            JButton b = new JButton(recipeSummary.getUrl());
+            b.setBorderPainted(false);
+            b.setForeground(Color.BLUE);
+            b.setCursor(Cursor.getPredefinedCursor(12));
+            b.setContentAreaFilled(false);
+            b.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    detailPanel.removeAll();
+                    detailPanel.setText(recipeSummary.toString());
+                    detailPanel.revalidate();
+                }
+            });
+            recipePanel.add(b);
+        }
+        recipePanel.revalidate();
+    }//GEN-LAST:event_SearchButtonActionPerformed
+
+    private JPanel buildResultPanel(){
+        recipePanel = new JPanel();
+        detailPanel = new JTextArea();
+        recipePanel.setLayout(new BoxLayout(recipePanel, BoxLayout.PAGE_AXIS));
+        detailPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        JPanel result = new JPanel();
+        GroupLayout layout = new GroupLayout(result);
+        result.setLayout(layout);
+        detailPanel.setBackground(Color.WHITE);
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addGap(10)
+                        .addComponent(recipePanel, 20, 150, 200)
+                        .addGap(10)
+                        .addComponent(detailPanel, 50, 250, 300)
+                        .addGap(10)
+        );
+
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(recipePanel)
+                                        .addComponent(detailPanel)
+                        )
+
+        );
+
+        return result;
+    }
 
     /**
      * @param args the command line arguments
@@ -79,5 +305,28 @@ public class MenuSearchJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField AllerField;
+    private javax.swing.JButton ClearButton;
+    private javax.swing.JTextField CourField;
+    private javax.swing.JTextField CuiField;
+    private javax.swing.JTextField DietField;
+    private javax.swing.JButton ExitButton;
+    private javax.swing.JTextField HoliField;
+    private javax.swing.JTextField IngreField;
+    private javax.swing.JButton SearchButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel resultPanel;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel recipePanel;
+    private javax.swing.JTextArea detailPanel;
+
+    private RecipeSearch recipeSearch;
     // End of variables declaration//GEN-END:variables
 }
