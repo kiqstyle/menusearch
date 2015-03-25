@@ -10,13 +10,35 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.*;
 /**
  *
- * @author matthewshields
+ 
  */
 public class JSONProcessor {
     
+   public static String getRecipeAPI(String searchValue) throws IOException
+   {
+       searchValue = searchValue.replace(" ", "-");
+       BufferedReader reader = null;
+    try {
+        URL url = new URL("http://api.yummly.com/v1/api/recipe/" + searchValue+"-Allrecipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9");
+        reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        StringBuffer buffer = new StringBuffer();
+        int read;
+        char[] chars = new char[1024];
+        while ((read = reader.read(chars)) != -1)
+            buffer.append(chars, 0, read); 
 
+        return buffer.toString();
+    } finally {
+        if (reader != null)
+            reader.close();
+    }
+}
+   
    public static String buildQuery(Parameters p) throws IOException
    {
              final String URL = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&";
@@ -158,7 +180,65 @@ public class JSONProcessor {
             reader.close();
     }
 }
+
+   
+ public static RecipeSummary parseRecipes(String query) throws IOException {
+
+ RecipeSummary recipeSummary = new RecipeSummary();
+ 
+ 
+ 
+ JSONObject newObject = new JSONObject(query);
+ JSONObject at = newObject.getJSONObject("attribution");
+  
+  
+  String html =(String) at.get("html");
+  recipeSummary.setHtml(html);
+
+  String url = (String) at.get("url");
+  recipeSummary.setUrl(url);
+  
+  
+  String text = (String) at.get("text");
+  recipeSummary.setText(text);
+
+  
+  String logo = (String) at.get("logo");
+  recipeSummary.setLogo(logo);
+ 
+   
+ int totalMatches = newObject.getInt("totalMatchCount");
+ recipeSummary.setTotalmatches(totalMatches); 
+   
+       
+  return recipeSummary;
+       
+       }
+ 
+   @Override
+   public String toString() {
+    String sampleFile = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
+    RecipeSummary sample = new RecipeSummary();
+       try {
+           JSONProcessor.searchYummly(sampleFile);
+       } catch (IOException ex) {
+           Logger.getLogger(JSONProcessor.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       try {
+           JSONProcessor.parseRecipes(sampleFile);
+       } catch (IOException ex) {
+           Logger.getLogger(JSONProcessor.class.getName()).log(Level.SEVERE, null, ex);
+       }
+   return sample.toString();
+    
 }
+   
+}
+   
+   
+ 
+
+
        
        
        

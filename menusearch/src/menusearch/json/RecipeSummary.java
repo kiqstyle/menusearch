@@ -15,11 +15,11 @@ import org.json.*;
 
 public class RecipeSummary {
 
-   String html;
-   String url; 
-   String text;
-   String logo;
-   int totalMatches; 
+  private String html;
+  private String url; 
+  private String text;
+  private String logo;
+  private int totalMatches; 
 
     public String getHtml() {
         return html;
@@ -67,34 +67,14 @@ public class RecipeSummary {
     public void setTotalmatches(int totalmatches) {
         this.totalMatches = totalmatches;
     }
- 
-
-
-    
- public RecipeSummary parseRecipes (String sampleUrl) throws IOException {
+ /*
+ public RecipeSummary parseRecipes(String query) throws IOException {
 
  RecipeSummary recipeSummary = new RecipeSummary();
-;
  
- String attributes;
+ String attributes = JSONProcessor.searchYummly(query);
 
-  BufferedReader reader = null;
-    try {
-    
-        URL recipe = new URL(sampleUrl);
-        reader = new BufferedReader(new InputStreamReader(recipe.openStream()));
-        StringBuffer buffer = new StringBuffer();
-        int read;
-        char[] chars = new char[1024];
-        while ((read = reader.read(chars)) != -1)
-            buffer.append(chars, 0, read); 
-        
-        attributes = buffer.toString();
-    } finally {
-        if (reader != null)
-            reader.close();
-    }
- 
+
  
    JSONObject newObject = new JSONObject(attributes);
    JSONObject at = newObject.getJSONObject("attribution");
@@ -135,12 +115,12 @@ public class RecipeSummary {
     
 
     public static void main(String[] args) throws IOException {
-    String sampleFile = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
+   String sampleFile = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
     RecipeSummary sample = new RecipeSummary();
     sample.parseRecipes(sampleFile);
     System.out.println(sample.toString());
         
      }
-    
+    */
     
 }
