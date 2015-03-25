@@ -5,7 +5,10 @@
  */
 package menusearch.logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import menusearch.db.SearchParameters;
+import menusearch.domain.Menu;
 import menusearch.domain.*;
 
 /**
@@ -16,37 +19,50 @@ public class MenuSearcher{
     
     public ArrayList<Menu> menus = new ArrayList();
     
-    public ArrayList<Menu> MenuSearcher(String name, String sponsor, String event, String venue, String place, 
-            String physicalDescription, String occasion, String notes, String callNumber, String keywords,
-            String language, String menuDate, String location, String locationType, String currency,
-            String currencySymbol, String status, int pageCount, int dishCount){
+    public ArrayList<Menu> MenuSearcher(int id, int[] year, String sponsor, String event, String venue, 
+            String place, String occasion, String location, String currency, String Dish, int[] pageCount, 
+            int[] dishCount){
         
         
-        ParametersMenu p = new ParametersMenu();
+        SearchParameters p = new SearchParameters();
+        String query = ("SELECT * FROM `nypl_menus`.`menus`");
         
-        p.nameToSearch(name);
-        p.sponsorToSearch(sponsor);
-        p.eventToSearch(event);
-        p.venueToSearch(venue);
-        p.physicalDescriptionToSearch(physicalDescription);
-        p.occasionToSearch(occasion);
-        p.notesToSearch(notes);
-        p.callNumberToSearch(callNumber);
-        p.keywordsToSearch(keywords);
-        p.languageToSearch(language);
-        p.menuDateToSearch(menuDate);
-        p.locationToSearch(location);
-        p.locationTypeToSearch(locationType);
-        p.currencyToSearch(currency);
-        p.currencySymbolToSearch(currencySymbol);
-        p.statusToSearch(status);
-        p.pageCountToSearch(pageCount);
-        p.dishCountToSearch(dishCount);
+        p.setGeneralQuery(query);
+        p.setMenu_id(id);
+        p.setVenue(venue);
+        p.setPlace(place);
+        p.setDish(Dish);
+        p.setYear(year);
+        p.setCurrency(currency);
+        p.setEvent(event);
+        p.setSponsor(sponsor);
+        p.setOccasion(occasion);
+        p.setPageCount(pageCount);
+        p.setDishCount(dishCount);
         
         menus = searchMenuDB(p);
         
         return menus;
         
         
+    }
+
+    private ArrayList<Menu> searchMenuDB(SearchParameters p) {
+        
+        ArrayList<Menu> menuList = new ArrayList();
+        
+        LocalDate menu_date = null;
+        
+        menu_date.withYear(1900);
+        menu_date.withMonth(04);
+        menu_date.withDayOfMonth(15);
+        
+        Menu menu = new Menu(12463, "", "HOTEL EASTMAN", "BREAKFAST", "COMMERCIAL", "HOT SPRINGS, AR",
+                "CARD; 4.75X7.5", "EASTER", "", "1900-2822", "" , "", menu_date, "Hotel Eastman", "", "",
+                "", "UNDER REVIEW", 2, 67);
+            
+        menuList.add(menu);
+        
+        return menuList;    
     }
 }
