@@ -13,14 +13,15 @@ import java.util.Iterator;
  * @author jthom92a
  */
 public class HolidayList {
-        ArrayList<HolidayList> Holiday = new ArrayList<HolidayList>();
+        ArrayList<String> Holiday = new ArrayList<String>();
     
-    public void add(HolidayList Day)
+    public void add(String holiday)
     {
-        Holiday.add(Day);
+       Holiday.add(holiday);
+        
     }
     
-    public Iterator getIterator()
+ public Iterator getIterator()
     {
         return Holiday.iterator();
     }

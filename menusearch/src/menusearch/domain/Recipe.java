@@ -9,58 +9,77 @@ package menusearch.domain;
  *
  * @author jthom92a
  */
+
+
 public class Recipe {
-    private String Ingredents;
+    private IngredientList Ingredents;
+    private NutritionEstimate Nutrition;
+    private CourseList Course;
+    private HolidayList holiday;
+    private CuisineList cuisine; 
+    private Flavors flavor;
     private String Directions;
     private String Tags;
-    private Double Salty;
-    private Double Savory;
-    private Double sour;
-    private Double Bitter;
-    private Double sweet;
-    private Double spicy;
-
-    public String getIngredents() {
+    private String rating;
+    private String Name;
+    private String RecipeID;
+    private Double numberOfServings;
+    private Double TimetoCook;
+ 
+  public IngredientList getIngredents() {
         return Ingredents;
     }
+    public NutritionEstimate getNutrition(){
+        return Nutrition;
+    }
 
+    public CourseList getCourse(){
+        return Course;
+    }
+    
+    public HolidayList getholiday(){
+        return holiday;
+       }
+    
+    public CuisineList getcuisine(){
+        return cuisine;
+    }
+    
+    public Flavors getflavor(){
+        return flavor;
+    }
+    
     public String getDirections() {
         return Directions;
     }
 
     public String getTags() {
         return Tags;
+       
+    }
+    
+public String getRating() {
+        return rating;
     }
 
-    public Double getSalty() {
-        return Salty;
+    public String getName() {
+        return Name;
     }
 
-    public Double getSavory() {
-        return Savory;
+    public String getRecipeID() {
+        return RecipeID;
     }
 
-    public Double getSour() {
-        return sour;
+    public Double getNumberOfServings() {
+        return numberOfServings;
     }
 
-    public Double getBitter() {
-        return Bitter;
+    public Double getTimetoCook() {
+        return TimetoCook;
     }
-
-    public Double getSweet() {
-        return sweet;
-    }
-
-    public Double getSpicy() {
-        return spicy;
-    }
-
-    public void setIngredents(String Ingredents) {
-        this.Ingredents = Ingredents;
-    }
-
-    public void setDirections(String Directions) {
+    
+    
+public void setDirections(String Directions) {
         this.Directions = Directions;
     }
 
@@ -68,30 +87,25 @@ public class Recipe {
         this.Tags = Tags;
     }
 
-    public void setSalty(Double Salty) {
-        this.Salty = Salty;
+   
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
-    public void setSavory(Double Savory) {
-        this.Savory = Savory;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public void setSour(Double sour) {
-        this.sour = sour;
+   
+    public void setNumberOfServings(Double numberOfServings) {
+        this.numberOfServings = numberOfServings;
     }
 
-    public void setBitter(Double Bitter) {
-        this.Bitter = Bitter;
-    }
-
-    public void setSweet(Double sweet) {
-        this.sweet = sweet;
-    }
-
-    public void setSpicy(Double spicy) {
-        this.spicy = spicy;
+    public void setTimetoCook(Double TimetoCook) {
+        this.TimetoCook = TimetoCook;
     }
     
     
-            
 }
+

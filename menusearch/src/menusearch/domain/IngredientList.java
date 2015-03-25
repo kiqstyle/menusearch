@@ -12,7 +12,7 @@ package menusearch.domain;
 import java.util.ArrayList;
 import java.util.Iterator;
 public class IngredientList {
-    
+     
     ArrayList<IngredientList> Ingredents = new ArrayList<IngredientList>();
     
     public void add(IngredientList ingredent)
