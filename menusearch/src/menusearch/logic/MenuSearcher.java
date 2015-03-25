@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import menusearch.db.SearchParameters;
 import menusearch.domain.Menu;
 import menusearch.domain.*;
+import menusearch.db.MenuDBAccess;
 
 /**
  *
@@ -39,6 +40,12 @@ public class MenuSearcher{
         p.setOccasion(occasion);
         p.setPageCount(pageCount);
         p.setDishCount(dishCount);
+        
+        try{
+            MenuDBAccess.retrieveByComplexSearch(p);
+        }catch(Exception e){
+            System.out.println("");
+        }
         
         menus = searchMenuDB(p);
         
