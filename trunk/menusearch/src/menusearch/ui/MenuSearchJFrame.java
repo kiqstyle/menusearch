@@ -219,7 +219,7 @@ public class MenuSearchJFrame extends javax.swing.JFrame {
 
 
         /*hardcoded code to get summary result*/
-        ArrayList<RecipeSummary> results = recipeSearch.search("beef");
+   /*     ArrayList<RecipeSummary> results = recipeSearch.search("beef");
         for(final RecipeSummary recipeSummary : results){
             JButton b = new JButton(recipeSummary.getUrl());
             b.setBorderPainted(false);
@@ -236,7 +236,7 @@ public class MenuSearchJFrame extends javax.swing.JFrame {
             });
             recipePanel.add(b);
         }
-        recipePanel.revalidate();
+        recipePanel.revalidate(); */
     }//GEN-LAST:event_SearchButtonActionPerformed
 
     private JPanel buildResultPanel(){
