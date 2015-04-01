@@ -32,7 +32,7 @@ public class JSONProcessor {
      * @return Recipe object
      * @throws IOException 
      */
-    public static Recipe parseRecipe(String json) throws IOException
+    public static Recipe parseRecipe(String json) throws IOException, JSONException
     {
         
        
