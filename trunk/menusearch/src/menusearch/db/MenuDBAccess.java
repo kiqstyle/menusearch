@@ -82,7 +82,7 @@ public class MenuDBAccess {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public static Menu retrieveByID(String menu_id) throws ClassNotFoundException, 
+    public static Menu retrieveByMenuID(String menu_id) throws ClassNotFoundException, 
             SQLException {
         
         String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE menu_id = "
@@ -138,13 +138,13 @@ public class MenuDBAccess {
         
         String dishID = Integer.toString(thisDish.getDish_id());
         
-        String query = ("SELECT * "
-                + "FROM nypl_menus.menu_items"
-                + "JOIN nypl_menus.menu_pages "
-                + "ON nypl_menus.menu_pages.menu_page_id = "
-                    + "nypl_menus.menu_items.menu_page_id "
-                + "WHERE nypl_menus.menu_items.dish_id = " + dishID + " "    
-                + "GROUP BY nypl_menus.menu_pages.menu_id;");
+        String query = ("SELECT nypl_menus.menus.* FROM nypl_menus.menus "
+                + "JOIN nypl_menus.menu_pages ON nypl_menus.menu_pages.menu_id "
+                + "= nypl_menus.menus.menu_id JOIN nypl_menus.menu_items ON "
+                + "nypl_menus.menu_items.menu_page_id = "
+                + "nypl_menus.menu_pages.menu_page_id WHERE "
+                + "nypl_menus.menu_items.dish_id = " + dishID
+                + " GROUP BY nypl_menus.menus.menu_id;");
         
         return retrieve(query);
     }
@@ -398,78 +398,50 @@ public class MenuDBAccess {
     public static ArrayList<Menu> retrieveByComplexSearch(SearchParameters
             paramSet) throws ClassNotFoundException, SQLException {
         
-        // Aggregate search results as we go along, parameter by parameter,
-        // then cross-reference to filter a final ArrayList<Menu>.
-        List<List<Menu>> aggregateResults = new ArrayList<List<Menu>>();
+        ArrayList<Menu> complexSearchResults = new ArrayList<Menu>();
         
-        // There are auxiliary methods that execute SQL for each parameter.
+        String query = "SELECT * FROM nypl_menus.menus WHERE  ";
         
-        // All searches are relatively easy except for a "general query",
-        // where we have no idea what it is and the user wants to search
-        // everything.
+        // GENERAL QUERY
+        //      User can search for this by itself, or with more specific
+        //      parameters. This could be any string - word or number. Have to
+        //      figure out what the user meant.
         if (paramSet.getGeneralQuery() != null) {
             
-            // First check to see if query is a number, will help
-            // deduce what was meant
-            if ( isNumber(paramSet.getGeneralQuery()) ) {
-                
-                // Number? Then query could be an ID
-                ArrayList<Menu> idResults = new ArrayList<Menu>();
-                idResults.add( retrieveByID( paramSet.getGeneralQuery() ) );
-                
-                aggregateResults.add( idResults );
-                
-                // Could be a year
-                int x = Integer.parseInt( paramSet.getGeneralQuery() );
-                int[] testYear = {x, x};
-                aggregateResults.add( searchByYear( testYear ) );
-                
-                // Could be a page count
-                int y = Integer.parseInt( paramSet.getGeneralQuery() );
-                int[] testPageCount = {y, y};
-                aggregateResults.add( searchByPageCount( testPageCount ) );
+            // Test to see if general query is a number
+            if ( isNumber(paramSet.getGeneralQuery()) ) { // ** Is a number
+                             
+                // Could be an ID, year, page count, or dish count.
+                query += "(menu_id = " + paramSet.getGeneralQuery() + " OR " +
+                    "YEAR(menu_date) = " + paramSet.getGeneralQuery() + " OR " +
+                    "page_count = " + paramSet.getGeneralQuery() + " OR " +
+                    "dish_count = " + paramSet.getGeneralQuery() + ");" ;
             
-                // Could be a dish count
-                int z = Integer.parseInt( paramSet.getGeneralQuery() );
-                int[] testDishCount = {z, z};
-                aggregateResults.add( searchByDishCount( testDishCount ) );
-            }
-            
-            // If it's not a number, try everything else for results
-            else {
+            } else { // ** Is not a number
                 
-                // Could be a venue
-                aggregateResults.add ( searchByVenue( paramSet.getGeneralQuery() ) );
-            
-                // Could be a place
-                aggregateResults.add ( searchByPlace( paramSet.getGeneralQuery() ) );
-            
-                // Could be a dish
+                // Could be a venue, place, dish, currency, event, sponsor,
+                // or occasion.
+                
+                query += "(venue LIKE '" + paramSet.getGeneralQuery() + "'"
+                      + " OR place LIKE '" + paramSet.getGeneralQuery() + "' OR"
+                      + " currency LIKE '" + paramSet.getGeneralQuery() + "' OR"
+                      + " event LIKE '" + paramSet.getGeneralQuery() + "' OR " +
+                        "sponsor LIKE '" + paramSet.getGeneralQuery() + "' OR "
+                      + "occasion LIKE '" + paramSet.getGeneralQuery() + "');" ;
+                
+                // Dish is a special case.
+                
                 ArrayList<Integer> dishIDResults = 
                         getDishIDsFromName( paramSet.getGeneralQuery() );
                 
                 for (int dishID : dishIDResults) {   
+                    
                     Dish thisDish = new Dish(dishID);
-                    aggregateResults.add( searchByDish(thisDish) );
-                }
-            
-                // Could be a currency
-                aggregateResults.add ( searchByCurrency(
-                        paramSet.getGeneralQuery() ) );
-            
-                // Could be an event
-                aggregateResults.add ( searchByEvent( 
-                        paramSet.getGeneralQuery() ) );
-            
-                // Could be a sponsor
-                aggregateResults.add ( searchBySponsor(
-                        paramSet.getGeneralQuery() ) );
-            
-                // Could be an occasion
-                aggregateResults.add ( searchByOccasion(
-                        paramSet.getGeneralQuery() ) );
+                    complexSearchResults.addAll( searchByDish(thisDish) );
+                
+                }   
             }
-                 
+                             
             // This seems to be how the NYPL Menus site works now - take
             // what the user typed in and just sloppily search everything.
             
@@ -477,127 +449,101 @@ public class MenuDBAccess {
             // more specific queries made? If not, return. If so, go on and
             // we'll have to filter.
             SearchParameters defaultParams = new
-                SearchParameters(paramSet.getGeneralQuery());
+                SearchParameters( paramSet.getGeneralQuery() );
             
-            if(defaultParams.equals(paramSet)) {
+            if(defaultParams.equals(paramSet)) { // Checks to see if there was
+                                                 // only a general query param
                 
-                ArrayList<Menu> returnResults = new ArrayList<Menu>();
+                complexSearchResults.addAll( retrieve(query) );
                 
-                Iterator<List<Menu>> aggregateResultsIterator =
-                        aggregateResults.iterator();
-                
-                while (aggregateResultsIterator.hasNext()) {
-                    returnResults.addAll(aggregateResultsIterator.next());
-                }
-                
-                if (returnResults.isEmpty()) { return null; }
-                else { return returnResults; }
+                if ( complexSearchResults.isEmpty() ) { return null; }
+                else { return complexSearchResults; }
             }
             
-            // Possibly the user made a general query and one more specific.
-            // Method goes on to check for other parameters, add those results
-            // to the aggregate, and ultimately it all gets filtered down.
+            // Possibly the user made a general query AND one more specific.
+            // Method goes on to check for other parameters if so.
+        }
+        
+        // Possibly remove semicolon from the SQL query to append on it
+        // and add an AND
+        if ( !query.equals(queryOpener( query )) ) {
+            
+            query = queryOpener( query );
+            query += " AND ";
         }
         
         if (paramSet.getMenu_id() != 0) {
-                ArrayList<Menu> idResults2 = new ArrayList<Menu>();
                 
-                idResults2.add( retrieveByID( 
-                        Integer.toString(paramSet.getMenu_id()) ) );
-                
-                aggregateResults.add( idResults2 );
+            query += "(menu_id = " + paramSet.getMenu_id() + ") AND ";
         }
         
         if (paramSet.getVenue() != null) {
-            aggregateResults.add ( searchByVenue( paramSet.getVenue() ) );          
+            
+            query += "(venue LIKE '" + paramSet.getVenue() + "') AND ";
         }
         
         if (paramSet.getPlace() != null) {
-            aggregateResults.add ( searchByPlace( paramSet.getPlace() ) );                        
+            
+            query += "(place LIKE '" + paramSet.getPlace() + "') AND ";                     
         }
         
+        // This is a special case
         if (paramSet.getDish() != null) {
+            
             ArrayList<Integer> dishIDResults2 = 
                    getDishIDsFromName( paramSet.getDish() );
                 
             for (int dishID : dishIDResults2) {   
                 Dish thisDish = new Dish(dishID);
-                aggregateResults.add( searchByDish(thisDish) );
+                complexSearchResults.addAll( searchByDish(thisDish) );
             }                      
         }
         
         if ((paramSet.getYear()[0] != 0) && (paramSet.getYear()[1] != 0)) {
-            aggregateResults.add( searchByYear( paramSet.getYear() ));
+            
+            query += "(YEAR(menu_date) > " + paramSet.getYear()[0] + ") " +
+                  "AND (YEAR(menu_date) < " + paramSet.getYear()[1] + ") AND " ;
         }
         
         if (paramSet.getCurrency() != null) {
-            aggregateResults.add ( searchByCurrency( paramSet.getCurrency() ));             
+            
+            query += "(currency LIKE '" + paramSet.getCurrency() + "' AND ";
         }
         
         if (paramSet.getEvent() != null) {
-            aggregateResults.add ( searchByEvent( paramSet.getEvent() ) );             
+
+            query += "(event LIKE '" + paramSet.getEvent() + "' AND ";
         }        
 
         if (paramSet.getSponsor() != null) {
-            aggregateResults.add ( searchBySponsor( paramSet.getSponsor() ) );             
+            
+            query += "(sponsor LIKE '" + paramSet.getSponsor() + "' AND ";
         }
         
         if (paramSet.getOccasion() != null) {
-            aggregateResults.add ( searchByOccasion( paramSet.getOccasion() ) );             
+            
+            query += "(occasion LIKE '" + paramSet.getOccasion() + "' AND ";
         }             
         
         if ((paramSet.getPageCount()[0] != 0) || 
                 (paramSet.getPageCount()[1] != 0)) {
             
-            aggregateResults.add( searchByPageCount( paramSet.getPageCount() ));            
+            query += "(page_count > " + paramSet.getPageCount()[0] + ") " +
+                  "AND (page_count < " + paramSet.getPageCount()[1] + ") AND " ;          
         }
         
         if ((paramSet.getDishCount()[0] != 0) || 
                 (paramSet.getDishCount()[1] != 0)) {
             
-            aggregateResults.add( searchByDishCount( paramSet.getDishCount() ));            
-        }   
-        
-        // At this point, if aggregateResults is empty, the search was a bust.
-        if ( aggregateResults.isEmpty() ) {    
-            return null;
-            
-        } else {
-            
-            // This is where aggregateResults gets sorted - it's a list of
-            // ArrayLists, and what we want is the intersection of those
-            // ArrayLists' contents. Step by step it gets filtered down until
-            // a clean product can be returned.
-            ArrayList<Menu> returnResults = new ArrayList<Menu>();
-                
-            Iterator<List<Menu>> aggregateResultsIterator =
-                aggregateResults.iterator();
-            
-            while (aggregateResultsIterator.hasNext()) {
-                // If returnResults is empty, it would be erroneous to
-                // seek out the common elements. So a simple addAll will do.
-                if (returnResults.isEmpty()) { 
-                    returnResults.addAll(aggregateResultsIterator.next());
-                
-                } else {
-                   
-                    // Apache Commons Collection has a retainAll method
-                    // that works well here. We have to turn the ArrayList<Menu>
-                    // objects into Collections...
-                    Collection<Menu> list1 = returnResults;
-                    Collection<Menu> list2 = aggregateResultsIterator.next();
-                    
-                    Collection<Menu> commonList = 
-                            CollectionUtils.retainAll(list1, list2);
-                    
-                    // ... then can change back to returnResults with the
-                    // common elements.
-                    returnResults = new ArrayList(commonList);
-                }
-            }
-            
-            return returnResults;  
+            query += "(dish_count > " + paramSet.getDishCount()[0] + ") " +
+                  "AND (dish_count < " + paramSet.getDishCount()[1] + ") AND " ;         
         }
+        
+        query = queryEnder( query );
+        complexSearchResults.addAll( retrieve(query) );
+                
+        if ( complexSearchResults.isEmpty() ) { return null; }
+        else { return complexSearchResults; }
     }
       
     /**
@@ -636,17 +582,8 @@ public class MenuDBAccess {
             currency_symbol, status, page_count, dish_count);
         
         return menu;
-    }
-    
-    /**
-     * Builds an ArrayList of Menu objects from a whole result set.
-     *
-     * @param rs - a SQL query result set.
-     * @return ArrayList<Menu>
-     * @throws SQLException 
-     */
+    }  
  
-    
     public static void populateMenupages (Menu menu) throws ClassNotFoundException, SQLException {
         int menuID = menu.getMenu_id();
         menu.setMenuPages(retrievePagesByID(menuID));
@@ -670,36 +607,21 @@ public class MenuDBAccess {
                 menuPages.add(menuPage = MenuPageDBAccess.buildMenuPage(rs));
         
         return menuPages;
-}
-
+    }
     
-    public static Menu retrieveByMenuID(int id) throws ClassNotFoundException, SQLException
-    {
-        Menu menu;
-        conn =DBConnection.getMyConnection();
-
-        String query = ("select * from Menu where menu_id = \"" + id + "\"");
-        System.out.println("query is " + query);
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-         if (!rs.next())
-              menu = null;   //no menuitem found
-          else{
-             menu = buildMenu(rs);
-          }
-          stmt.close();
-          return menu;
-      }
-    
+    /**
+     * Builds an ArrayList of Menu objects from a whole result set.
+     *
+     * @param rs - a SQL query result set.
+     * @return ArrayList<Menu>
+     * @throws SQLException 
+     */
     private static ArrayList<Menu> buildMenuList(ResultSet rs) throws 
             SQLException {
         
         ArrayList<Menu> menus = new ArrayList<Menu>();
       
-        while (rs.next()) {
-            Menu menu = buildMenu(rs);
-            menus.add(menu);
-        }
+        while (rs.next()) {   Menu menu = buildMenu(rs);    menus.add(menu);   }
         
         return menus;
     }
@@ -713,13 +635,54 @@ public class MenuDBAccess {
      * @return true/false
      */
     private static Boolean isNumber(String toTest) {
-        try {  
-            double d = Double.parseDouble(toTest);  
-        } catch(NumberFormatException nfe) {  
-            return false;  
-        }  
+        
+        try {  double d = Double.parseDouble(toTest);  }
+        catch(NumberFormatException nfe) {  return false;   } 
         
         return true; 
+    }
+    
+    /**
+     * Takes a SQL query that may have been "ended" with a semicolon and
+     * "opens" it for appending, if necessary.
+     * 
+     * @param query
+     * @return safe query to add to
+     */
+    private static String queryOpener(String query) {
+        
+        int x = query.length();
+        
+        if (query.substring(x - 2, x - 1).contains(";"))
+        {   query = query.substring(0, query.length() - 1);     }
+    
+        return query;
+    }
+    
+    /**
+     * Takes a SQL "query in progress", checks for opens ORs and ANDs,
+     * fixes if needed.
+     * 
+     * @param query
+     * @return safe query to run
+     */
+    private static String queryEnder(String query) {
+        
+        int x = query.length();
+        
+        if ( query.substring( x - 5, x - 1 ).contains("OR") ) {
+            
+            query = query.substring( x - 4, x - 1 );
+            query += ";" ;
+        
+        } else if ( query.substring( x - 7, x - 1 ).contains("AND") ) {
+            
+            query = query.substring( x - 5, x - 1 );
+            query += ";" ;
+        
+        }
+        
+        return query;
     }
 }
 
