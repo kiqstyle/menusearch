@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package menusearch.domain;
+import java.util.ArrayList;
+ 
 
 /**
  *
@@ -12,26 +14,108 @@ package menusearch.domain;
 
 
 public class Recipe {
-    private IngredientList Ingredents;
-    private NutritionEstimate Nutrition;
-    private CourseList Course;
-    private HolidayList holiday;
-    private CuisineList cuisine; 
-    private Flavors flavor;
+    private IngredientList Ingredents = new IngredientList();
+    private ArrayList<NutritionEstimate> Nutrition = new ArrayList();
+    private ArrayList<String> images = new ArrayList();
+    private CourseList Course = new CourseList();
+    private HolidayList holiday = new HolidayList();
+    private CuisineList cuisine = new CuisineList(); 
+    private Flavors flavor = new Flavors();
     private String Directions;
     private String Tags;
-    private String rating;
+    private double rating;
     private String Name;
     private String RecipeID;
     private Double numberOfServings;
     private Double TimetoCook;
+    private Attribution attribution = new Attribution();
+    private String yield;
+    private String TotalTime;
+    private Source source = new Source();
+    
+    public void setSourceSiteUrl(String u)
+    {
+        source.setSourceSiteUrl(u);
+    }
+    
+    public void setSourceDisplayName(String n)
+    {
+        source.setSourceDisplayNaame(n);
+    }
+    
+    public void setSourceRecipeUrl(String u)
+    {
+        source.setSourceRecipeUrl(u);
+    }
+    public Source getSource()
+    {
+        return source;
+    }
+    
+    
+    public CuisineList getCuisine()
+    {
+        return cuisine;
+    }
+    
+    public void addCuisineToList(String c)
+    {
+        cuisine.add(c);
+    }
+    
+    
+
+    public HolidayList getHoliday() {
+        return holiday;
+    }
+
+    public void addholidayToList(String h) {
+        holiday.add(h);
+    }
+
+    
+    
+    public String getTotalTime() {
+        return TotalTime;
+    }
+
+    public void setTotalTime(String TotalTime) {
+        this.TotalTime = TotalTime;
+    }
+    
+    
+    public String getYield() {
+        return yield;
+    }
+
+    public void setYield(String yield) {
+        this.yield = yield;
+    }
+    
+    
+    public void addImage(String i)
+    {
+        images.add(i);
+    }
+  public void addNutritionInfo (NutritionEstimate n)
+  {
+      Nutrition.add(n);
+  }
+  
+  public ArrayList getNutrtionEstimate()
+  {
+      return Nutrition;
+  }
  
   public IngredientList getIngredents() {
         return Ingredents;
     }
-    public NutritionEstimate getNutrition(){
-        return Nutrition;
-    }
+  
+  public void addIngredient(String i)
+  {
+      Ingredents.add(i);
+  }
+    
 
     public CourseList getCourse(){
         return Course;
@@ -58,7 +142,7 @@ public class Recipe {
        
     }
     
-public String getRating() {
+public double getRating() {
         return rating;
     }
 
@@ -89,7 +173,7 @@ public void setDirections(String Directions) {
 
    
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -105,7 +189,48 @@ public void setDirections(String Directions) {
     public void setTimetoCook(Double TimetoCook) {
         this.TimetoCook = TimetoCook;
     }
+
+    public Attribution getAttribution() {
+        return attribution;
+    }
+
+    public void setAttribution(Attribution a ) {
+        this.attribution = a;
+    }
     
+    public void setMeatyFlavor(double y)
+    {
+        flavor.setMeaty(y);
+         /*
+    private Double Bitter;
+         */
+    }
+    public void setBitterFlavor(double b)
+    {
+        flavor.setBitter(b);
+    }
+    public void setSourFlavor(double s)
+    {
+        flavor.setSour(s);
+    }
+    public void setSweetFlavor(double s)
+    {
+        flavor.setSweet(s);
+    }
+    public void setPiquantFlavor(double p)
+    {
+        flavor.setPiquant(p);
+    }
+    
+    public void setSaltyFlavor(double s)
+    {
+        flavor.setSalty(s);
+    }
+    
+    public void setRecipeID(String ID)
+    {
+        RecipeID = ID;
+    }
     
 }
 

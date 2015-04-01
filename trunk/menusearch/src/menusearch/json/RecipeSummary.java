@@ -1,4 +1,3 @@
-
 package menusearch.json;
 
 import java.io.BufferedReader;

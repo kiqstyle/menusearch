@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 public class IngredientList {
      
-    ArrayList<IngredientList> Ingredents = new ArrayList<IngredientList>();
+    ArrayList<String> Ingredents = new ArrayList<String>();
     
-    public void add(IngredientList ingredent)
+    public void add(String ingredent)
     {
         Ingredents.add(ingredent);
     }
@@ -23,6 +23,11 @@ public class IngredientList {
     public Iterator getIterator()
     {
         return Ingredents.iterator();
+    }
+    
+    public String getIngredent(int num){
+       String currentIngred = Ingredents.get(num);
+       return currentIngred;
     }
 }
 

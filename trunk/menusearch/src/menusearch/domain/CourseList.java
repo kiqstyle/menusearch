@@ -14,11 +14,16 @@ import java.util.Iterator;
  */
 public class CourseList {
     
-    ArrayList<CourseList> Courses = new ArrayList<CourseList>();
+    ArrayList<String> Courses = new ArrayList<String>();
     
-    public void add(CourseList course)
+    public void add(String course)
     {
         Courses.add(course);
+    }
+    
+    public String getCourse(int current){
+       String currentCourse = Courses.get(current);
+        return currentCourse;
     }
     
     public Iterator getIterator()

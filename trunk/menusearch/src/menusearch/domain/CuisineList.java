@@ -12,9 +12,9 @@ package menusearch.domain;
 import java.util.ArrayList;
 import java.util.Iterator;
 public class CuisineList {
-    ArrayList<CuisineList> Cuisines = new ArrayList<CuisineList>();
+    ArrayList<String> Cuisines = new ArrayList<String>();
     
-    public void add(CuisineList cuisine)
+    public void add(String cuisine)
     {
         Cuisines.add(cuisine);
     }

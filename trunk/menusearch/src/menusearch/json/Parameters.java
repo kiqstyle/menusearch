@@ -327,6 +327,9 @@ import java.util.*;
        * @param f - flavor to be considered
        * @param max boolean -- true if max, false if min
        * @param m is the value of that flavor you'd like -- must be between 0 and 1
+       * 
+       * To add a flavor call this method, if the you'd like to set a max flavor make boolean true, for min flavor make boolean false
+       * If there are no flavors to add simply don't call this method. If the List of flavors is empty, no flavors will be included in the search parameters.
        */
       public void setFlavorAttributes(String f, Boolean max, double m)
       {
