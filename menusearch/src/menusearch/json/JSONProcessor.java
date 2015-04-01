@@ -10,15 +10,159 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.json.*;
+import menusearch.domain.*;
+
+
 /**
  *
  
  */
 public class JSONProcessor {
     
+   
+    
+    /**
+     * 
+     * @param json formated JSON string containing all the information for one recipe
+     * @return Recipe object
+     * @throws IOException 
+     */
+    public static Recipe parseRecipe(String json) throws IOException
+    {
+        
+       
+        JSONTokener tokenizer = new JSONTokener(json);
+        JSONObject obj = new JSONObject(tokenizer);
+        Recipe r = new Recipe();
+        
+        JSONObject attribution = obj.getJSONObject("attribution");
+        Attribution a = new Attribution();
+        a.setHTML(attribution.getString("html"));
+        a.setUrl(attribution.getString("url"));
+        a.setText(attribution.getString("text"));
+        a.setLogo(attribution.getString("logo"));
+        r.setAttribution(a);
+        
+        JSONArray ingredientList = obj.getJSONArray("ingredientLines");
+        for (int i = 0; i< ingredientList.length(); i++)
+        {
+            r.addIngredient(ingredientList.getString(i));
+        }
+        
+        JSONObject flavors = obj.getJSONObject("flavors");
+        r.setBitterFlavor(flavors.getDouble("Bitter"));
+        r.setMeatyFlavor(flavors.getDouble("Meaty"));
+        r.setPiquantFlavor(flavors.getDouble("Piquant"));
+        r.setSaltyFlavor(flavors.getDouble("Salty"));
+        r.setSourFlavor(flavors.getDouble("Sour"));
+        r.setSweetFlavor(flavors.getDouble("Sweet"));
+        
+        JSONArray nutritionEstimates = obj.getJSONArray("nutritionEstimates");
+        for (int i = 0; i < nutritionEstimates.length(); i++)
+        {
+           NutritionEstimate nutritionInfo = new NutritionEstimate();
+           Unit aUnit = new Unit();
+           
+           JSONObject nutrition = nutritionEstimates.getJSONObject(i);
+           nutritionInfo.setAttribute(nutrition.getString("attribute"));
+           
+           if(nutrition.isNull("description") != true)
+           nutritionInfo.setDescription(nutrition.getString("description"));
+           nutritionInfo.setValue(nutrition.getDouble("value"));
+           
+           JSONObject unit = nutrition.getJSONObject("unit");
+           aUnit.setAbbreviation(unit.getString("abbreviation"));
+           aUnit.setName(unit.getString("name"));
+           aUnit.setPlural(unit.getString("plural"));
+           aUnit.setPluralAbbreviation(unit.getString("pluralAbbreviation"));
+           
+           nutritionInfo.addUnit(aUnit);
+           
+           r.addNutritionInfo(nutritionInfo);
+
+        }
+        JSONArray images = obj.getJSONArray("images");
+        for (int i = 0; i< images.length(); i++)
+        {
+            if(images.getJSONObject(i).has("hostedLargeUrl"))
+               r.addImage(images.getJSONObject(i).getString("hostedLargeUrl"));
+            if (images.getJSONObject(i).has("hostedMediumUrl"))
+               r.addImage(images.getJSONObject(i).getString("hostedMediumUrl"));
+            if (images.getJSONObject(i).has("hostedSmallUrl"))
+               r.addImage(images.getJSONObject(i).getString("hostedSmallUrl"));
+        }
+        
+        
+        if(obj.has("name"))
+        r.setName(obj.getString("name"));
+        
+        if(obj.has("yield"))
+        r.setYield(obj.getString("yield"));
+        
+        if(obj.has("totalTime"))
+            r.setTotalTime(obj.getString("totalTime"));
+        
+        
+        
+        if(obj.has("attributes"))
+        {
+        JSONObject attributes = obj.getJSONObject("attributes");
+        if (attributes.has("holiday"))
+        {
+        JSONArray holidays = attributes.getJSONArray("holiday");
+        for (int i = 0; i< holidays.length(); i++)
+        {
+            r.addholidayToList(holidays.getString(i));
+        }
+        }
+        if(attributes.has("cuisine"))
+        {
+        JSONArray cuisine = attributes.getJSONArray("cuisine");
+       for(int i = 0; i < cuisine.length(); i++)
+       {
+           r.addCuisineToList(cuisine.getString(i));
+       }
+        }
+        }
+       if(obj.has("totalTimeInSeconds"))
+       r.setTimetoCook(obj.getDouble("totalTimeInSeconds"));
+       
+       if(obj.has("rating"))
+       r.setRating(obj.getDouble("rating"));
+       
+       if(obj.has("numberofServings"))
+       r.setNumberOfServings(obj.getDouble("numberOfServings"));
+       
+       
+       if(obj.has("source"))  
+       {
+       JSONObject source = obj.getJSONObject("source");
+       
+       if(source.has("sourceSiteUrl"))
+       r.setSourceSiteUrl(source.getString("sourceSiteUrl"));
+       
+       if(source.has("sourceRecipeUrl"))
+       r.setSourceRecipeUrl(source.getString("sourceRecipeUrl"));
+       
+       if(source.has("sourceDisplayName"))
+       r.setSourceDisplayName(source.getString("sourceDisplayName"));
+       }
+      r.setRecipeID(obj.getString("id"));
+
+        return r;
+        
+    }
+    /**
+     * 
+     * @param searchValue is the phrase or the name of the recipe you would like to search for
+     * @return a string containing one recipe in JSON format.
+     * @throws IOException 
+     */
    public static String getRecipeAPI(String searchValue) throws IOException
    {
        searchValue = searchValue.replace(" ", "-");
@@ -39,6 +183,13 @@ public class JSONProcessor {
     }
 }
    
+   /**
+    * 
+    * @param p is a parameter object that is used to create the HTML query that's sent to yummly
+    * @return a string with the JSON results
+    * @throws IOException 
+    * This method take search parameters and forms an HTML query. This query is then passed to the searchYummly method. the queryBuild method returns the final result of the searchYummly method
+    */
    public static String buildQuery(Parameters p) throws IOException
    {
              final String URL = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&";
@@ -161,7 +312,15 @@ public class JSONProcessor {
        String results = searchYummly(query);
        return results;
    }
-   
+   /**
+    * 
+    * @param query -- formatted HTML that's used with the searchRecipes API on yummly
+    * @return  a string in JSON format that contains all the recipes that match the search parameters.
+    * @throws MalformedURLException
+    * @throws IOException 
+    * 
+    * You CAN NOT call this method directly -- to search Yummly call the method queryBuilder and pass it your search parameters.
+    */
    public static String searchYummly(String query) throws MalformedURLException, IOException
    {
        BufferedReader reader = null;
@@ -180,9 +339,8 @@ public class JSONProcessor {
             reader.close();
     }
 }
-
    
- public static RecipeSummary parseRecipes(String query) throws IOException {
+   public static RecipeSummary parseRecipes(String query) throws IOException {
 
  RecipeSummary recipeSummary = new RecipeSummary();
  
@@ -214,6 +372,7 @@ public class JSONProcessor {
   return recipeSummary;
        
        }
+   
  
    @Override
    public String toString() {
@@ -231,7 +390,8 @@ public class JSONProcessor {
        }
    return sample.toString();
     
-}
+   }
+   
    
 }
    
