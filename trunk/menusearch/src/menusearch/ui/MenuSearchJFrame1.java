@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package menusearch.ui;
-
+import menusearch.logic.MenuSearcher;
+import menusearch.db.SearchParameters;
 /**
  *
  * @author lyu080
@@ -14,6 +15,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
     /**
      * Creates new form MenuSearchJFrame1
      */
+    
     public MenuSearchJFrame1() {
         initComponents();
     }
@@ -29,6 +31,28 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        menuSponsorTextField = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        menuYearTextField = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        menuLocationTextField = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        menuVenueTextField = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        menuCurrencyTextField = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        menuDishTextField = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        menuEventTextField = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        menuOccasionTextField = new javax.swing.JTextField();
+        menuPanelClearButton = new javax.swing.JButton();
+        menuPanelSearchButton = new javax.swing.JButton();
+        menuPanelExitButton = new javax.swing.JButton();
+        menuResultsTextField = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        menuIDTextField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -61,16 +85,162 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel13.setText("Sponsor:");
+
+        menuSponsorTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSponsorTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Year:");
+
+        jLabel15.setText("Location:");
+
+        jLabel16.setText("Venue:");
+
+        jLabel17.setText("Currency Type:");
+
+        jLabel18.setText("Dish Keyword:");
+
+        jLabel19.setText("Event:");
+
+        jLabel20.setText("Occasion:");
+
+        menuPanelClearButton.setText("Clear");
+        menuPanelClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPanelClearButtonActionPerformed(evt);
+            }
+        });
+
+        menuPanelSearchButton.setText("Search");
+        menuPanelSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPanelSearchButtonActionPerformed(evt);
+            }
+        });
+
+        menuPanelExitButton.setText("Exit");
+        menuPanelExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPanelExitButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setText("Menu ID:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 955, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(menuLocationTextField))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel13))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(menuSponsorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                            .addComponent(menuYearTextField)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(menuPanelClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(menuPanelSearchButton)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(menuIDTextField)
+                                    .addComponent(menuVenueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(menuCurrencyTextField))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel20))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(menuEventTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                                    .addComponent(menuDishTextField)
+                                    .addComponent(menuOccasionTextField)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(menuPanelExitButton)))
+                .addGap(18, 18, 18)
+                .addComponent(menuResultsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel13, jLabel14, jLabel15, jLabel16, jLabel17});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {menuCurrencyTextField, menuDishTextField, menuEventTextField, menuLocationTextField, menuOccasionTextField, menuSponsorTextField, menuVenueTextField, menuYearTextField});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {menuPanelClearButton, menuPanelExitButton, menuPanelSearchButton});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(menuSponsorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17)
+                            .addComponent(menuCurrencyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(menuYearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18)
+                            .addComponent(menuDishTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(menuLocationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel19)
+                            .addComponent(menuEventTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(menuVenueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20)
+                            .addComponent(menuOccasionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(menuIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(menuPanelClearButton)
+                            .addComponent(menuPanelSearchButton)
+                            .addComponent(menuPanelExitButton)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(menuResultsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel13, jLabel14, jLabel15, jLabel16, jLabel17});
 
         jTabbedPane1.addTab("Menu Search", jPanel1);
 
@@ -164,14 +334,14 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
                             .addComponent(jLabel8))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField8)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                             .addComponent(jTextField6)
                             .addComponent(jTextField5)
                             .addComponent(jTextField4)
                             .addComponent(jTextField7)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                             .addComponent(jTextField2)
-                            .addComponent(jTextField3))
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField1))
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -191,7 +361,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addComponent(jTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -250,7 +420,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Recipe Search", jPanel2);
@@ -275,7 +445,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -301,6 +471,76 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
     private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField13ActionPerformed
+
+    private void menuSponsorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSponsorTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuSponsorTextFieldActionPerformed
+
+    private void menuPanelExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelExitButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_menuPanelExitButtonActionPerformed
+
+    private void menuPanelClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelClearButtonActionPerformed
+        menuSponsorTextField.setText(" ");
+        menuYearTextField.setText(" ");
+        menuLocationTextField.setText(" ");
+        menuVenueTextField.setText(" ");
+        menuCurrencyTextField.setText(" ");
+        menuDishTextField.setText(" ");
+        menuEventTextField.setText(" ");
+        menuOccasionTextField.setText(" ");
+    }//GEN-LAST:event_menuPanelClearButtonActionPerformed
+
+    /* Joshua McKenzie 
+    Search button in menu panel to pass values
+    */
+    
+    
+    private void menuPanelSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelSearchButtonActionPerformed
+     
+        SearchParameters param = new SearchParameters();
+      
+        //brings in parameter class to pass methods to
+        
+        int[] year = new int [2];
+        String aYear;
+        int yearAsNumber;
+        //Variables to pass year
+        
+        String aMenuID;
+        int menuIDasNumber;
+        //Variables to pass menuID
+       
+        String sponsor, event, venue, occasion, location, currency, dish;
+        
+        sponsor = menuSponsorTextField.getText();
+        event = menuEventTextField.getText();
+        venue = menuVenueTextField.getText();
+        location = menuLocationTextField.getText();
+        occasion = menuOccasionTextField.getText();
+        currency = menuCurrencyTextField.getText();
+        dish = menuDishTextField.getText();
+        aMenuID = menuIDTextField.getText();
+        aYear = menuYearTextField.getText();
+        yearAsNumber = Integer.parseInt(aYear);
+        year[0] = yearAsNumber;
+        menuIDasNumber = Integer.parseInt(aMenuID);
+        //Coverts Menu ID from String to int
+        //Get user input and saves in local variables
+        
+        
+        param.setSponsor(sponsor);
+        param.setEvent(event);
+        param.setVenue(venue);
+        param.setPlace(location);
+        param.setOccasion(occasion);
+        param.setCurrency(currency);
+        param.setDish(dish);
+        param.setMenu_id(menuIDasNumber);
+        param.setYear(year);
+        //passes values to parameters class
+        
+    }//GEN-LAST:event_menuPanelSearchButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,6 +570,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuSearchJFrame1().setVisible(true);
@@ -345,7 +586,16 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -369,5 +619,18 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField menuCurrencyTextField;
+    private javax.swing.JTextField menuDishTextField;
+    private javax.swing.JTextField menuEventTextField;
+    private javax.swing.JTextField menuIDTextField;
+    private javax.swing.JTextField menuLocationTextField;
+    private javax.swing.JTextField menuOccasionTextField;
+    private javax.swing.JButton menuPanelClearButton;
+    private javax.swing.JButton menuPanelExitButton;
+    private javax.swing.JButton menuPanelSearchButton;
+    private javax.swing.JTextField menuResultsTextField;
+    private javax.swing.JTextField menuSponsorTextField;
+    private javax.swing.JTextField menuVenueTextField;
+    private javax.swing.JTextField menuYearTextField;
     // End of variables declaration//GEN-END:variables
 }
