@@ -18,13 +18,15 @@ import org.json.*;
 import menusearch.domain.*;
 
 
+
 /**
  *
  
  */
 public class JSONProcessor {
     
-   
+
+
     
     /**
      * 
@@ -87,14 +89,17 @@ public class JSONProcessor {
 
         }
         JSONArray images = obj.getJSONArray("images");
+        
+        JSONObject imageBySize = images.getJSONObject(0);
+        
         for (int i = 0; i< images.length(); i++)
         {
             if(images.getJSONObject(i).has("hostedLargeUrl"))
-               r.addImage(images.getJSONObject(i).getString("hostedLargeUrl"));
+               r.setHostedlargeUrl(images.getJSONObject(i).getString("hostedLargeUrl"));
             if (images.getJSONObject(i).has("hostedMediumUrl"))
-               r.addImage(images.getJSONObject(i).getString("hostedMediumUrl"));
+               r.setHostedMediumUrl(images.getJSONObject(i).getString("hostedMediumUrl"));
             if (images.getJSONObject(i).has("hostedSmallUrl"))
-               r.addImage(images.getJSONObject(i).getString("hostedSmallUrl"));
+               r.setHostedSmallUrl(images.getJSONObject(i).getString("hostedSmallUrl"));
         }
         
         
@@ -159,16 +164,15 @@ public class JSONProcessor {
     }
     /**
      * 
-     * @param searchValue is the phrase or the name of the recipe you would like to search for
+     * @param searchID is the ID of the recipe you would like to search for 
      * @return a string containing one recipe in JSON format.
      * @throws IOException 
      */
-   public static String getRecipeAPI(String searchValue) throws IOException
+   public static String getRecipeAPI(String searchID) throws IOException
    {
-       searchValue = searchValue.replace(" ", "-");
        BufferedReader reader = null;
     try {
-        URL url = new URL("http://api.yummly.com/v1/api/recipe/" + searchValue+"-Allrecipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9");
+        URL url = new URL("http://api.yummly.com/v1/api/recipe/" + searchID+"?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9");
         reader = new BufferedReader(new InputStreamReader(url.openStream()));
         StringBuffer buffer = new StringBuffer();
         int read;
@@ -321,7 +325,7 @@ public class JSONProcessor {
     * 
     * You CAN NOT call this method directly -- to search Yummly call the method queryBuilder and pass it your search parameters.
     */
-   public static String searchYummly(String query) throws MalformedURLException, IOException
+   private static String searchYummly(String query) throws MalformedURLException, IOException
    {
        BufferedReader reader = null;
     try {
@@ -374,23 +378,7 @@ public class JSONProcessor {
        }
    
  
-   @Override
-   public String toString() {
-    String sampleFile = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
-    RecipeSummary sample = new RecipeSummary();
-       try {
-           JSONProcessor.searchYummly(sampleFile);
-       } catch (IOException ex) {
-           Logger.getLogger(JSONProcessor.class.getName()).log(Level.SEVERE, null, ex);
-       }
-       try {
-           JSONProcessor.parseRecipes(sampleFile);
-       } catch (IOException ex) {
-           Logger.getLogger(JSONProcessor.class.getName()).log(Level.SEVERE, null, ex);
-       }
-   return sample.toString();
-    
-   }
+
    
    
 }

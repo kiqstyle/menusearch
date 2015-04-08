@@ -16,7 +16,9 @@ import java.util.ArrayList;
 public class Recipe {
     private IngredientList Ingredents = new IngredientList();
     private ArrayList<NutritionEstimate> Nutrition = new ArrayList();
-    private ArrayList<String> images = new ArrayList();
+    private String hostedSmallUrl;
+    private String hostedMediumUrl;
+    private String hostedlargeUrl;
     private CourseList Course = new CourseList();
     private HolidayList holiday = new HolidayList();
     private CuisineList cuisine = new CuisineList(); 
@@ -32,6 +34,35 @@ public class Recipe {
     private String yield;
     private String TotalTime;
     private Source source = new Source();
+
+    public String getHostedSmallUrl() {
+        return hostedSmallUrl;
+    }
+
+    public void setHostedSmallUrl(String hostedSmallUrl) {
+        this.hostedSmallUrl = hostedSmallUrl;
+    }
+
+    public String getHostedMediumUrl() {
+        return hostedMediumUrl;
+    }
+
+    public void setHostedMediumUrl(String hostedMediumUrl) {
+        this.hostedMediumUrl = hostedMediumUrl;
+    }
+
+    public String getHostedlargeUrl() {
+        return hostedlargeUrl;
+    }
+
+    public void setHostedlargeUrl(String hostedlargeUrl) {
+        this.hostedlargeUrl = hostedlargeUrl;
+    }
+    
+    
+    
+    
+    
     
     public void setSourceSiteUrl(String u)
     {
@@ -92,11 +123,6 @@ public class Recipe {
         this.yield = yield;
     }
     
-    
-    public void addImage(String i)
-    {
-        images.add(i);
-    }
   public void addNutritionInfo (NutritionEstimate n)
   {
       Nutrition.add(n);
