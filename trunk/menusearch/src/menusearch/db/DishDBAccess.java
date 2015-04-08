@@ -51,7 +51,7 @@ public class DishDBAccess {
          Dish dish = null;
         conn =DBConnection.getMyConnection();
 
-        String query = ("select * from MenuItem where menu_items_id = \"" + menuItemID + "\"");
+        String query = ("select dishes.dish_id, name, description, menus_appeared, times_appeared, first_appeared, last_appeared, lowest_price, highest_price from dishes, menu_items where menu_items_id= "+menuItemID+" and dishes.dish_id = menu_items.dish_id");
         System.out.println("query is " + query);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
@@ -74,24 +74,25 @@ public class DishDBAccess {
      */
     public static ArrayList<Dish> retrieveByMenu(int menu_id)throws ClassNotFoundException, SQLException
       {
-          ArrayList <Dish> dishes = null;
+          ArrayList <Dish> dishes = new ArrayList<>();
           Dish dish;
         conn =DBConnection.getMyConnection();
 
-        String query = ("select * from MenuItem where menu_id = \"" + menu_id + "\"");
+       // String query = ("select * from MenuItem where menu_id = \"" + menu_id + "\"");
+        //String query = ("select dishes.dish_id, name, description, menus_appeared, times_appeared, first_appeared, last_appeared, lowest_price, highest_price from dishes, menu_items where menu_items_id= "+menu_id+" and menu_items.dish_id = "+ menu_id);
+        String query = ("Select * from dishes, menus, menu_pages, menu_items where menus.menu_id = "+ menu_id +" and menu_pages.menu_id = menus.menu_id and menu_items.menu_page_id = menu_pages.menu_page_id and menu_items.dish_id = dishes.dish_id");
+
         System.out.println("query is " + query);
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        if(!rs.next())
-            return null;
-        else{
-            while(rs.next())
-            dishes.add(dish = buildDish(rs));
-        }
-                
-            
-        
-        stmt.close();
+          try (Statement stmt = conn.createStatement()) {
+              ResultSet rs = stmt.executeQuery(query);
+              if(!rs.next())
+                  return null;
+              else{
+                  while(rs.next())
+                      System.out.println(rs.toString());
+                      dishes.add(dish = buildDish(rs));
+              } 
+          }
         return dishes;
       }
       
