@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Iterator;
 import org.apache.commons.collections4.CollectionUtils;
 import java.util.Collection;
+import static menusearch.db.MenuPageDBAccess.buildMenuPage;
 
 /**
  * Interface for accessing and manipulating the nypl_menus database.
@@ -584,10 +585,38 @@ public class MenuDBAccess {
         return menu;
     }  
  
-    public static void populateMenupages (Menu menu) throws ClassNotFoundException, SQLException {
+    
+    //Populate menu with menu pages
+    public static void populateMenuPages (Menu menu) throws ClassNotFoundException, SQLException {
         int menuID = menu.getMenu_id();
-        menu.setMenuPages(retrievePagesByID(menuID));
+        ArrayList<MenuPage> menuPages = MenuPageDBAccess.retrieveByMenuItemID(menuID);
+        menu.setMenuPages(menuPages);
     }
+        
+     
+    
+    public static Menu retrieveFullMenuByID(Menu menu) throws ClassNotFoundException,SQLException {
+        Menu fullMenu = null;
+        
+        conn = DBConnection.getMyConnection();
+        String query = ("select * from menus where menu_id = \"" + menu + "\"");
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        if (!rs.next()){
+              fullMenu = null;   //empty if no menu found
+        }
+        else {
+            while (rs.next())
+                
+              populateMenuPages(menu);
+            
+        }
+        
+        stmt.close();
+        return fullMenu;
+    
+    }
+
     
     private static ArrayList<MenuPage> retrievePagesByID (int menu_id) throws ClassNotFoundException, SQLException {
         ArrayList<MenuPage> menuPages = null;
@@ -608,7 +637,7 @@ public class MenuDBAccess {
         
         return menuPages;
     }
-    
+
     /**
      * Builds an ArrayList of Menu objects from a whole result set.
      *

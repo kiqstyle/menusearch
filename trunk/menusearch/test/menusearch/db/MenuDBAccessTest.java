@@ -22,6 +22,14 @@ import menusearch.domain.Dish;
 public class MenuDBAccessTest {
     
     public MenuDBAccessTest() { }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
     
     @Before
     public void setUp() {
@@ -33,6 +41,10 @@ public class MenuDBAccessTest {
             Logger.getLogger(MenuDBAccessTest.class.getName()).log(Level.SEVERE,
                     null, ex);
         } 
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test
@@ -107,7 +119,7 @@ public class MenuDBAccessTest {
     @Test
     public void testRetrieveByMenuID_noInput() throws Exception {
         System.out.println("retrieveByID");
-        String menu_id = "";
+        String menu_id = "12463";
         Menu expResult = null;
         Menu result = MenuDBAccess.retrieveByMenuID(menu_id);
         assertEquals(expResult, result);
@@ -270,10 +282,31 @@ public class MenuDBAccessTest {
         assertEquals(19, result.size()); // Expecting 19 results
     }
 
+
+
+    /**
+     * Test of retrieveFullMenuByID method, of class MenuDBAccess.
+     */
     @Test
-    public void testPopulateMenupages() throws Exception {
-        System.out.println("populateMenupages");
+    public void testRetrieveFullMenuByID() throws Exception {
+        System.out.println("Retrieve full menu by ID");
+        String id = "12463";
+        Menu result = MenuDBAccess.retrieveFullMenuByID(MenuDBAccess.retrieveByMenuID(id));
+        assertEquals(12463, result.getMenuPages());
+      
+    }
+
+ 
+   
+
+    /**
+     * Test of populateMenuPages method, of class MenuDBAccess.
+     */
+    @Test
+    public void testPopulateMenuPages() throws Exception {
+        System.out.println("populateMenuPages");
         Menu menu = null;
-        MenuDBAccess.populateMenupages(menu);
-    }    
+        MenuDBAccess.populateMenuPages(menu);
+        
+    }
 }

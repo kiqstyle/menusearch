@@ -45,23 +45,11 @@ public class MenuItemDBTest {
     @Test
     public void testRetrieveByID() throws Exception {
         System.out.println("retrieveByID");
-        int id = 0;
-        MenuItem expResult = null;
+        int id = 22;
         MenuItem result = MenuItemDB.retrieveByID(id);
-        assertEquals(expResult, result);
+        assertEquals(22, "Tomato aux croutons");
     }
 
-    /**
-     * Test of buildMenuItem method, of class MenuItemDB.
-     */
-    @Test
-    public void testBuildMenuItem() throws Exception {
-        System.out.println("buildMenuItem");
-        ResultSet rs = null;
-        MenuItem expResult = null;
-        MenuItem result = MenuItemDB.buildMenuItem(rs);
-        assertEquals(expResult, result);
-    }
 
     /**
      * Test of populateDish method, of class MenuItemDB.
