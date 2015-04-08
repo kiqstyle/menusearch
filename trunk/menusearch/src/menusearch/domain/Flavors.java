@@ -26,8 +26,6 @@ public class Flavors {
         return meaty;
     }
 
-   
-
     public Double getSour() {
         return sour;
     }
