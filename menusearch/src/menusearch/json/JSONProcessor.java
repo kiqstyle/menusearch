@@ -13,6 +13,7 @@ import java.util.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import menusearch.domain.*;
 
 import org.json.*;
 import menusearch.domain.*;
@@ -344,9 +345,9 @@ public class JSONProcessor {
     }
 }
    
-   public static RecipeSummary parseRecipes(String query) throws IOException {
+ public static RecipeSummaryList parseRecipes(String query) throws IOException, JSONException {
 
- RecipeSummary recipeSummary = new RecipeSummary();
+ RecipeSummaryList recipeSummary = new RecipeSummaryList();
  
  
  
@@ -376,19 +377,130 @@ public class JSONProcessor {
   return recipeSummary;
        
        }
-   
  
 
-   
-   
+ /**
+     *
+     * @param query
+     * @return
+     * @throws java.io.IOException
+     */
+    public static RecipeSummaryList parseRecipeMatches(String query ) throws IOException {
+    CourseList courseList = new CourseList();
+     RecipeSummaryList list = new RecipeSummaryList(); 
+     String results = JSONProcessor.searchYummly(query);
+     JSONTokener tokenizer = new JSONTokener(results);
+     JSONObject resultList  = new JSONObject(tokenizer);
+     JSONArray matches = resultList.getJSONArray("matches");
+     for(int i = 0; i < matches.length();i++){ 
+     RecipeSummary r = new RecipeSummary();
+     JSONObject currentRecipe = matches.getJSONObject(i);
+     JSONObject imageUrls = currentRecipe.getJSONObject("imageUrlsBySize");
+     String link = "90";
+     String number = imageUrls.getString(link); 
+     r.setImageUrlsBySize(number);
+    
+     String source = (String) currentRecipe.getString("sourceDisplayName");
+     r.setSourceDisplayName(source);
+    
+     
+     JSONArray listOfIngredients = currentRecipe.getJSONArray("ingredients");
+      for(int n = 0; n < listOfIngredients.length(); n++){
+      String currentIngredients = listOfIngredients.getString(n);
+      r.ingredients.add(currentIngredients);
+      }
+     
+      String id = (String) currentRecipe.getString("id");
+     r.setId(id);
+     
+       String recipe = (String) currentRecipe.get("recipeName");
+      r.setRecipeName(recipe);
+     
+     JSONArray smallImage = currentRecipe.getJSONArray("smallImageUrls");
+     for(int l = 0; l < smallImage.length(); l++){
+     String currentUrl = (String) smallImage.get(l);
+       r.setSmallImageUrls(currentUrl);
+     }
+      int timeInSeconds = (int) currentRecipe.getInt("totalTimeInSeconds");
+     r.setTotalTimeInSeconds(timeInSeconds);
+     
+     String a = "attributes";
+     String c = "course";
+     if(currentRecipe.has(a)){
+     JSONObject currentAttributes = currentRecipe.getJSONObject(a);
+     if(currentAttributes.has(c)){
+      for(int j = 0; j <currentAttributes.getJSONArray(c).length(); j++ ){
+          String course = currentAttributes.getJSONArray(c).getString(j);
+          courseList.add(course);
+     }
+      r.setCourses(courseList);
+     }
+     }
+     
+     CuisineList cuisineList = new CuisineList();
+      
+      if(currentRecipe.has(a)){
+      JSONObject currentAttributes = currentRecipe.getJSONObject(a);
+      if(currentAttributes.has("cuisine")){
+      for(int j = 0; j <currentAttributes.getJSONArray("cuisine").length(); j++){
+         String currentCuisine = currentAttributes.getJSONArray("cuisine").getString(j);
+         cuisineList.add(currentCuisine);
+     }
+    r.setCusines(cuisineList);
+      }   
+     }
+     
+     
+     String f = "flavors";
+     JSONObject currentFlavors;
+     if(currentRecipe.has(f) == true){
+    
+     if(currentRecipe.isNull(f) == false){
+     currentFlavors = currentRecipe.getJSONObject(f);
+     double saltyRating =  currentFlavors.getDouble("salty");
+     double sourRating = currentFlavors.getDouble("sour");
+     double sweetRating = currentFlavors.getDouble("sweet");    
+     double bitterRating = currentFlavors.getDouble("bitter");
+     double meatyRating = currentFlavors.getDouble("meaty");
+     double piguantRating =  currentFlavors.getDouble("piquant");
+     r.flavors.setSalty(saltyRating);
+     r.flavors.setSour(sourRating);
+     r.flavors.setSweet(sweetRating);
+     r.flavors.setBitter(bitterRating);
+     r.flavors.setMeaty(meatyRating);
+     r.flavors.setPiquant(piguantRating);
+     }
+     if(currentRecipe.get(f) == null){
+       r.flavors = null;
+     }
+     if(currentRecipe.get(f) == null)
+     r.flavors = null;
+     }
+     
+     
+    double rate = currentRecipe.getInt("rating");
+    r.setRating(rate);
+    
+    
+    list.matches.add(i, r);
+    
+     }
+ 
+   return list; 
+
 }
    
+}
+    
+
+     
+
    
+
  
 
 
-       
-       
+     
        
    
     

@@ -14,7 +14,7 @@ import java.util.Iterator;
  */
 public class CourseList {
     
-    ArrayList<String> Courses = new ArrayList<String>();
+    ArrayList<String> Courses = new ArrayList<>();
     
     public void add(String course)
     {
@@ -22,7 +22,9 @@ public class CourseList {
     }
     
     public String getCourse(int current){
-       String currentCourse = Courses.get(current);
+       
+        String currentCourse = Courses.get(current);
+       
         return currentCourse;
     }
     

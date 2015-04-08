@@ -1,125 +1,137 @@
 package menusearch.json;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import menusearch.domain.*;
+import java.util.ArrayList;
 import org.json.*;
 
-
-
+/**
+ *
+ * @author kennethngai
+ */
 public class RecipeSummary {
 
-  private String html;
-  private String url; 
-  private String text;
-  private String logo;
-  private int totalMatches; 
+   
+    private int number;
+    private String imageUrlsBySize;
+    private CourseList courses = new CourseList();
+    private CuisineList cusines = new CuisineList() ;
+    Flavors flavors = new Flavors();
+    private double rating;
+    private String id;
+    private String smallImageUrls;
+    private String sourceDisplayName;
+    private int totalTimeInSeconds;
+    IngredientList ingredients = new IngredientList();
+    private String recipeName;
+    
 
-    public String getHtml() {
-        return html;
+
+    public String getImageUrlsBySize() {
+        return imageUrlsBySize;
     }
 
-    public void setHtml(String html) {
-        this.html = html;
+    public void setImageUrlsBySize(String imageUrlsBySize) {
+        this.imageUrlsBySize = imageUrlsBySize;
     }
 
-    public String getUrl() {
-        return url;
+    public String getSmallImageUrls() {
+        return smallImageUrls;
+    }
+    
+    public int getNumber() {
+        return number;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public String getText() {
-        return text;
+    public CourseList getCourses() {
+        return courses;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setCourses(CourseList courses) {
+        this.courses = courses;
     }
 
-    public String getLogo() {
-        return logo;
+    public CuisineList getCusines() {
+        return cusines;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setCusines(CuisineList cusines) {
+        this.cusines = cusines;
     }
 
-    public int getTotalMatches() {
-        return totalMatches;
+     public Flavors getFlavors() {
+        return flavors;
     }
 
-    public void setTotalMatches(int totalMatches) {
-        this.totalMatches = totalMatches;
+    public void setFlavors(Flavors flavors) {
+        this.flavors = flavors;
     }
+   
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setSmallImageUrls(String smallImageUrls) {
+        this.smallImageUrls = smallImageUrls;
+    }
+
+    public String getSourceDisplayName() {
+        return sourceDisplayName;
+    }
+
+    public void setSourceDisplayName(String sourceDisplayName) {
+        this.sourceDisplayName = sourceDisplayName;
+    }
+
+    public int getTotalTimeInSeconds() {
+        return totalTimeInSeconds;
+    }
+
+    public void setTotalTimeInSeconds(int totalTimeInSeconds) {
+        this.totalTimeInSeconds = totalTimeInSeconds;
+    }
+
+    public IngredientList getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(IngredientList ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
+    }
+
    
 
     
-
-    public void setTotalmatches(int totalmatches) {
-        this.totalMatches = totalmatches;
-    }
- /*
- public RecipeSummary parseRecipes(String query) throws IOException {
-
- RecipeSummary recipeSummary = new RecipeSummary();
- 
- String attributes = JSONProcessor.searchYummly(query);
-
-
- 
-   JSONObject newObject = new JSONObject(attributes);
-   JSONObject at = newObject.getJSONObject("attribution");
-  
-  
-  html =(String) at.get("html");
-  recipeSummary.setHtml(html);
-
-  url = (String) at.get("url");
-  recipeSummary.setUrl(url);
-  
-  
-  text = (String) at.get("text");
-  recipeSummary.setText(text);
-
-  
-  logo = (String) at.get("logo");
-  recipeSummary.setLogo(logo);
- 
-   
- totalMatches = newObject.getInt("totalMatchCount");
- recipeSummary.setTotalmatches(totalMatches); 
-   
-       
-  return recipeSummary;
-       
-       }
-       
- @Override
- public String toString(){
-  return "Recipe Summary: " + "\n" + "Html: " + html  + "\n" + "URL: " + url
-     + "\n" + "Text: " + text + "\n" + "Logo: " + logo + "\n" + "Total Matches: " 
-     + totalMatches;
-   
-    
-}   
-    
-    
-
-    public static void main(String[] args) throws IOException {
-   String sampleFile = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
-    RecipeSummary sample = new RecipeSummary();
-    sample.parseRecipes(sampleFile);
-    System.out.println(sample.toString());
         
-     }
-    */
-    
-}
+        
+        
+        
+        
+        
+    }
+
+            
