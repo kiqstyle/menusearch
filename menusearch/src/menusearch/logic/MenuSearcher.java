@@ -74,10 +74,12 @@ public class MenuSearcher{
         
         return menuList;    
     }
+    /*
      public static Menu retrieveByID(int menu_id)throws ClassNotFoundException, SQLException{
          Menu menu;
+        
         menu = new Menu(MenuDBAccess.retrieveFullMenuByID(menu_id));
         return menu;
      }
-   
+   */
 }
