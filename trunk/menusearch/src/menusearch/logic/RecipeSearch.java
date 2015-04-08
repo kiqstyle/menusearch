@@ -6,6 +6,7 @@
 package menusearch.logic;
 
 import java.util.ArrayList;
+import menusearch.domain.Recipe;
 import menusearch.json.JSONProcessor;
 import menusearch.json.RecipeSummary;
 import menusearch.json.Parameters;
@@ -16,7 +17,7 @@ import menusearch.json.Parameters;
  * @author azulay
  */
 public class RecipeSearch {
-    public ArrayList<RecipeSummary> search(String searchPhrase, String aIngredients,
+    public static RecipeSummary search(String searchPhrase, String aIngredients,
             String eIngredients, String aAllergy, String aDiet, String aCuisines,
             String eCuisines, String aCourses, String eCourses, String aHollidays,
             String eHollidays, String nutrition, int nmax, int nmin, String flavor,
@@ -26,6 +27,7 @@ public class RecipeSearch {
         JSONProcessor jsonp = new JSONProcessor();
         Parameters p = new Parameters();
         String result = null;
+        RecipeSummary recipe = null;
         
         p.setSearchPhrase(searchPhrase);
         p.addAllowedIngredients(aIngredients);
@@ -42,12 +44,12 @@ public class RecipeSearch {
         p.setFlavorAttributes(flavor, Boolean.TRUE, m);
         try {
             result = jsonp.buildQuery(p);
+            recipe = jsonp.parseRecipes(result);
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
         }
         
-//        recipeList = parceRecipes(result);
-        
-        return recipeList;
+        return recipe;
     }
+
 }
