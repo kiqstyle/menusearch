@@ -5,13 +5,13 @@
  */
 package menusearch.logic;
 
+import java.sql.SQLException;
 import static java.awt.SystemColor.menu;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import menusearch.db.SearchParameters;
 import menusearch.domain.Menu;
-import menusearch.domain.*;
 import menusearch.db.MenuDBAccess;
 
 /**
@@ -20,13 +20,11 @@ import menusearch.db.MenuDBAccess;
  */
 public class MenuSearcher{
     
-    public ArrayList<Menu> menus = new ArrayList();
-    
-    public ArrayList<Menu> MenuSearcher(int id, int[] year, String sponsor, String event, String venue, 
+    public static ArrayList<Menu> searchByKeyword(int id, int[] year, String sponsor, String event, String venue, 
             String place, String occasion, String location, String currency, String Dish, int[] pageCount, 
             int[] dishCount){
         
-        
+        ArrayList<Menu> menus = new ArrayList();
         SearchParameters p = new SearchParameters();
         String query = ("SELECT * FROM `nypl_menus`.`menus`");
         
@@ -45,8 +43,8 @@ public class MenuSearcher{
         
         try{
             menus = MenuDBAccess.retrieveByComplexSearch(p);
-        }catch(Exception e){
-            System.out.println("");
+        }catch(ClassNotFoundException | SQLException e){
+            System.out.println("Exception");
         }
         
         menus = searchMenuDB(p);
@@ -55,8 +53,24 @@ public class MenuSearcher{
         
         
     }
+    
+    public static Menu searchById(int id){
+        
+        Menu menu = new Menu();
+        
+        String menuID = Integer.toString(id);
+        
+        try{
+            menu = MenuDBAccess.retrieveByMenuID(menuID);
+        }catch(ClassNotFoundException | SQLException e){
+            System.out.println("Exception");
+        }
+        
+        return menu;
+        
+    }
 
-    private ArrayList<Menu> searchMenuDB(SearchParameters p) {
+    public static ArrayList<Menu> searchMenuDB(SearchParameters p) {
         
         ArrayList<Menu> menuList = new ArrayList();
         
