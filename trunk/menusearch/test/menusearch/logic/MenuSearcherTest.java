@@ -59,7 +59,7 @@ public class MenuSearcherTest {
         int[] dishCount = null;
         MenuSearcher instance = new MenuSearcher();
         ArrayList<Menu> expResult = null;
-        ArrayList<Menu> result = instance.MenuSearcher(id, year, sponsor, event, venue, place, occasion, location, currency, Dish, pageCount, dishCount);
+        ArrayList<Menu> result = instance.searchByKeyword(id, year, sponsor, event, venue, place, occasion, location, currency, Dish, pageCount, dishCount);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
     }
