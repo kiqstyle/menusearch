@@ -1,5 +1,7 @@
 package menusearch.db;
 
+import java.util.Arrays;
+
 /**
  * Parameters for a complex Menu search (i.e. Caesar Salad in New York).
  * 
@@ -218,24 +220,59 @@ public class SearchParameters {
         this.dishCount = dishCount;
     }
     
+    /**
+     * Tests whether this SearchParameters object has value equality
+     * with another specified SearchParameters object.
+     * 
+     * @param testParam
+     * @return 
+     */
     public Boolean equals(SearchParameters testParam) {
         
-        if (testParam.generalQuery.equals(this.generalQuery) &&
-                testParam.currency.equals(this.currency) &&
-                testParam.dish.equals(this.dish) &&
-                testParam.dishCount.equals(this.dishCount) &&
-                testParam.event.equals(this.event) &&
-                testParam.menu_id == this.menu_id &&
-                testParam.occasion.equals(this.occasion) &&
-                testParam.pageCount.equals(this.pageCount) &&
-                testParam.place.equals(this.place) &&
-                testParam.sponsor.equals(this.sponsor) &&
-                testParam.venue.equals(this.venue) &&
-                testParam.year.equals(this.year)) {
+        if (this == testParam) {        return true;        }
+        
+        else if (testParam == null) {       return false;       }
+        
+        else if (testParam instanceof SearchParameters) {
             
-            return true;
+            SearchParameters compParam = (SearchParameters) testParam;
+            int[] zeroArray = {0, 0};
+            
+            if
+            (((compParam.generalQuery == null && this.generalQuery == null) ||
+                    (compParam.getGeneralQuery().equals(this.generalQuery))) &&
+            ((compParam.venue == null && this.venue == null) ||
+                    (compParam.getVenue().equals(this.venue))) &&
+            ((compParam.place == null && this.place == null) ||
+                    (compParam.getPlace().equals(this.place))) &&
+            ((compParam.dish == null && this.dish == null) ||
+                    (compParam.getDish().equals(this.dish))) &&
+            ((compParam.currency == null && this.currency == null) ||
+                    (compParam.getCurrency().equals(this.currency))) &&
+            ((compParam.event == null && this.event == null) ||
+                    (compParam.getEvent().equals(this.event))) &&
+            ((compParam.sponsor == null && this.sponsor == null) ||
+                    (compParam.getSponsor().equals(this.sponsor))) &&
+            ((compParam.occasion == null && this.occasion == null) ||
+                    (compParam.getOccasion().equals(this.occasion))) &&
+            ((compParam.menu_id == 0 && this.menu_id == 0) ||
+                    (compParam.menu_id == this.menu_id)) &&
+            ((Arrays.equals(zeroArray, compParam.year)) ||
+                    (Arrays.equals(zeroArray, this.year)) ||
+                    (Arrays.equals(compParam.getYear(), this.year))) &&
+            ((Arrays.equals(zeroArray, compParam.pageCount)) ||
+                    (Arrays.equals(zeroArray, this.pageCount)) ||
+                    (Arrays.equals(compParam.getPageCount(), this.pageCount)))
+            && ((Arrays.equals(zeroArray, compParam.dishCount)) ||
+                    (Arrays.equals(zeroArray, this.dishCount)) ||
+                    (Arrays.equals(compParam.getDishCount(), this.dishCount))))
+            {    
+                return true;
+            }
+        
+            return false;
         }
         
-        return false;
+        return false;     
     }
 }
