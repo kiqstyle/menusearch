@@ -10,21 +10,34 @@ import static org.junit.Assert.*;
  * @author Randy Gingeleski
  */
 public class SearchParametersTest {
-    
-    public SearchParametersTest() {
-    }
 
     /**
      * Test of equals method, of class SearchParameters.
      */
     @Test
-    public void testEquals() {
-        System.out.println("equals");
+    public void testEquals_equalByGeneralQuery() {
+        
         SearchParameters testParam = new SearchParameters("578");
-        SearchParameters instance = new SearchParameters();
-        instance.setOccasion("Easter");
+        SearchParameters instance = new SearchParameters("578");
+
+        Boolean expResult = true;
+        Boolean result = instance.equals(testParam);
+        
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of equals method, of class SearchParameters.
+     */
+    @Test
+    public void testEquals_unequalByGeneralQuery() {
+        
+        SearchParameters testParam = new SearchParameters("123");
+        SearchParameters instance = new SearchParameters("456");
+
         Boolean expResult = false;
         Boolean result = instance.equals(testParam);
+        
         assertEquals(expResult, result);
-    }   
+    }
 }

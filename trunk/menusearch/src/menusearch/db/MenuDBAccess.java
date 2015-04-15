@@ -1,5 +1,6 @@
 package menusearch.db;
 
+import menusearch.db.*;
 import menusearch.domain.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,127 +8,109 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-import org.apache.commons.collections4.CollectionUtils;
-import java.util.Collection;
-import static menusearch.db.MenuPageDBAccess.buildMenuPage;
 
 /**
  * Interface for accessing and manipulating the nypl_menus database.
  * 
  * @author Professor MacKellar
  * @author Randy Gingeleski
+ * @author Nicole Kim
  */
 public class MenuDBAccess {
     
     static final class FIELDS {
-        static final String MENU_ID = "menu_id";
-        static final String NAME = "name";
-        static final String SPONSOR = "sponsor";
-        static final String EVENT = "event";
-        static final String VENUE = "venue";
-        static final String PLACE = "place";
-        static final String PHYSICAL_DESCRIPTION = "physical_description";
-        static final String OCCASION = "occasion";
-        static final String NOTES = "notes";
-        static final String CALL_NUMBER = "call_number";
-        static final String KEYWORDS = "keywords";
-        static final String LANGUAGE = "language";
-        static final String MENU_DATE = "menu_date";
-        static final String LOCATION = "location";
-        static final String LOCATION_TYPE = "location_type";
-        static final String CURRENCY = "currency";
-        static final String CURRENCY_SYMBOL = "currency_symbol";
-        static final String STATUS = "status";
-        static final String PAGE_COUNT = "page_count";
-        static final String DISH_COUNT = "dish_count";
+        static final String menu_id = "menu_id";
+        static final String name = "name";
+        static final String sponsor = "sponsor";
+        static final String event = "event";
+        static final String venue = "venue";
+        static final String place = "place";
+        static final String physical_description = "physical_description";
+        static final String occasion = "occasion";
+        static final String notes = "notes";
+        static final String call_number = "call_number";
+        static final String keywords = "keywords";
+        static final String language = "language";
+        static final String menu_date = "menu_date";
+        static final String location = "location";
+        static final String location_type = "location_type";
+        static final String currency = "currency";
+        static final String currency_symbol = "currency_symbol";
+        static final String status = "status";
+        static final String page_count = "page_count";
+        static final String dish_count = "dish_count";
     }
     
     private static Connection conn;
     private static final String QUOTE = "\"";
     
     /**
-     * Attempts to find and build a Menu based on a passed-in SQL query.
+     * Executes SQL query to build Menu ArrayList.
+     * Root of all retrieve- methods.
      * 
-     * @param query - a SQL query.
+     * @param query SQL query
      * @return Menu
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public static ArrayList<Menu> retrieve(String query)
-            throws ClassNotFoundException, SQLException {
+    public static ArrayList<Menu> retrieve(String query) throws
+            ClassNotFoundException, SQLException {
         
         ArrayList<Menu> menus;
         
         conn = DBConnection.getMyConnection();
         
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        
-        if(!rs.next())
-            menus = null; // If no results, ArrayList should be empty.
-        else
-            menus = buildMenuList(rs);
+        Statement statement = conn.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE, 
+            ResultSet.CONCUR_READ_ONLY);
 
-        stmt.close();
+        ResultSet rs = statement.executeQuery(query);
+        
+        if(!rs.next()) {   menus = null;   /* If no menu is found. */   }
+        else {    menus = buildMenuList(rs);    }
+        
+        System.out.println("Received ArrayList<Menu>");
+        
+        statement.close();
         return menus;
     }
     
     /**
-     * Returns a single Menu object based on menu_id.
-     * There is a one-to-one relationship between Menu and menu_id.
+     * Returns a single Menu based on menu_id.
      * 
      * @param menu_id
      * @return Menu
      * @throws ClassNotFoundException
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static Menu retrieveByMenuID(String menu_id) throws ClassNotFoundException, 
-            SQLException {
+    public static Menu retrieveByMenuID(String menu_id) throws
+            ClassNotFoundException, SQLException {
         
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE menu_id = "
+        conn = DBConnection.getMyConnection();
+        
+        String query = ("SELECT * FROM nypl_menus.menus WHERE menu_id = "
                 + menu_id);
 
         return retrieve(query).get(0);
     }
- 
+    
     /**
-     * Returns an ArrayList of Menu objects matching this venue.
+     * Returns a the single Menu that contains a specified MenuPage.
      * 
-     * @param venue
-     * @return ArrayList<Menu>
+     * @param menuPage_id
+     * @return Menu
      * @throws ClassNotFoundException
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static ArrayList<Menu> searchByVenue(String venue) throws
+    public static Menu retrieveByMenuPageID(String menuPage_id) throws
             ClassNotFoundException, SQLException {
         
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE location LIKE"
-            + " '" + venue + "';");
-        
-        return retrieve(query);
+        // TODO
+        return null;
     }
- 
+    
     /**
-     * Returns an ArrayList of Menu objects matching this place.
-     * 
-     * @param place
-     * @return ArrayList<Menu>
-     * @throws ClassNotFoundException
-     * @throws SQLException 
-     */
-    public static ArrayList<Menu> searchByPlace(String place) throws
-            ClassNotFoundException, SQLException {
-        
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE place LIKE " +
-            "'" + place + "';");
-        
-        return retrieve(query);
-    }
-
-    /**
-     * Returns an ArrayList of Menu objects that contain a given Dish.
+     * Returns an ArrayList of Menu objects containing specified Dish.
      * 
      * @param thisDish - Dish to search all Menus for.
      * @return ArrayList<Menu> - an ArrayList of Menu objects with that Dish.
@@ -139,7 +122,7 @@ public class MenuDBAccess {
         
         String dishID = Integer.toString(thisDish.getDish_id());
         
-        String query = ("SELECT nypl_menus.menus.* FROM nypl_menus.menus "
+        String query = ("SELECT * FROM nypl_menus.menus "
                 + "JOIN nypl_menus.menu_pages ON nypl_menus.menu_pages.menu_id "
                 + "= nypl_menus.menus.menu_id JOIN nypl_menus.menu_items ON "
                 + "nypl_menus.menu_items.menu_page_id = "
@@ -159,35 +142,144 @@ public class MenuDBAccess {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public static ArrayList<Integer> getDishIDsFromName(String dishName) throws
+    public static ArrayList<Integer> getDishIDsByName(String dishName) throws
             ClassNotFoundException, SQLException {
+        
+        String query = "SELECT dish_id " +
+                       "FROM nypl_menus.dishes " +
+                       "WHERE name LIKE " + QUOTE + dishName + QUOTE + ";";
         
         ArrayList<Integer> dishIDList = new ArrayList<Integer>();
         
-        String query = "SELECT dish_id " +
-                       "FROM `nypl_menus`.`dishes` " +
-                       "WHERE name LIKE '" + dishName + "';";
-        
         conn = DBConnection.getMyConnection();
         
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        Statement statement = conn.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE, 
+            ResultSet.CONCUR_READ_ONLY );
         
-        if(!rs.next()) {
-            dishIDList = null; // If no results, ArrayList should be empty.
-        } else {
-            while (rs.next()) {
-                int thisDishID = rs.getInt("dish_id");
-                dishIDList.add(thisDishID);
-            }
+        ResultSet rs = statement.executeQuery(query);
+        
+        if(!rs.next()) {    return null;    /* If nothing is found */     } 
+        
+        rs.beforeFirst();
+        
+        while (rs.next()) {
+            
+            int thisDishID = rs.getInt("dish_id");
+                
+            System.out.println("Adding dish " + thisDishID + " to list");
+                
+            dishIDList.add(thisDishID);
         }
         
-        stmt.close();
+        statement.close();
         return dishIDList;
     }
- 
+    
     /**
-     * Returns an ArrayList of Menu objects matching given year parameters.
+     * Returns an ArrayList of Menu objects like this venue search term.
+     * 
+     * @param venue
+     * @return ArrayList<Menu>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static ArrayList<Menu> searchByVenue(String venue) throws
+            ClassNotFoundException, SQLException {
+        
+        String query = ("SELECT * FROM nypl_menus.menus WHERE location LIKE"
+            + " '" + venue + "';");
+        
+        return retrieve(query);
+    }
+    
+    /**
+     * Returns an ArrayList of Menu objects like this place search term.
+     * 
+     * @param place
+     * @return ArrayList<Menu>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static ArrayList<Menu> searchByPlace(String place) throws
+            ClassNotFoundException, SQLException {
+        
+        String query = ("SELECT * FROM nypl_menus.menus WHERE place LIKE " +
+            QUOTE + place + QUOTE + ";");
+        
+        return retrieve(query);
+    }
+    
+    /**
+     * Returns an ArrayList of Menu objects like this currency search term
+     * 
+     * @param currency
+     * @return ArrayList<Menu>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static ArrayList<Menu> searchByCurrency(String currency) throws
+            ClassNotFoundException, SQLException {
+        
+        String query = ("SELECT * FROM nypl_menus.menus WHERE currency LIKE " +
+            "'" + currency + "';");
+        
+        return retrieve(query);
+    }
+    
+    /**
+     * Returns an ArrayList of Menu objects like this event search term.
+     * 
+     * @param event
+     * @return ArrayList<Menu>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */    
+    public static ArrayList<Menu> searchByEvent(String event) throws
+            ClassNotFoundException, SQLException {
+        
+        String query = ("SELECT * FROM nypl_menus.menus WHERE event LIKE " +
+            "'" + event + "';");
+        
+        return retrieve(query);
+    }
+    
+    /**
+     * Returns an ArrayList of Menu objects like this sponsor search term.
+     * 
+     * @param sponsor
+     * @return ArrayList<Menu>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static ArrayList<Menu> searchBySponsor(String sponsor) throws
+            ClassNotFoundException, SQLException {
+        
+        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE sponsor LIKE "
+            + " '" + sponsor + "';");
+        
+        return retrieve(query);
+    }
+    
+    /**
+     * Returns an ArrayList of Menu objects like this occasion search term.
+     * 
+     * @param occasion
+     * @return ArrayList<Menu>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */   
+    public static ArrayList<Menu> searchByOccasion(String occasion) throws
+            ClassNotFoundException, SQLException {
+        
+        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE occasion LIKE"
+            + " '" + occasion + "';");
+        
+        return retrieve(query);
+    }
+    
+    /**
+     * Returns an ArrayList of Menu objects matching given year search limits.
      * 
      * @param yearParams
      * @return ArrayList<Menu>
@@ -203,25 +295,25 @@ public class MenuDBAccess {
         // Checking for that earlier
         if (yearParams[0] == yearParams[1]) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query += "SELECT * FROM nypl_menus.menus " +
                 "WHERE YEAR(menu_date) = " + Integer.toString(yearParams[0]) +
                 ";";
         
         } else if (yearParams[0] == 0) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query += "SELECT * FROM nypl_menus.menus " +
                 "WHERE YEAR(menu_date) < " + Integer.toString(yearParams[1]) +
                 ";";
             
         } else if (yearParams[1] == 0) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query += "SELECT * FROM nypl_menus.menus " +
                 "WHERE YEAR(menu_date) > " + Integer.toString(yearParams[0]) +
                 ";";
             
         } else {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query += "SELECT * FROM nypl_menus.menus " +
                 "WHERE YEAR(menu_date) > " + Integer.toString(yearParams[0]) +
                 "AND YEAR(menu_date) < " + Integer.toString(yearParams[1]) +
                 ";";
@@ -230,78 +322,9 @@ public class MenuDBAccess {
         
         return retrieve(query);
     }
- 
-    /**
-     * Returns an ArrayList of Menu objects matching this currency.
-     * 
-     * @param currency
-     * @return ArrayList<Menu>
-     * @throws ClassNotFoundException
-     * @throws SQLException 
-     */
-    public static ArrayList<Menu> searchByCurrency(String currency) throws
-            ClassNotFoundException, SQLException {
-        
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE currency = " +
-            "'" + currency + "';");
-        
-        return retrieve(query);
-    }
     
     /**
-     * Returns an ArrayList of Menu objects matching this event.
-     * 
-     * @param event
-     * @return ArrayList<Menu>
-     * @throws ClassNotFoundException
-     * @throws SQLException 
-     */    
-    public static ArrayList<Menu> searchByEvent(String event) throws
-            ClassNotFoundException, SQLException {
-        
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE event = " +
-            "'" + event + "';");
-        
-        return retrieve(query);
-    }
-    
-    /**
-     * Returns an ArrayList of Menu objects matching this sponsor.
-     * 
-     * @param sponsor
-     * @return ArrayList<Menu>
-     * @throws ClassNotFoundException
-     * @throws SQLException 
-     */
-    public static ArrayList<Menu> searchBySponsor(String sponsor) throws
-            ClassNotFoundException, SQLException {
-        
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE sponsor = " +
-            "'" + sponsor + "';");
-        
-        return retrieve(query);
-    }
-    
-    /**
-     * Returns an ArrayList of Menu objects matching this occasion.
-     * 
-     * @param occasion
-     * @return ArrayList<Menu>
-     * @throws ClassNotFoundException
-     * @throws SQLException 
-     */   
-    public static ArrayList<Menu> searchByOccasion(String occasion) throws
-            ClassNotFoundException, SQLException {
-        
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE occasion = " +
-            "'" + occasion + "';");
-        
-        return retrieve(query);
-    }
-    
-    /**
-     * Returns an ArrayList of Menu objects matching given page count
-     * parameters.
+     * Returns an ArrayList of Menu objects matching given page count limits.
      * 
      * @param pageCountParams
      * @return ArrayList<Menu>
@@ -311,31 +334,31 @@ public class MenuDBAccess {
     public static ArrayList<Menu> searchByPageCount(int[] pageCountParams)
             throws ClassNotFoundException, SQLException {
         
-        String query = "";
+        String query;
         
         // This method shouldn't called with the array [0, 0]
         // Checking for that earlier
         if (pageCountParams[0] == pageCountParams[1]) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                 "WHERE page_count = " + Integer.toString(pageCountParams[0]) +
                 ";";
         
         } else if (pageCountParams[0] == 0) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                 "WHERE page_count < " + Integer.toString(pageCountParams[1]) +
                 ";";
             
         } else if (pageCountParams[1] == 0) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                "WHERE page_count > " + Integer.toString(pageCountParams[0])
                + ";";
             
         } else {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                 "WHERE page_count > " + Integer.toString(pageCountParams[0]) +
                 "AND page_count < " + Integer.toString(pageCountParams[1]) +";"; 
         }
@@ -344,8 +367,7 @@ public class MenuDBAccess {
     }
     
     /**
-     * Returns an ArrayList of Menu objects matching given dish count
-     * parameters.
+     * Returns an ArrayList of Menu objects matching given dish count limits.
      * 
      * @param dishCountParams
      * @return ArrayList<Menu>
@@ -355,31 +377,31 @@ public class MenuDBAccess {
     public static ArrayList<Menu> searchByDishCount(int[] dishCountParams)
             throws ClassNotFoundException, SQLException {
         
-        String query = "";
+        String query;
         
         // This method shouldn't called with the array [0, 0]
         // Checking for that earlier
         if (dishCountParams[0] == dishCountParams[1]) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                 "WHERE dish_count = " + Integer.toString(dishCountParams[0]) +
                 ";";
         
         } else if (dishCountParams[0] == 0) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                 "WHERE dish_count < " + Integer.toString(dishCountParams[1]) +
                 ";";
             
         } else if (dishCountParams[1] == 0) {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                "WHERE dish_count > " + Integer.toString(dishCountParams[0])
                + ";";
             
         } else {
             
-            query += "SELECT * FROM `nypl_menus`.`menus` " +
+            query = "SELECT * FROM nypl_menus.menus " +
                 "WHERE dish_count > " + Integer.toString(dishCountParams[0]) +
                 "AND dish_count < " + Integer.toString(dishCountParams[1]) +";"; 
         }
@@ -433,7 +455,7 @@ public class MenuDBAccess {
                 // Dish is a special case.
                 
                 ArrayList<Integer> dishIDResults = 
-                        getDishIDsFromName( paramSet.getGeneralQuery() );
+                        getDishIDsByName( paramSet.getGeneralQuery() );
                 
                 for (int dishID : dishIDResults) {   
                     
@@ -454,11 +476,18 @@ public class MenuDBAccess {
             
             if(defaultParams.equals(paramSet)) { // Checks to see if there was
                                                  // only a general query param
+                    
+                    ArrayList<Menu> tempList = retrieve(query);
+                    
+                    if(tempList != null) {
+                        
+                        complexSearchResults.addAll( tempList );
+                        
+                    }
+                    
+                    if ( complexSearchResults.isEmpty() ) { return null; }
+                    else { return complexSearchResults; }
                 
-                complexSearchResults.addAll( retrieve(query) );
-                
-                if ( complexSearchResults.isEmpty() ) { return null; }
-                else { return complexSearchResults; }
             }
             
             // Possibly the user made a general query AND one more specific.
@@ -492,7 +521,7 @@ public class MenuDBAccess {
         if (paramSet.getDish() != null) {
             
             ArrayList<Integer> dishIDResults2 = 
-                   getDishIDsFromName( paramSet.getDish() );
+                   getDishIDsByName( paramSet.getDish() );
                 
             for (int dishID : dishIDResults2) {   
                 Dish thisDish = new Dish(dishID);
@@ -548,34 +577,43 @@ public class MenuDBAccess {
     }
       
     /**
-     * Builds one Menu object from the current row in the result set.
+     * Builds one Menu from the current row in the result set.
      * 
-     * @param rs - a SQL query ResultSet.
+     * @param rs a ResultSet
      * @return Menu
      * @throws SQLException 
      */
     private static Menu buildMenu(ResultSet rs) throws SQLException {
         
-        int menu_id = rs.getInt(FIELDS.MENU_ID);
-        String name = rs.getString(FIELDS.NAME);
-        String sponsor = rs.getString(FIELDS.SPONSOR);
-        String event = rs.getString(FIELDS.EVENT);
-        String venue = rs.getString(FIELDS.VENUE);
-        String place = rs.getString(FIELDS.PLACE);
-        String physical_description = rs.getString(FIELDS.PHYSICAL_DESCRIPTION);
-        String occasion = rs.getString(FIELDS.OCCASION);
-        String notes = rs.getString(FIELDS.NOTES);
-        String call_number = rs.getString(FIELDS.CALL_NUMBER);
-        String keywords = rs.getString(FIELDS.KEYWORDS);
-        String language = rs.getString(FIELDS.LANGUAGE);
-        LocalDate menu_date = LocalDate.parse(rs.getString(FIELDS.MENU_DATE));
-        String location = rs.getString(FIELDS.LOCATION);
-        String location_type = rs.getString(FIELDS.LOCATION_TYPE);
-        String currency = rs.getString(FIELDS.CURRENCY);
-        String currency_symbol = rs.getString(FIELDS.CURRENCY_SYMBOL);
-        String status = rs.getString(FIELDS.STATUS);
-        int page_count = rs.getInt(FIELDS.PAGE_COUNT);
-        int dish_count = rs.getInt(FIELDS.DISH_COUNT);
+        int menu_id = rs.getInt(FIELDS.menu_id);
+        String name = rs.getString(FIELDS.name);
+        String sponsor = rs.getString(FIELDS.sponsor);
+        String event = rs.getString(FIELDS.event);
+        String venue = rs.getString(FIELDS.venue);
+        String place = rs.getString(FIELDS.place);
+        String physical_description = rs.getString(FIELDS.physical_description);
+        String occasion = rs.getString(FIELDS.occasion);
+        String notes = rs.getString(FIELDS.notes);
+        String call_number = rs.getString(FIELDS.call_number);
+        String keywords = rs.getString(FIELDS.keywords);
+        String language = rs.getString(FIELDS.language);
+        
+        /* Parsing here, so have to be sensitive of null fields */
+        LocalDate menu_date = null;
+        String date = rs.getString(FIELDS.menu_date);
+        
+        if( (date != null) && (!date.isEmpty()) ) {
+            
+            menu_date = LocalDate.parse( date );
+        }
+        
+        String location = rs.getString(FIELDS.location);
+        String location_type = rs.getString(FIELDS.location_type);
+        String currency = rs.getString(FIELDS.currency);
+        String currency_symbol = rs.getString(FIELDS.currency_symbol);
+        String status = rs.getString(FIELDS.status);
+        int page_count = rs.getInt(FIELDS.page_count);
+        int dish_count = rs.getInt(FIELDS.dish_count);
 
         Menu menu = new Menu(menu_id, name, sponsor, event, venue, place,
             physical_description, occasion, notes, call_number, keywords,
@@ -583,76 +621,106 @@ public class MenuDBAccess {
             currency_symbol, status, page_count, dish_count);
         
         return menu;
-    }  
- 
-    
-    //Populate menu with menu pages
-    public static void populateMenuPages (Menu menu) throws ClassNotFoundException, SQLException {
-        int menuID = menu.getMenu_id();
-        ArrayList<MenuPage> menuPages = MenuPageDBAccess.retrieveByMenuItemID(menuID);
-        menu.setMenuPages(menuPages);
     }
-        
-     
     
-    public static Menu retrieveFullMenuByID(Menu menu) throws ClassNotFoundException,SQLException {
-        Menu fullMenu = null;
-        
-        conn = DBConnection.getMyConnection();
-        String query = ("select * from menus where menu_id = \"" + menu + "\"");
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        if (!rs.next()){
-              fullMenu = null;   //empty if no menu found
-        }
-        else {
-            while (rs.next())
-                
-              populateMenuPages(menu);
-            
-        }
-        
-        stmt.close();
-        return fullMenu;
-    
-    }
-
-    
-    private static ArrayList<MenuPage> retrievePagesByID (int menu_id) throws ClassNotFoundException, SQLException {
-        ArrayList<MenuPage> menuPages = null;
-        MenuPage menuPage;
-        conn = DBConnection.getMyConnection();
-        
-        String query = ("select * from menu_pages where menu_id = \"" + menu_id + "\"");
-        System.out.println("query is " + query);
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        if(!rs.next())
-            return null;
-        else 
-            
-            while(rs.next())
-   
-                menuPages.add(menuPage = MenuPageDBAccess.buildMenuPage(rs));
-        
-        return menuPages;
-    }
-
     /**
-     * Builds an ArrayList of Menu objects from a whole result set.
-     *
-     * @param rs - a SQL query result set.
-     * @return ArrayList<Menu>
+     * Builds a list of dishes from a result set.
+     * 
+     * @param rs
+     * @return ArrayList<Dish>
      * @throws SQLException 
      */
     private static ArrayList<Menu> buildMenuList(ResultSet rs) throws 
             SQLException {
         
         ArrayList<Menu> menus = new ArrayList<Menu>();
+        
+        rs.beforeFirst();
       
-        while (rs.next()) {   Menu menu = buildMenu(rs);    menus.add(menu);   }
+        while ( rs.next() ) {
+            
+            Menu menu = buildMenu(rs);
+            
+            System.out.println("Added menu " + menu.getMenu_id() + " to list");
+            
+            menus.add(menu);
+        }
         
         return menus;
+    }   
+    
+    /**
+     * 
+     * @param menu
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static void populateMenuPages (Menu menu) throws ClassNotFoundException, SQLException {
+        int menuID = menu.getMenu_id();
+        ArrayList<MenuPage> menuPages = MenuPageDBAccess.retrieveByMenuItemID(menuID);
+        menu.setMenuPages(menuPages);
+    }
+    
+    /**
+     * Returns a complete Menu object with MenuPages, MenuItems and Dishes.
+     * 
+     * @param menu
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static Menu retrieveFullMenuByID(Menu menu) throws 
+            ClassNotFoundException,SQLException {
+        
+        Menu fullMenu = null;
+        
+        conn = DBConnection.getMyConnection();
+        
+        String query = ("SELECT * FROM menus WHERE menu_id = \"" + menu + "\"");
+        
+        Statement statement = conn.createStatement();
+        ResultSet rs = statement.executeQuery(query);
+        
+        if (!rs.next()){    fullMenu = null;   /* Empty if no menu found */  }
+        else {  while (rs.next())   {   populateMenuPages(menu);    }   }
+        
+        statement.close();
+        return fullMenu;
+    }
+
+    /**
+     * Returns an ArrayList of all MenuPages in a specified Menu.
+     * 
+     * @param menu_id
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    private static ArrayList<MenuPage> retrievePagesByID (String menu_id) 
+            throws ClassNotFoundException, SQLException {
+        
+        ArrayList<MenuPage> menuPages = null;
+        MenuPage menuPage;
+        
+        conn = DBConnection.getMyConnection();
+        
+        String query = ("SELECT * FROM menu_pages WHERE menu_id = \""
+                + menu_id + "\"");
+        
+        Statement statement = conn.createStatement();
+        ResultSet rs = statement.executeQuery(query);
+        
+        if(!rs.next()) {    menuPages = null;   }
+        
+        else { 
+            while(rs.next()) {
+   
+                menuPages.add(menuPage = MenuPageDBAccess.buildMenuPage(rs));
+            }
+        }
+        
+        statement.close();
+        return menuPages;
     }
     
     /**
@@ -714,4 +782,3 @@ public class MenuDBAccess {
         return query;
     }
 }
-

@@ -84,16 +84,19 @@ public class MenuPageDBAccess {
         return menuPages;
     }
 
-    public static void populateMenu(MenuPage page) throws SQLException {
-        int menuPageID = page.getMenu_page_id();
-    //    Menu menu = MenuDBAccess.retrieveByMenuPageID(menuPageID);
-    //    page.setMenu(menu);
+    public static void populateMenu(MenuPage page) throws ClassNotFoundException,
+            SQLException {
+        
+        String menuPageID = Integer.toString(page.getMenu_page_id());
+        Menu menu = MenuDBAccess.retrieveByMenuPageID(menuPageID);
+        page.setMenu(menu);
     }
 
-    public static void populateMenuItems(MenuPage page) throws SQLException {
-        int menuPageID = page.getMenu_page_id();
-  //      ArrayList<MenuItem> menuItem = MenuItemDB.retrieveByMenuPageID(menuPageID);
-   //     page.setMenuItems(menuItem);
+    public static void populateMenuItems(MenuPage page) throws ClassNotFoundException, SQLException {
+        
+        String menuPageID = Integer.toString(page.getMenu_page_id());
+        ArrayList<MenuItem> menuItem = MenuItemDBAccess.retrieveByMenuPageID(menuPageID);
+        page.setMenuItems(menuItem);
     }
 
     public static MenuPage buildMenuPage(ResultSet rs) throws SQLException {

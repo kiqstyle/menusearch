@@ -18,47 +18,28 @@ import static org.junit.Assert.*;
  *
  * @author nicolebkim
  */
-public class MenuItemDBTest {
-    
-    public MenuItemDBTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+public class MenuItemDBAccessTest {
 
     /**
-     * Test of retrieveByID method, of class MenuItemDB.
+     * Test of retrieveByID method, of class MenuItemDBAccess.
      */
     @Test
     public void testRetrieveByID() throws Exception {
         System.out.println("retrieveByID");
         int id = 22;
-        MenuItem result = MenuItemDB.retrieveByID(id);
+        MenuItem result = MenuItemDBAccess.retrieveByID(id);
         assertEquals(22, "Tomato aux croutons");
     }
 
 
     /**
-     * Test of populateDish method, of class MenuItemDB.
+     * Test of populateDish method, of class MenuItemDBAccess.
      */
     @Test
     public void testPopulateDish() throws Exception {
-        System.out.println("populateDish");
+
         MenuItem item = null;
-        MenuItemDB.populateDish(item);
+        MenuItemDBAccess.populateMenuItem(item);
     }
     
 }
