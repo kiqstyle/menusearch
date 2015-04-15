@@ -46,13 +46,13 @@ public class DishDBAccess {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public static Dish retrieveByMenuItemID(int menuItemID) throws 
-            ClassNotFoundException, SQLException {
-        
-        Dish dish = null;
+    public static Dish retrieveByMenuItemID(int menuItemID) throws ClassNotFoundException, SQLException
+      {
+         Dish dish = null;
         conn =DBConnection.getMyConnection();
 
         String query = ("select dishes.dish_id, name, description, menus_appeared, times_appeared, first_appeared, last_appeared, lowest_price, highest_price from dishes, menu_items where menu_items_id= "+menuItemID+" and dishes.dish_id = menu_items.dish_id");
+        System.out.println("query is " + query);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
          if (!rs.next())
@@ -88,10 +88,10 @@ public class DishDBAccess {
               if(!rs.next())
                   return null;
               else{
-                  while(rs.next())
-                      System.out.println(rs.toString());
+                  while(rs.next()){
                       dishes.add(dish = buildDish(rs));
               } 
+          }
           }
         return dishes;
       }

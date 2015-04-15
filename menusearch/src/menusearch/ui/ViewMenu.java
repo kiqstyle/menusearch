@@ -5,10 +5,14 @@
  */
 package menusearch.ui;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import menusearch.db.DishDBAccess;
@@ -55,8 +59,16 @@ public class ViewMenu extends javax.swing.JPanel {
        jLabel14.setText(m.getVenue());
        jLabel15.setText(m.getKeywords());
        jTextArea1.setText(m.getNotes());
-       
+       MouseListener mouseListener = new MouseAdapter() {
+    public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            for(Dish dish : clickedResults){
+            if(dish.getName().equals((String) jList1.getSelectedValue())){
+                    System.out.println("Send this dish: " + dish.getName());break;}}
+        }}};
+               jList1.addMouseListener(mouseListener);
        return this.jPanel1;
+       
     }
 
     /**
