@@ -38,67 +38,46 @@ public class RecipeSummaryListTest {
      String testHtml = "Recipe search powered by <a href='http://www.yummly.com/recipes'><img alt='Yummly' src='http://static.yummly.com/api-logo.png'/></a>";
     String s = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&";
     RecipeSummaryList r = new RecipeSummaryList();
-        JSONProcessor.parseRecipes(s);
-        r.toString();
+       r= JSONProcessor.parseRecipes(s);
         assertEquals(r.getHtml(),testHtml);
     }
     
     @Test
-    public void urlParse(){
+    public void urlParse() throws IOException{
      String testUrl = "http://www.yummly.com/recipes/";
      String s = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&";
-    RecipeSummaryList r = new RecipeSummaryList();
-         try {
-            JSONProcessor.parseRecipes(s);
-        } catch (IOException ex) {
-            Logger.getLogger(recipeSummaryTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        r.toString();
+    RecipeSummaryList r = new RecipeSummaryList();  
+    r =   JSONProcessor.parseRecipes(s);
       assertEquals(r.getUrl(), testUrl);
         
         
     }
     
     @Test
-    public void textParse() {
+    public void textParse() throws IOException {
      String testText = "Recipe search powered by Yummly";
      String s = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
-    RecipeSummaryList r = new RecipeSummaryList();
-        try {
-            JSONProcessor.parseRecipes(s);
-        } catch (IOException ex) {
-            Logger.getLogger(recipeSummaryTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        r.toString();
-       assertEquals(r.getText(), testText);
+     RecipeSummaryList r = new RecipeSummaryList();
+     r =JSONProcessor.parseRecipes(s);  
+     assertEquals(r.getText(), testText);
         
     }
     
     @Test
-    public void logoParse(){
+    public void logoParse() throws IOException{
      String testLogo = "http://static.yummly.com/api-logo.png";   
      String s = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
     RecipeSummaryList r = new RecipeSummaryList();
-         try {
-            JSONProcessor.parseRecipes(s);
-        } catch (IOException ex) {
-            Logger.getLogger(recipeSummaryTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        r.toString();
+         r= JSONProcessor.parseRecipes(s);
         assertEquals(r.getLogo(),testLogo);
     }
     
     @Test
-    public void totalMatchesParse(){
-       int testMatches = 260902;
+    public void totalMatchesParse() throws IOException{
+       int testMatches = 261356;
      String s = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&q=garlic";
     RecipeSummaryList r = new RecipeSummaryList();
-         try {
-            JSONProcessor.parseRecipes(s);
-        } catch (IOException ex) {
-            Logger.getLogger(recipeSummaryTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        r.toString();
+       r= JSONProcessor.parseRecipes(s);    
         assertEquals(r.getTotalMatches(), testMatches);
         
         
