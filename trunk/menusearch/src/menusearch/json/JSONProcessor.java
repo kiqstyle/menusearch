@@ -349,9 +349,8 @@ public class JSONProcessor {
 
  RecipeSummaryList recipeSummary = new RecipeSummaryList();
  
- 
- 
- JSONObject newObject = new JSONObject(query);
+ String results = JSONProcessor.searchYummly(query);
+ JSONObject newObject = new JSONObject(results);
  JSONObject at = newObject.getJSONObject("attribution");
   
   
