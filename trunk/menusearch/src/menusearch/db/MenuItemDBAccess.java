@@ -10,7 +10,8 @@ import java.util.*;
 import menusearch.domain.*;
 
 /**
- *
+ * Interface for accessing and manipulating the nypl_menus database.
+ * 
  * @author Nicole Kim
  * @author Randy Gingeleski
  */
@@ -23,7 +24,7 @@ public class MenuItemDBAccess {
         static final String price = "price";
         static final String high_price = "high_price";
         static final String created_at = "created_at";
-        static final String updated_at = "updated at";
+        static final String updated_at = "updated_at";
         static final String xpos = "xpos";
         static final String ypos = "ypos";
     }
@@ -35,6 +36,7 @@ public class MenuItemDBAccess {
     private static final String QUOTE = "\"";
     
     /**
+     * Returns a MenuItem matching a specified ID.
      * 
      * @param id
      * @return
@@ -59,7 +61,14 @@ public class MenuItemDBAccess {
         statement.close();
         return menuItem;
     }
-      
+    
+    /**
+     * Returns a MenuItem constructed from given ResultSet.
+     * 
+     * @param rs
+     * @return
+     * @throws SQLException 
+     */
     public static MenuItem buildMenuItem(ResultSet rs) throws SQLException {
         
         int menu_items_id = rs.getInt(FIELDS.menu_items_id);
@@ -67,8 +76,13 @@ public class MenuItemDBAccess {
         int dish_id = rs.getInt("dish_id");
         float price = rs.getFloat(FIELDS.price);
         float high_price = rs.getFloat(FIELDS.high_price);
-        LocalDateTime created_at = rs.getTimestamp(FIELDS.created_at).toLocalDateTime();
-        LocalDateTime updated_at = rs.getTimestamp(FIELDS.updated_at).toLocalDateTime();
+        
+        LocalDateTime created_at = 
+                rs.getTimestamp(FIELDS.created_at).toLocalDateTime();
+        
+        LocalDateTime updated_at = 
+                rs.getTimestamp(FIELDS.updated_at).toLocalDateTime();
+        
         float xpos = rs.getFloat(FIELDS.xpos);
         float ypos = rs.getFloat(FIELDS.ypos);
         Dish dish = new Dish(dish_id);
@@ -91,7 +105,20 @@ public class MenuItemDBAccess {
     public static ArrayList<MenuItem> retrieveByMenuPageID(String menuPage_id)
             throws ClassNotFoundException, SQLException {
         
-        return null;
+        ArrayList<MenuItem> workingItems = new ArrayList<MenuItem>();
+        
+        conn = DBConnection.getMyConnection();
+        
+        String query = ("select * from menu_items where menu_page_id = \""
+                + menuPage_id + "\"");
+        
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        workingItems = buildMenuItemList(rs);
+        
+        stmt.close();
+        return workingItems;
     }
     
     /**
@@ -105,11 +132,15 @@ public class MenuItemDBAccess {
             throws SQLException, ClassNotFoundException {
     
         int menuItemID = item.getMenu_items_id();
+        System.out.println("Populate MenuItem ID " + menuItemID);
+        
         Dish dish = DishDBAccess.retrieveByID(menuItemID);
+        
         item.setDish(dish);
     }
       
     /**
+     * Builds a list of MenuItems from a ResultSet.
      * 
      * @param rs
      * @return
@@ -121,6 +152,7 @@ public class MenuItemDBAccess {
         ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
         
         while (rs.next()) {
+            
             MenuItem menuItem = buildMenuItem(rs);
             menuItems.add(menuItem);
         }

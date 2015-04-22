@@ -2,6 +2,7 @@ package menusearch.db;
 
 import menusearch.db.*;
 import menusearch.domain.*;
+import java.util.Iterator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -624,7 +625,7 @@ public class MenuDBAccess {
     }
     
     /**
-     * Builds a list of dishes from a result set.
+     * Builds a list of Menus from a ResultSet.
      * 
      * @param rs
      * @return ArrayList<Dish>
@@ -650,15 +651,32 @@ public class MenuDBAccess {
     }   
     
     /**
+     * Populates the given Menu's ArrayList<MenuPage> with appropriate objects.
      * 
      * @param menu
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public static void populateMenuPages (Menu menu) throws ClassNotFoundException, SQLException {
+    public static void populateMenuPages (Menu menu) 
+            throws ClassNotFoundException, SQLException {
+        
+        // Get the Menu ID
         int menuID = menu.getMenu_id();
-        ArrayList<MenuPage> menuPages = MenuPageDBAccess.retrieveByMenuItemID(menuID);
-        menu.setMenuPages(menuPages);
+        
+        // Get the ArrayList of MenuPages that go with it
+        ArrayList<MenuPage> workingPages = 
+                MenuPageDBAccess.retrieveByMenuID(menuID);
+        
+        // Iterate through each MenuPage, calling populateMenuPage
+        Iterator<MenuPage> workingPagesIterator = workingPages.iterator();
+        
+        while( workingPagesIterator.hasNext() ) {
+            
+            MenuPageDBAccess.populateMenuPage( workingPagesIterator.next() );
+        }
+        
+        // Set the MenuPage ArrayList we've been working as the Menu's
+        menu.setMenuPages(workingPages);
     }
     
     /**
@@ -672,20 +690,14 @@ public class MenuDBAccess {
     public static Menu retrieveFullMenuByID(Menu menu) throws 
             ClassNotFoundException,SQLException {
         
-        Menu fullMenu = null;
+        Menu workingMenu = menu;   /* Copy of the passed Menu, to work with */
         
-        conn = DBConnection.getMyConnection();
+        // Call the populateMenuPages method
+        // This sets off a chain reaction - populating this Menu's needed
+        // MenuPages, those MenuPages' needed MenuItems, and linking Dishes.
+        populateMenuPages( workingMenu );
         
-        String query = ("SELECT * FROM menus WHERE menu_id = \"" + menu + "\"");
-        
-        Statement statement = conn.createStatement();
-        ResultSet rs = statement.executeQuery(query);
-        
-        if (!rs.next()){    fullMenu = null;   /* Empty if no menu found */  }
-        else {  while (rs.next())   {   populateMenuPages(menu);    }   }
-        
-        statement.close();
-        return fullMenu;
+        return workingMenu; // Updated version of the passed Menu, populated
     }
 
     /**

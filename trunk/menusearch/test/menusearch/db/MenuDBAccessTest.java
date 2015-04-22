@@ -310,4 +310,42 @@ public class MenuDBAccessTest {
         
         assertEquals(81, result.size());
     }
+    
+    @Test
+    public void testRetrieveFullMenuByID_12463_menuPageSize() throws Exception {
+        
+        printTestHeader();
+       
+        Menu testMenu = MenuDBAccess.retrieveByMenuID("12463");
+        
+        Menu populatedTestMenu = MenuDBAccess.retrieveFullMenuByID( testMenu );
+        
+        ArrayList<MenuPage> menuPageArrayToTest = 
+                populatedTestMenu.getMenuPages();
+        
+        int menuPageArraySize = menuPageArrayToTest.size();
+        
+        // Menu
+        assertEquals(2, menuPageArraySize);
+    }
+    
+    @Test
+    public void testRetrieveFullMenuByID_12463_menuItemSize() throws Exception {
+        
+        printTestHeader();
+        
+        Menu testMenu = MenuDBAccess.retrieveByMenuID( "12463" );
+        
+        Menu populatedTestMenu = MenuDBAccess.retrieveFullMenuByID( testMenu );
+        
+        // Menu 12463 has 2 MenuPages - second and last entry should be ID 130
+        MenuPage menuPageForTest = 
+                populatedTestMenu.getMenuPages().get(1);
+        
+        ArrayList<MenuItem> menuItemArrayToTest = 
+                menuPageForTest.getMenuItems();
+        
+        // MenuPage ID 130 has 67 items
+        assertEquals(67, menuItemArrayToTest.size() );
+    }
 }
