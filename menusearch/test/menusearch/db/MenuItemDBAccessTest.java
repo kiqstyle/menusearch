@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package menusearch.db;
 
 import java.sql.ResultSet;
@@ -13,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,24 +18,33 @@ public class MenuItemDBAccessTest {
 
     /**
      * Test of retrieveByID method, of class MenuItemDBAccess.
+     * 
+     * Indirectly also tests populateMenuItem()
      */
     @Test
     public void testRetrieveByID() throws Exception {
+        
         System.out.println("retrieveByID");
+        
         int id = 22;
+        
         MenuItem result = MenuItemDBAccess.retrieveByID(id);
-        assertEquals(22, "Tomato aux croutons");
-    }
-
-
-    /**
-     * Test of populateDish method, of class MenuItemDBAccess.
-     */
-    @Test
-    public void testPopulateDish() throws Exception {
-
-        MenuItem item = null;
-        MenuItemDBAccess.populateMenuItem(item);
+        MenuItemDBAccess.populateMenuItem(result);
+        
+        assertEquals( "Pate de foies-gras", result.getDish().getName() );
     }
     
+    @Test
+    public void testRetrieveByMenuID() throws Exception {
+        
+        int itemArrayListSize = 0;
+        
+        ArrayList<MenuItem> itemArrayList = 
+                MenuItemDBAccess.retrieveByMenuPageID("130");
+        
+        itemArrayListSize = itemArrayList.size();
+        
+        assertEquals(67, itemArrayListSize);
+        // Should get 67 results for MenuPage ID 130
+    }
 }
