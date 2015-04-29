@@ -5,6 +5,7 @@
  */
 package menusearch.ui;
 
+import menusearch.domain.CuisineList;
 import menusearch.json.RecipeSummaryList;
 import menusearch.json.RecipeSummary;
 import menusearch.logic.*;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,8 +46,6 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        GetRecipeSearch = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         Ingredients = new javax.swing.JLabel();
         Allergies = new javax.swing.JLabel();
@@ -74,7 +74,7 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
         Clear = new javax.swing.JButton();
         Search = new javax.swing.JButton();
         Exit = new javax.swing.JButton();
-        DisplayResult = new javax.swing.JTextField();
+        DisplayResult = buildResultPanel();
         Diet = new javax.swing.JTextField();
 
         Ingredients.setText("Ingredient(s):");
@@ -260,20 +260,20 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        GetRecipeSearch.addTab("Recipe Search", jPanel1);
+       this.add(jPanel1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(GetRecipeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 38, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(GetRecipeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
-        );
+//        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+//        this.setLayout(layout);
+//        layout.setHorizontalGroup(
+//                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                        .addGroup(layout.createSequentialGroup()
+//                                .addComponent(GetRecipeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                                .addGap(0, 38, Short.MAX_VALUE))
+//        );
+//        layout.setVerticalGroup(
+//                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                        .addComponent(GetRecipeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
+//        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void NutritionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NutritionActionPerformed
@@ -297,7 +297,6 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
         ExcludeCuisines.setText("");
         ExcludeCourse.setText("");
         ExcludeHoliday.setText("");
-        DisplayResult.setText("");
         // TODO add your handling code here:
     }//GEN-LAST:event_ClearActionPerformed
 
@@ -322,24 +321,85 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
         ExcludeHolidays = ExcludeHoliday.getText();
         
          /*Code here to get search results and place in Results Field */
-        RecipeSummaryList recipeSummaries;Iterable<RecipeSummaryList> results = null;
-        for (final RecipeSummaryList recipeSummary : results);
+        RecipeSummaryList recipeSummaries;
+
         String all = "";
         recipeSummaries = RecipeSearch.search(all, Ingredients, ExcludeIngredients, 
          Allergies, Diet, Cuisines, ExcludeCuisines, Courses, ExcludeCourses,
          Holidays, ExcludeHolidays, Nutrition, 0, 0, Flavor, 100);
         
-        DisplayResult.setText(recipeSummaries.getUrl());
-            DisplayResult.setText(recipeSummaries.getHtml());
-            DisplayResult.setText(recipeSummaries.getLogo());
-            DisplayResult.setText(recipeSummaries.getText());
-            DisplayResult.setText(Integer.toString(recipeSummaries.getTotalMatches()));
  
-            Search.setText("Search");
+        if (recipeSummaries != null) {
+            ArrayList<RecipeSummary> recipes = recipeSummaries.getMatches();
+            for (final RecipeSummary recipeSummary : recipes) {
             
-            DisplayResult.setText("Result");
+                JButton b = new JButton(recipeSummary.getId() + ": " + recipeSummary.getRecipeName());
+                b.setBorderPainted(false);
+                b.setForeground(Color.BLUE);
+                b.setCursor(Cursor.getPredefinedCursor(12));
+                b.setContentAreaFilled(false);
+                b.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        detailPanel.removeAll();
+                       String text = recipeSummary.getSourceDisplayName() + "\n";
+                        CuisineList cuisineList = recipeSummary.getCusines();
+                        Iterator iter = cuisineList.getIterator();
+                        while(iter.hasNext()){
+                            text = text + iter.next() + "\n";
+                        }
+                        detailPanel.setText(text);
+                        detailPanel.revalidate();
+                    }
+                });
+                recipePanel.add(b);
+            }
+            recipePanel.revalidate();
+        }
+
+
     }//GEN-LAST:event_SearchActionPerformed
 
+    private JPanel buildResultPanel() {
+
+        recipePanel = new JPanel();
+
+        detailPanel = new JTextArea();
+
+        recipePanel.setLayout(new BoxLayout(recipePanel, BoxLayout.PAGE_AXIS));
+
+        detailPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        JPanel result = new JPanel();
+
+        GroupLayout layout = new GroupLayout(result);
+
+        result.setLayout(layout);
+
+        detailPanel.setBackground(Color.WHITE);
+
+        layout.setHorizontalGroup(
+
+                layout.createSequentialGroup()
+                        .addGap(10)
+                        .addComponent(recipePanel, 100, 200, 400)
+                        .addGap(10)
+                        .addComponent(detailPanel, 150, 250, 400)
+                        .addGap(10)
+
+        );
+
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(recipePanel)
+                                        .addComponent(detailPanel)
+                        )
+
+        );
+
+        return result;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Allergies;
@@ -351,7 +411,7 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
     private javax.swing.JLabel Cuisines;
     private javax.swing.JTextField Diet;
     private javax.swing.JLabel Diets;
-    private javax.swing.JTextField DisplayResult;
+    private javax.swing.JPanel DisplayResult;
     private javax.swing.JTextField ExcludeCourse;
     private javax.swing.JLabel ExcludeCourses;
     private javax.swing.JTextField ExcludeCuisine;
@@ -363,7 +423,6 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
     private javax.swing.JButton Exit;
     private javax.swing.JTextField Flavor;
     private javax.swing.JLabel Flavors;
-    private javax.swing.JTabbedPane GetRecipeSearch;
     private javax.swing.JTextField Holiday;
     private javax.swing.JLabel Holidays;
     private javax.swing.JTextField Ingredient;
@@ -373,5 +432,7 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
     private javax.swing.JButton Search;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JPanel recipePanel;
+    private javax.swing.JTextArea detailPanel;
     // End of variables declaration//GEN-END:variables
 }

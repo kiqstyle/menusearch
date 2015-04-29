@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import static java.awt.SystemColor.menu;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import menusearch.db.SearchParameters;
 import menusearch.domain.Menu;
@@ -47,7 +48,7 @@ public class MenuSearcher{
             System.out.println("Exception");
         }
         
-        menus = searchMenuDB(p);
+        //menus = searchMenuDB(p);
         
         return menus;
         
@@ -74,20 +75,17 @@ public class MenuSearcher{
         
         ArrayList<Menu> menuList = new ArrayList();
         
-        LocalDate menu_date = null;
-        
-        menu_date.withYear(1900);
-        menu_date.withMonth(04);
-        menu_date.withDayOfMonth(15);
+        LocalDate menuDate = LocalDate.of(1900, Month.JANUARY, 15);
         
         Menu menu = new Menu(12463, "", "HOTEL EASTMAN", "BREAKFAST", "COMMERCIAL", "HOT SPRINGS, AR",
-                "CARD; 4.75X7.5", "EASTER", "", "1900-2822", "" , "", menu_date, "Hotel Eastman", "", "",
+                "CARD; 4.75X7.5", "EASTER", "", "1900-2822", "" , "", menuDate, "Hotel Eastman", "", "",
                 "", "UNDER REVIEW", 2, 67);
             
         menuList.add(menu);
         
         return menuList;    
     }
+    
     /*
      public static Menu retrieveByID(int menu_id)throws ClassNotFoundException, SQLException{
          Menu menu;

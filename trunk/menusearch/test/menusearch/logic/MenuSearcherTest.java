@@ -6,6 +6,7 @@
 package menusearch.logic;
 
 import java.util.ArrayList;
+import menusearch.db.SearchParameters;
 import menusearch.domain.Menu;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -40,11 +41,11 @@ public class MenuSearcherTest {
     }
 
     /**
-     * Test of MenuSearcher method, of class MenuSearcher.
+     * Test of searchByKeyword method, of class MenuSearcher.
      */
     @Test
-    public void testMenuSearcher() {
-        System.out.println("MenuSearcher");
+    public void testSearchByKeyword() {
+        System.out.println("searchByKeyword");
         int id = 0;
         int[] year = null;
         String sponsor = "sponsor";
@@ -57,11 +58,21 @@ public class MenuSearcherTest {
         String Dish = "dish";
         int[] pageCount = null;
         int[] dishCount = null;
-        MenuSearcher instance = new MenuSearcher();
         ArrayList<Menu> expResult = null;
-        ArrayList<Menu> result = instance.searchByKeyword(id, year, sponsor, event, venue, place, occasion, location, currency, Dish, pageCount, dishCount);
+        ArrayList<Menu> result = MenuSearcher.searchByKeyword(id, year, sponsor, event, venue, place, occasion, location, currency, Dish, pageCount, dishCount);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
     }
+    
+    /**
+     * Test of searchById method, of class MenuSearcher.
+     */
+    /*@Test
+    public void testSearchById() {
+        System.out.println("searchById");
+        int id = 0;
+        Menu expResult = null;
+        Menu result = MenuSearcher.searchById(id);
+        assertEquals(expResult, result);
+    }*/
     
 }

@@ -4,22 +4,29 @@
  * and open the template in the editor.
  */
 package menusearch.ui;
+
+import java.awt.event.ActionListener;
+import menusearch.logic.RecipeSearch;
 import menusearch.logic.MenuSearcher;
 import menusearch.db.SearchParameters;
-import menusearch.json.JSONProcessor;
+import menusearch.json.JSONProcessor;  
+
 import menusearch.logic.RecipeSearch;
 
 /**
  *
- * @author lyu080
+ * @author kculb820
  */
-public class MenuSearchJFrame1 extends javax.swing.JFrame {
+public class SearchRecipePanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form MenuSearchJFrame1
-     */
     
-    public MenuSearchJFrame1() {
+    public void searchBtnAddActionListener(ActionListener al) {
+    SearchButton.addActionListener(al);
+  }
+    /**
+     * Creates new form SearchRecipePanel
+     */
+    public SearchRecipePanel() {
         initComponents();
     }
 
@@ -32,8 +39,6 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -65,21 +70,6 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
         RecipeBox = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         PhraseField = new javax.swing.JTextField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 996, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Menu Search", jPanel1);
 
         jLabel1.setText("Ingredient(s):");
 
@@ -226,7 +216,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                                         .addComponent(ExIngre, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RecipeBox, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                .addComponent(RecipeBox, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -234,7 +224,7 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(RecipeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,29 +282,26 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
                 .addGap(72, 72, 72))
         );
 
-        jTabbedPane1.addTab("Recipe Search", jPanel2);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 23, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void IngreFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngreFieldActionPerformed
-        
+
     }//GEN-LAST:event_IngreFieldActionPerformed
 
     private void CuiFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CuiFieldActionPerformed
@@ -325,47 +312,9 @@ public class MenuSearchJFrame1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CourFieldActionPerformed
 
-    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+    private void HoliFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HoliFieldActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_ExitButtonActionPerformed
-
-    private void ExIngreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExIngreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ExIngreActionPerformed
-
-    private void ExCourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExCourActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ExCourActionPerformed
-
-    private void RecipeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecipeBoxActionPerformed
-
-    }//GEN-LAST:event_RecipeBoxActionPerformed
-
-    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
-        // TODO add your handling code here:
-     RecipeSearch re = new RecipeSearch();
-
-     String phrase, ingredient, allergy, diet, cuisine, course, holiday, nutrition, flavor, exIngredient, exCuisine, exCourse, exHoliday;
-         phrase = PhraseField.getText();
-         ingredient = IngreField.getText();
-         allergy = AllerField.getText();
-         diet = DietField.getText();
-         cuisine = CuiField.getText();
-         course = CourField.getText();
-         holiday = HoliField.getText();
-         nutrition = NutriField.getText();
-         flavor = FlavField.getText();
-         exIngredient = ExIngre.getText();
-         exCuisine = ExCui.getText();
-         exCourse = ExCour.getText();
-         exHoliday = ExHoli.getText();
-     //code that calls search method in recipe summary class.
-         
-re.search(phrase, ingredient, exIngredient, allergy, diet, cuisine, exCuisine, course, exCourse, holiday, exHoliday, nutrition, WIDTH, WIDTH, flavor, WIDTH);
- 
-//RecipeBox.add(this, re.search(phrase, ingredient, exIngredient, allergy, diet, cuisine, exCuisine, course, exCourse, holiday, exHoliday, nutrition, WIDTH, WIDTH, flavor, WIDTH));
-    }//GEN-LAST:event_SearchButtonActionPerformed
+    }//GEN-LAST:event_HoliFieldActionPerformed
 
     private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
         // TODO add your handling code here:
@@ -384,115 +333,48 @@ re.search(phrase, ingredient, exIngredient, allergy, diet, cuisine, exCuisine, c
         ExHoli.setText("");
     }//GEN-LAST:event_ClearButtonActionPerformed
 
-    private void menuSponsorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSponsorTextFieldActionPerformed
+    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_menuSponsorTextFieldActionPerformed
+        RecipeSearch re = new RecipeSearch();
 
-    private void menuPanelExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelExitButtonActionPerformed
+        String phrase, ingredient, allergy, diet, cuisine, course, holiday, nutrition, flavor, exIngredient, exCuisine, exCourse, exHoliday;
+        phrase = PhraseField.getText();
+        ingredient = IngreField.getText();
+        allergy = AllerField.getText();
+        diet = DietField.getText();
+        cuisine = CuiField.getText();
+        course = CourField.getText();
+        holiday = HoliField.getText();
+        nutrition = NutriField.getText();
+        flavor = FlavField.getText();
+        exIngredient = ExIngre.getText();
+        exCuisine = ExCui.getText();
+        exCourse = ExCour.getText();
+        exHoliday = ExHoli.getText();
+        //code that calls search method in recipe summary class.
+
+        re.search(phrase, ingredient, exIngredient, allergy, diet, cuisine, exCuisine, course, exCourse, holiday, exHoliday, nutrition, WIDTH, WIDTH, flavor, WIDTH);
+
+        //RecipeBox.add(this, re.search(phrase, ingredient, exIngredient, allergy, diet, cuisine, exCuisine, course, exCourse, holiday, exHoliday, nutrition, WIDTH, WIDTH, flavor, WIDTH));
+    }//GEN-LAST:event_SearchButtonActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_menuPanelExitButtonActionPerformed
+    }//GEN-LAST:event_ExitButtonActionPerformed
 
-    private void menuPanelClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelClearButtonActionPerformed
-       /* menuSponsorTextField.setText(" ");
-        menuYearTextField.setText(" ");
-        menuLocationTextField.setText(" ");
-        menuVenueTextField.setText(" ");
-        menuCurrencyTextField.setText(" ");
-        menuDishTextField.setText(" ");
-        menuEventTextField.setText(" ");
-        menuOccasionTextField.setText(" "); */
-    }//GEN-LAST:event_menuPanelClearButtonActionPerformed
-
-    /* Joshua McKenzie 
-    Search button in menu panel to pass values
-    */
-    
-    
-    private void menuPanelSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelSearchButtonActionPerformed
-     
-      /*  SearchParameters param = new SearchParameters();
-      
-        //brings in parameter class to pass methods to
-        
-        int[] year = new int [2];
-        String aYear;
-        int yearAsNumber;
-        //Variables to pass year
-        
-        String aMenuID;
-        int menuIDasNumber;
-        //Variables to pass menuID
-       
-        String sponsor, event, venue, occasion, location, currency, dish;
-        
-        sponsor = menuSponsorTextField.getText();
-        event = menuEventTextField.getText();
-        venue = menuVenueTextField.getText();
-        location = menuLocationTextField.getText();
-        occasion = menuOccasionTextField.getText();
-        currency = menuCurrencyTextField.getText();
-        dish = menuDishTextField.getText();
-        aMenuID = menuIDTextField.getText();
-        aYear = menuYearTextField.getText();
-        yearAsNumber = Integer.parseInt(aYear);
-        year[0] = yearAsNumber;
-        menuIDasNumber = Integer.parseInt(aMenuID);
-        //Coverts Menu ID from String to int
-        //Get user input and saves in local variables
-        
-        
-        param.setSponsor(sponsor);
-        param.setEvent(event);
-        param.setVenue(venue);
-        param.setPlace(location);
-        param.setOccasion(occasion);
-        param.setCurrency(currency);
-        param.setDish(dish);
-        param.setMenu_id(menuIDasNumber);
-        param.setYear(year);
-        //passes values to parameters class */
-        
-    }//GEN-LAST:event_menuPanelSearchButtonActionPerformed
-
-    private void HoliFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HoliFieldActionPerformed
+    private void ExIngreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExIngreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_HoliFieldActionPerformed
+    }//GEN-LAST:event_ExIngreActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuSearchJFrame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuSearchJFrame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuSearchJFrame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuSearchJFrame1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void ExCourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExCourActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ExCourActionPerformed
 
-        /* Create and display the form */
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuSearchJFrame1().setVisible(true);
-            }
-        });
-    }
+    private void RecipeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecipeBoxActionPerformed
+
+    }//GEN-LAST:event_RecipeBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AllerField;
@@ -525,8 +407,6 @@ re.search(phrase, ingredient, exIngredient, allergy, diet, cuisine, exCuisine, c
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
