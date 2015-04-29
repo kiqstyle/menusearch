@@ -36,10 +36,10 @@ public class MenuItemDBAccess {
     private static final String QUOTE = "\"";
     
     /**
-     * Returns a MenuItem matching a specified ID.
+     * Returns a single MenuItem object matching a specified ID.
      * 
      * @param id
-     * @return
+     * @return MenuItem object
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
@@ -49,16 +49,17 @@ public class MenuItemDBAccess {
         MenuItem menuItem;
         conn = DBConnection.getMyConnection();
 
-        String query = ("select * from menu_items where "
+        String query = ("SELECT * FROM menu_items WHERE "
                 + "menu_items_id = \"" + id + "\"");
 
-        Statement statement = conn.createStatement();
-        ResultSet rs = statement.executeQuery(query);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
         
         if (!rs.next()) {   menuItem = null;   /* No menuitem found */  }
         else {      menuItem = buildMenuItem(rs);       }
         
-        statement.close();
+        stmt.close();
+        
         return menuItem;
     }
     
@@ -85,7 +86,9 @@ public class MenuItemDBAccess {
         
         float xpos = rs.getFloat(FIELDS.xpos);
         float ypos = rs.getFloat(FIELDS.ypos);
+        
         Dish dish = new Dish(dish_id);
+        
         MenuPage menuPage = new MenuPage(menu_page_id);
 
         MenuItem menuItem = new MenuItem(menu_items_id, price, high_price, 
@@ -109,7 +112,7 @@ public class MenuItemDBAccess {
         
         conn = DBConnection.getMyConnection();
         
-        String query = ("select * from menu_items where menu_page_id = \""
+        String query = ("SELECT * FROM menu_items WHERE menu_page_id = \""
                 + menuPage_id + "\"");
         
         Statement stmt = conn.createStatement();

@@ -11,11 +11,14 @@ import java.util.ArrayList;
 public class Menu {
     
     private int menu_id, page_count, dish_count;
+    
     private String name, sponsor, event, venue, place, occasion, call_number,
             location, location_type, currency, currency_symbol, status,
             language, physical_description, keywords, notes;
+    
     private LocalDate menu_date;
     private ArrayList<MenuPage> menuPages;
+    private String stringDate;
     
     /**
      * Create totally empty Menu.

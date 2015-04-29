@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class MenuDBAccess {
     
     static final class FIELDS {
+        
         static final String menu_id = "menu_id";
         static final String name = "name";
         static final String sponsor = "sponsor";
@@ -96,7 +97,7 @@ public class MenuDBAccess {
     }
     
     /**
-     * Returns a the single Menu that contains a specified MenuPage.
+     * Returns the single Menu that contains a specified MenuPage.
      * 
      * @param menuPage_id
      * @return Menu
@@ -106,8 +107,12 @@ public class MenuDBAccess {
     public static Menu retrieveByMenuPageID(String menuPage_id) throws
             ClassNotFoundException, SQLException {
         
-        // TODO
-        return null;
+        int menuPage_int_id = Integer.parseInt( menuPage_id );
+        
+        MenuPage workingMenuPage = 
+                MenuPageDBAccess.retrieveByID( menuPage_int_id );
+        
+        return workingMenuPage.getMenu();
     }
     
     /**
@@ -154,11 +159,11 @@ public class MenuDBAccess {
         
         conn = DBConnection.getMyConnection();
         
-        Statement statement = conn.createStatement(
+        Statement stmt = conn.createStatement(
             ResultSet.TYPE_SCROLL_INSENSITIVE, 
             ResultSet.CONCUR_READ_ONLY );
         
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = stmt.executeQuery(query);
         
         if(!rs.next()) {    return null;    /* If nothing is found */     } 
         
@@ -173,7 +178,8 @@ public class MenuDBAccess {
             dishIDList.add(thisDishID);
         }
         
-        statement.close();
+        stmt.close();
+        
         return dishIDList;
     }
     
@@ -212,7 +218,7 @@ public class MenuDBAccess {
     }
     
     /**
-     * Returns an ArrayList of Menu objects like this currency search term
+     * Returns an ArrayList of Menu objects like this currency search term.
      * 
      * @param currency
      * @return ArrayList<Menu>
@@ -256,7 +262,7 @@ public class MenuDBAccess {
     public static ArrayList<Menu> searchBySponsor(String sponsor) throws
             ClassNotFoundException, SQLException {
         
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE sponsor LIKE "
+        String query = ("SELECT * FROM nypl_menus.menus WHERE sponsor LIKE "
             + " '" + sponsor + "';");
         
         return retrieve(query);
@@ -273,7 +279,7 @@ public class MenuDBAccess {
     public static ArrayList<Menu> searchByOccasion(String occasion) throws
             ClassNotFoundException, SQLException {
         
-        String query = ("SELECT * FROM `nypl_menus`.`menus` WHERE occasion LIKE"
+        String query = ("SELECT * FROM nypl_menus.menus WHERE occasion LIKE"
             + " '" + occasion + "';");
         
         return retrieve(query);
@@ -317,8 +323,7 @@ public class MenuDBAccess {
             query += "SELECT * FROM nypl_menus.menus " +
                 "WHERE YEAR(menu_date) > " + Integer.toString(yearParams[0]) +
                 "AND YEAR(menu_date) < " + Integer.toString(yearParams[1]) +
-                ";";
-            
+                ";";  
         }
         
         return retrieve(query);
@@ -444,7 +449,7 @@ public class MenuDBAccess {
             } else { // ** Is not a number
                 
                 // Could be a venue, place, dish, currency, event, sponsor,
-                // or occasion.
+                // or occasion
                 
                 query += "(venue LIKE '" + paramSet.getGeneralQuery() + "'"
                       + " OR place LIKE '" + paramSet.getGeneralQuery() + "' OR"
@@ -453,7 +458,7 @@ public class MenuDBAccess {
                         "sponsor LIKE '" + paramSet.getGeneralQuery() + "' OR "
                       + "occasion LIKE '" + paramSet.getGeneralQuery() + "');" ;
                 
-                // Dish is a special case.
+                // Dish is a special case
                 
                 ArrayList<Integer> dishIDResults = 
                         getDishIDsByName( paramSet.getGeneralQuery() );
@@ -690,7 +695,10 @@ public class MenuDBAccess {
     public static Menu retrieveFullMenuByID(Menu menu) throws 
             ClassNotFoundException,SQLException {
         
-        Menu workingMenu = menu;   /* Copy of the passed Menu, to work with */
+        // It's possible a "shell" Menu object gets passed in with only
+        // an ID. So first we need to make sure we have all the Menu info.
+        String menu_id = Integer.toString( menu.getMenu_id() );
+        Menu workingMenu = MenuDBAccess.retrieveByMenuID( menu_id );
         
         // Call the populateMenuPages method
         // This sets off a chain reaction - populating this Menu's needed
@@ -719,8 +727,8 @@ public class MenuDBAccess {
         String query = ("SELECT * FROM menu_pages WHERE menu_id = \""
                 + menu_id + "\"");
         
-        Statement statement = conn.createStatement();
-        ResultSet rs = statement.executeQuery(query);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
         
         if(!rs.next()) {    menuPages = null;   }
         
@@ -731,7 +739,8 @@ public class MenuDBAccess {
             }
         }
         
-        statement.close();
+        stmt.close();
+        
         return menuPages;
     }
     
@@ -746,7 +755,7 @@ public class MenuDBAccess {
     private static Boolean isNumber(String toTest) {
         
         try {  double d = Double.parseDouble(toTest);  }
-        catch(NumberFormatException nfe) {  return false;   } 
+        catch( NumberFormatException nfe ) {  return false;   } 
         
         return true; 
     }
@@ -756,14 +765,14 @@ public class MenuDBAccess {
      * "opens" it for appending, if necessary.
      * 
      * @param query
-     * @return safe query to add to
+     * @return Safe query to add to
      */
     private static String queryOpener(String query) {
         
         int x = query.length();
         
         if (query.substring(x - 2, x - 1).contains(";"))
-        {   query = query.substring(0, query.length() - 1);     }
+            {   query = query.substring(0, query.length() - 1);     }
     
         return query;
     }
@@ -773,7 +782,7 @@ public class MenuDBAccess {
      * fixes if needed.
      * 
      * @param query
-     * @return safe query to run
+     * @return Safe query to run
      */
     private static String queryEnder(String query) {
         
@@ -788,7 +797,6 @@ public class MenuDBAccess {
             
             query = query.substring( x - 5, x - 1 );
             query += ";" ;
-        
         }
         
         return query;

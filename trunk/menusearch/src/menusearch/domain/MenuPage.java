@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package menusearch.domain;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author Chris
+ * MenuPage domain class, based on the nypl_menus database table.
+ * 
+ * @author Chris Dhanapala
  */
 public class MenuPage {
 
@@ -19,16 +15,18 @@ public class MenuPage {
     private String image_id;
     private int full_height;
     private int full_width;
-     private ArrayList<MenuItem> menuItems;
+    private ArrayList<MenuItem> menuItems;
 
-    public MenuPage() {
-    }
+    public MenuPage() {  }
 
     public MenuPage(int menu_page_id) {
+        
         this.menu_page_id = menu_page_id;
     }
 
-    public MenuPage(int menu_page_id, Menu menu, int page_number, String image_id, int full_height, int full_width) {
+    public MenuPage(int menu_page_id, Menu menu, int page_number, 
+            String image_id, int full_height, int full_width) {
+        
         this.menu_page_id = menu_page_id;
         this.menu = menu;
         this.page_number = page_number;
@@ -92,6 +90,4 @@ public class MenuPage {
     public void setMenuItems(ArrayList<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }
-    
-
 }

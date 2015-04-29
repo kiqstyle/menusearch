@@ -18,31 +18,83 @@ public class MenuPageDBAccess {
 
     private static Connection conn;
 
-    public static MenuPage retrieveByID(int id) 
+    /**
+     * Returns a single MenuPage object based on given ID number (primary key).
+     * 
+     * @param menuPage_id
+     * @return MenuPage object
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static MenuPage retrieveByID(int menuPage_id) 
             throws ClassNotFoundException, SQLException {
         
         MenuPage menuPage;
+        
         conn = DBConnection.getMyConnection();
-        String query = ("select * from menu_pages where menu_page_id= \"" + id + "\"");
-        System.out.println("query is " + query);
+        
+        String query = ("SELECT * FROM menu_pages "
+                + "WHERE menu_page_id= \"" + menuPage_id + "\"");
+
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
-        if (!rs.next()) {
+        
+        if (!rs.next())
             menuPage = null;
-        } else {
+        else
             menuPage = buildMenuPage(rs);
-        }
+        
         stmt.close();
+        
         return menuPage;
     }
-
+    
+    /**
+     * Returns an ArrayList of MenuPage objects associated with a given page.
+     * 
+     * @param page
+     * @return ArrayList<MenuPage>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public static ArrayList<MenuPage> retrieveByPage(int page) 
             throws ClassNotFoundException, SQLException {
         
         ArrayList<MenuPage> menuPages;
+        
         conn = DBConnection.getMyConnection();
-        String query = ("select * from menu_pages where page_number= \"" + page + "\"");
-        System.out.println("query is " + query);
+        
+        String query = ("SELECT * FROM menu_pages "
+                + "WHERE page_number = \"" + page + "\"");
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+
+        menuPages = buildMenuPageList(rs);
+
+        stmt.close();
+        
+        return menuPages;
+    }
+
+    /**
+     * Returns an ArrayList of MenuPage objects associated with a given Menu.
+     * 
+     * @param menu_id
+     * @return ArrayList<MenuPage>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static ArrayList<MenuPage> retrieveByMenuID(int menu_id) 
+            throws ClassNotFoundException, SQLException {
+        
+        ArrayList<MenuPage> menuPages;
+        
+        conn = DBConnection.getMyConnection();
+        
+        String query = ("SELECT * FROM menu_pages "
+                + "WHERE menu_id= \"" + menu_id + "\"");
+        
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
 
@@ -52,35 +104,37 @@ public class MenuPageDBAccess {
         return menuPages;
     }
 
-    public static ArrayList<MenuPage> retrieveByMenuID(int menuID) 
+    /**
+     * Returns an ArrayList of MenuPage objects associated with a specified
+     * MenuItem.
+     * 
+     * @param menuItem_ID
+     * @return ArrayList<MenuPage>
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static ArrayList<MenuPage> retrieveByMenuItemID(int menuItem_ID) 
             throws ClassNotFoundException, SQLException {
         
         ArrayList<MenuPage> menuPages;
+        
         conn = DBConnection.getMyConnection();
-        String query = ("select * from menu_pages where menu_id= \"" + menuID + "\"");
-        System.out.println("query is " + query);
+        
+        String query = ("SELECT menu_pages.menu_page_id, "
+                + "menu_pages.menu_id, menu_pages.page_number, "
+                + "menu_pages.image_id, menu_pages.full_height, "
+                + "menu_pages.full_width FROM menu_pages, "
+                + "menu_items WHERE menu_items_id= \"" + menuItem_ID 
+                + "\"" + "AND menu_pages.menu_page_id = "
+                + "menu_items.menu_page_id");
+        
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
 
         menuPages = buildMenuPageList(rs);
 
         stmt.close();
-        return menuPages;
-    }
-
-    public static ArrayList<MenuPage> retrieveByMenuItemID(int menuItemID) 
-            throws ClassNotFoundException, SQLException {
         
-        ArrayList<MenuPage> menuPages;
-        conn = DBConnection.getMyConnection();
-        String query = ("select menu_pages.menu_page_id, menu_pages.menu_id, menu_pages.page_number, menu_pages.image_id, menu_pages.full_height, menu_pages.full_width from menu_pages, menu_items where menu_items_id= \"" + menuItemID + "\"" + "and menu_pages.menu_page_id=menu_items.menu_page_id");
-        System.out.println("query is " + query);
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-
-        menuPages = buildMenuPageList(rs);
-
-        stmt.close();
         return menuPages;
     }
 
@@ -115,6 +169,13 @@ public class MenuPageDBAccess {
         page.setMenuItems( workingItems );
     }
 
+    /**
+     * Build and return a MenuPage object from a SQL query ResultSet.
+     * 
+     * @param rs
+     * @return MenuPage object
+     * @throws SQLException 
+     */
     public static MenuPage buildMenuPage(ResultSet rs) throws SQLException {
         
         int menu_page_id = rs.getInt("menu_page_id");
@@ -131,12 +192,21 @@ public class MenuPageDBAccess {
         return menuPage;
     }
 
+    /**
+     * Build and return an ArrayList of MenuPage objects from a SQL query
+     * ResultSet.
+     * 
+     * @param rs
+     * @return ArrayList<MenuPage>
+     * @throws SQLException 
+     */
     private static ArrayList<MenuPage> buildMenuPageList(ResultSet rs) 
             throws SQLException {
         
         ArrayList<MenuPage> menuPages = new ArrayList<MenuPage>();
 
         while (rs.next()) {
+            
             MenuPage menuPage = buildMenuPage(rs);
             menuPages.add(menuPage);
         }

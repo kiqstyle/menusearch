@@ -1,11 +1,13 @@
 package menusearch.domain;
 
+import menusearch.db.MenuDBAccess;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.sql.*;
 
 /**
  * Tests the Menu class with JUnit.
@@ -18,6 +20,7 @@ public class MenuTest {
 
     @Test
     public void testSetGetName() {
+        
         Menu testMenu = new Menu(12345);
         testMenu.setName("Denny's Menu");
         
@@ -26,6 +29,7 @@ public class MenuTest {
     
     @Test
     public void testSetGetEvent() {
+        
         Menu testMenu = new Menu(67890);
         testMenu.setEvent("Easter Dinner");
         

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package menusearch.domain;
 
 import java.time.LocalDateTime;
@@ -10,10 +5,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
- *
- * @author nicolebkim
+ * MenuItem domain class, based on the nypl_menus database table.
+ * 
+ * @author Nicole Kim
  */
 public class MenuItem {
+    
     private int menu_items_id;
     private float price;
     private float high_price;
@@ -24,26 +21,27 @@ public class MenuItem {
     private Dish dish;
     private ArrayList<MenuPage> menuPages;
 
-public MenuItem() {}
+    public MenuItem() {  }
 
-public MenuItem (int menu_items_id)
-{
-    this.menu_items_id = menu_items_id;
-}
+    public MenuItem (int menu_items_id) {
     
-public MenuItem(int menu_items_id, float price, float high_price, LocalDateTime created_at, LocalDateTime updated_at, float xpos, float ypos, Dish dish, MenuPage menuPage) 
-{
-    this.menu_items_id = menu_items_id;
-    this.price = price;
-    this.high_price = high_price;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
-    this.xpos = xpos;
-    this.ypos = ypos;
-    this.dish = dish;
-    this.menuPages = menuPages;
-   
-}
+       this.menu_items_id = menu_items_id;
+    }
+    
+    public MenuItem(int menu_items_id, float price, float high_price, 
+            LocalDateTime created_at, LocalDateTime updated_at, float xpos, 
+            float ypos, Dish dish, MenuPage menuPage) {
+    
+        this.menu_items_id = menu_items_id;
+        this.price = price;
+        this.high_price = high_price;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.xpos = xpos;
+        this.ypos = ypos;
+        this.dish = dish;
+        this.menuPages = menuPages;   
+    }
 
     public void addMenuPage (MenuPage menuPage) {
         menuPages.add(menuPage);
