@@ -242,7 +242,7 @@ public class JSONProcessor {
        {
            for (int i = 0; i<p.getAllowedDiet().size(); i++)
            {
-               query = query + "&allowedDiety[]=" + p.getAllowedDiet().get(i);
+               query = query + "&allowedDiet[]=" + p.getAllowedDiet().get(i);
            }
        }
        
@@ -266,7 +266,7 @@ public class JSONProcessor {
        {
            for (int i = 0; i < p.getAllowedCourses().size();i++)
            {
-               query = query + "&allwedCourse[]=" + p.getAllowedCourses().get(i);
+               query = query + "&allowedCourse[]=" + p.getAllowedCourses().get(i);
            }
        }
        

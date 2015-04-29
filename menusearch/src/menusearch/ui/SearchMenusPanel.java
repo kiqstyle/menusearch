@@ -5,6 +5,7 @@
  */
 package menusearch.ui;
 
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import menusearch.db.SearchParameters;
@@ -225,34 +226,75 @@ public class SearchMenusPanel extends javax.swing.JPanel {
      */
     public SearchParameters buildSearchParameters()
     {
+        
+       
+        
           SearchParameters param = new SearchParameters();
 
         //brings in SearchParameters class to pass methods to
 
         int[] year = new int [2];
-        String aYear;
+        String aYear = "";
         int yearAsNumber;
         //Variables to pass year
 
         String sponsor, event, venue, occasion, location, currency, dish;
 
-        sponsor = menuSponsorTextField.getText();
-        event = menuEventTextField.getText();
-        venue = menuVenueTextField.getText();
-        location = menuLocationTextField.getText();
-        occasion = menuOccasionTextField.getText();
-        currency = menuCurrencyTextField.getText();
-        dish = menuDishTextField.getText();
-        aYear = menuYearTextField.getText();
-        
-        
         if(menuYearTextField.getText().isEmpty())
         {
             yearAsNumber = 0;
             year[0] = yearAsNumber;
         }
-        else yearAsNumber = Integer.parseInt(aYear);
+        else 
+                { aYear = menuYearTextField.getText();
+               yearAsNumber = Integer.parseInt(aYear);
+                }
 
+        if(menuSponsorTextField.getText().isEmpty())
+        {
+            sponsor = null;
+           
+        }
+        else sponsor = menuSponsorTextField.getText();
+        
+        if (menuEventTextField.getText().isEmpty())
+        {
+           event = null;
+        }
+        else event = menuEventTextField.getText();
+        
+        if (menuVenueTextField.getText().isEmpty())
+        {
+           venue = null;
+        }
+        else venue = menuVenueTextField.getText();
+        
+        if (menuLocationTextField.getText().isEmpty())
+        {
+            location = null;
+        }
+        else location = menuLocationTextField.getText();
+        
+        if (menuOccasionTextField.getText().isEmpty())
+        {
+            occasion = null;
+        }
+        else occasion = menuOccasionTextField.getText();
+        
+        if (menuCurrencyTextField.getText().isEmpty())
+        {
+            currency = null;
+        }
+        else currency = menuCurrencyTextField.getText();
+        
+        if (menuDishTextField.getText().isEmpty())
+        {
+            dish = null;
+        }
+        else dish = menuDishTextField.getText();
+        
+        
+        
         param.setSponsor(sponsor);
         param.setEvent(event);
         param.setVenue(venue);
@@ -267,9 +309,16 @@ public class SearchMenusPanel extends javax.swing.JPanel {
     }
     
     private void menuPanelSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelSearchButtonActionPerformed
+        
+        
         buildSearchParameters();
+        
     }//GEN-LAST:event_menuPanelSearchButtonActionPerformed
-    //Calls public buildSearchParameters method 
+    public void searchBtnAddActionListener(ActionListener al) {
+    menuPanelSearchButton.addActionListener(al);
+  }
+
+//Calls public buildSearchParameters method 
     private void menuPanelExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelExitButtonActionPerformed
         System.exit(0);
     }//GEN-LAST:event_menuPanelExitButtonActionPerformed

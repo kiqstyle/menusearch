@@ -10,6 +10,9 @@ import java.util.*;
 /**
  *
  * @author matthewshields
+ * 
+ * The class represents all the possible parameters for a recipe search using Yummly.
+ * If you are not including a particular parameter in a search --  don't call it's set method!
  */
  public class Parameters{
         private String searchPhrase;
