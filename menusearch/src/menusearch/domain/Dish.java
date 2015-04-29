@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package menusearch.domain;
 
 /**
- *
- * @author ksmit001
+ * Dish domain class, based on the nypl_menus database table.
+ * 
+ * @author Kenny Smith
  */
 public class Dish {
     
@@ -21,24 +17,23 @@ public class Dish {
     private double lowest_price;
     private double highest_price;
     
-    public Dish(int dish_id){
-        this.dish_id=dish_id;
-       
+    public Dish() {   }
+    
+    public Dish(int dish_id) {   this.dish_id = dish_id;    }
+    
+    public Dish(int dish_id, String name, String description, 
+            int menus_appeared, int times_appeared, int first_appeared, 
+            int last_appeared, double lowest_price, double highest_price) {
         
-    }
-    public Dish(int dish_id, String name, String description, int menus_appeared, int times_appeared, int first_appeared, int last_appeared, double lowest_price, double highest_price ){
-        this.dish_id=dish_id;
-        this.name=name;
-        this.description=description;
-        this.menus_appeared=menus_appeared;
-        this.times_appeared=times_appeared;
-        this.first_appeared=first_appeared;
-        this.last_appeared=last_appeared;
-        this.lowest_price=lowest_price;
-        this.highest_price=highest_price;
-                
-      
-        
+        this.dish_id = dish_id;
+        this.name = name;
+        this.description = description;
+        this.menus_appeared = menus_appeared;
+        this.times_appeared = times_appeared;
+        this.first_appeared = first_appeared;
+        this.last_appeared = last_appeared;
+        this.lowest_price = lowest_price;
+        this.highest_price = highest_price;  
     }
 
     public int getDish_id() {
@@ -111,8 +106,5 @@ public class Dish {
 
     public void setHighest_price(double highest_price) {
         this.highest_price = highest_price;
-    }
-    
-    
-    
+    }  
 }

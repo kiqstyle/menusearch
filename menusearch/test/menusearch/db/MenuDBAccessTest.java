@@ -325,7 +325,7 @@ public class MenuDBAccessTest {
         
         int menuPageArraySize = menuPageArrayToTest.size();
         
-        // Menu
+        // Menu 12463 has 2 MenuPages
         assertEquals(2, menuPageArraySize);
     }
     
@@ -338,14 +338,98 @@ public class MenuDBAccessTest {
         
         Menu populatedTestMenu = MenuDBAccess.retrieveFullMenuByID( testMenu );
         
-        // Menu 12463 has 2 MenuPages - second and last entry should be ID 130
+        // Menu 12463 has 2 MenuPages - second/last entry should be ID 130
         MenuPage menuPageForTest = 
                 populatedTestMenu.getMenuPages().get(1);
         
         ArrayList<MenuItem> menuItemArrayToTest = 
                 menuPageForTest.getMenuItems();
         
-        // MenuPage ID 130 has 67 items
-        assertEquals(67, menuItemArrayToTest.size() );
+        // First verify that MenuPage ID is 130 as expected
+        if (menuPageForTest.getMenu_page_id() == 130) {
+        
+            // Then assert the ArrayList has 67 items
+            assertEquals(67, menuItemArrayToTest.size() );
+        
+        } else {
+            
+            fail("MenuPage ID incorrect, did not get to test ArrayList size.");
+        }
+    }
+    
+    @Test
+    public void testRetrieveFullMenuByID_23121_menuPageSize() throws Exception {
+        
+        printTestHeader();
+       
+        Menu testMenu = MenuDBAccess.retrieveByMenuID("23121");
+        
+        Menu populatedTestMenu = MenuDBAccess.retrieveFullMenuByID( testMenu );
+        
+        ArrayList<MenuPage> menuPageArrayToTest = 
+                populatedTestMenu.getMenuPages();
+        
+        int menuPageArraySize = menuPageArrayToTest.size();
+        
+        // Menu 23121 has 2 MenuPages
+        assertEquals(2, menuPageArraySize);
+    }
+    
+    @Test
+    public void testRetrieveFullMenuByID_23121_menuItemSize_1() 
+            throws Exception {
+        
+        printTestHeader();
+        
+        Menu testMenu = MenuDBAccess.retrieveByMenuID( "23121" );
+        
+        Menu populatedTestMenu = MenuDBAccess.retrieveFullMenuByID( testMenu );
+        
+        // First MenuPage of Menu 23121 has ID of 32234, 0 MenuItems
+        MenuPage menuPageForTest = 
+                populatedTestMenu.getMenuPages().get(0);
+        
+        ArrayList<MenuItem> menuItemArrayToTest = 
+                menuPageForTest.getMenuItems();
+        
+        // First verify that MenuPage ID is correct
+        if (menuPageForTest.getMenu_page_id() == 32234) {
+            
+            // Then assert the MenuPage correctly has 0 MenuItems
+            assertEquals(0, menuItemArrayToTest.size() );
+        
+        } else {
+            
+            fail("MenuPage ID incorrect, did not get to test ArrayList size.");
+        }
+    }
+    
+    @Test
+    public void testRetrieveFullMenuByID_23121_menuItemSize_2() 
+            throws Exception {
+        
+        printTestHeader();
+        
+        Menu testMenu = MenuDBAccess.retrieveByMenuID( "23121" );
+        
+        Menu populatedTestMenu = MenuDBAccess.retrieveFullMenuByID( testMenu );
+        
+        // First MenuPage of Menu 23121 has ID of 32235, 81 MenuItems
+        MenuPage menuPageForTest = 
+                populatedTestMenu.getMenuPages().get(1);
+        
+        ArrayList<MenuItem> menuItemArrayToTest = 
+                menuPageForTest.getMenuItems();
+        
+        // First verify that MenuPage ID is correct
+        if (menuPageForTest.getMenu_page_id() == 32235) {
+            
+            // Then assert the MenuPage correctly has 81 MenuItems
+            assertEquals(81, menuItemArrayToTest.size() );
+        
+        } else {
+            
+            fail("MenuPage ID incorrect, did not get to test ArrayList size.");
+        }        
     }
 }
