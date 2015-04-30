@@ -5,6 +5,7 @@
  */
 package menusearch.logic;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import menusearch.db.SearchParameters;
 import menusearch.domain.Menu;
@@ -42,9 +43,11 @@ public class MenuSearcherTest {
 
     /**
      * Test of searchByKeyword method, of class MenuSearcher.
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     @Test
-    public void testSearchByKeyword() {
+    public void testSearchByKeyword() throws ClassNotFoundException, SQLException {
         System.out.println("searchByKeyword");
         int id = 0;
         int[] year = null;

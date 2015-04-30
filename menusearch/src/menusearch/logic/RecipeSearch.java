@@ -5,17 +5,18 @@
  */
 package menusearch.logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import menusearch.domain.Recipe;
-import menusearch.json.*;
 import menusearch.json.JSONProcessor;
 import menusearch.json.RecipeSummaryList;
 import menusearch.json.Parameters;
+import org.json.JSONException;
 
 
 /**
  *
  * @author azulay
+ * @author Nissan Azizov
  */
 public class RecipeSearch {
     public static RecipeSummaryList search(String searchPhrase, String aIngredients,
@@ -27,32 +28,45 @@ public class RecipeSearch {
         ArrayList<RecipeSummaryList> recipeList = null;
         JSONProcessor jsonp = new JSONProcessor();
         Parameters p = new Parameters();
-        String result = null;
+        String result;
         RecipeSummaryList recipe = null;
         
-        p.setSearchPhrase(searchPhrase);
-        p.addAllowedIngredients(aIngredients);
-        p.addExcludedIngredients(eIngredients);
-        p.addAllowedAllergy(aAllergy);
-        p.addAllowedDiet(aDiet);
-        p.addAllowedCourses(aCuisines);
-        p.addExcludedCuisines(eCuisines);
-        p.addAllowedCourses(aCourses);
-        p.addExcludedCourses(eCourses);
-        p.addAllowedHoliday(aHollidays);
-        p.addExcludedHoliday(eHollidays);
-        p.addNutritionAttributes(nutrition, nmin, nmax);
-        p.setFlavorAttributes(flavor, Boolean.TRUE, m);
+        if (!searchPhrase.equals("")) 
+            p.setSearchPhrase(searchPhrase);  
+        if (!aIngredients.equals(""))
+            p.addAllowedIngredients(aIngredients);
+        if (!eIngredients.equals(""))
+            p.addExcludedIngredients(eIngredients);
+        if (!aAllergy.equals(""))
+            p.addAllowedAllergy(aAllergy);
+        if (!aDiet.equals(""))
+            p.addAllowedDiet(aDiet);
+        if (!aCuisines.equals(""))
+            p.addAllowedCourses(aCuisines);
+        if (!eCuisines.equals(""))
+            p.addExcludedCuisines(eCuisines);
+        if (!aCourses.equals(""))
+            p.addAllowedCourses(aCourses);
+        if (!eCourses.equals(""))
+            p.addExcludedCourses(eCourses);
+        if (!aHollidays.equals(""))
+            p.addAllowedHoliday(aHollidays);
+        if (!eHollidays.equals(""))
+            p.addExcludedHoliday(eHollidays);
+        if (!nutrition.equals(""))
+            p.addNutritionAttributes(nutrition, nmin, nmax);
+        if (!flavor.equals(""))
+            p.setFlavorAttributes(flavor, Boolean.TRUE, m);
+        
         try {
-            result = jsonp.buildQuery(p);
+            result = JSONProcessor.buildQuery(p);
             
-            recipe = jsonp.parseRecipes(result);
+            recipe = JSONProcessor.parseRecipes(result);
                    
-        } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
+        } catch (IOException | JSONException e) {
+            System.out.println("Error: " + e.getMessage());
         }
         
         return recipe;
     }
-
 }

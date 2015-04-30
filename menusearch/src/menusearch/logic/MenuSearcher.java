@@ -6,10 +6,6 @@
 package menusearch.logic;
 
 import java.sql.SQLException;
-import static java.awt.SystemColor.menu;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import menusearch.db.SearchParameters;
 import menusearch.domain.Menu;
@@ -18,12 +14,13 @@ import menusearch.db.MenuDBAccess;
 /**
  *
  * @author estevamgarcia
+ * @author Nissan Azizov
  */
 public class MenuSearcher{
     
     public static ArrayList<Menu> searchByKeyword(int id, int[] year, String sponsor, String event, String venue, 
             String place, String occasion, String location, String currency, String Dish, int[] pageCount, 
-            int[] dishCount){
+            int[] dishCount) throws ClassNotFoundException, SQLException{
         
         ArrayList<Menu> menus = new ArrayList();
         SearchParameters p = new SearchParameters();
@@ -50,9 +47,7 @@ public class MenuSearcher{
         
         //menus = searchMenuDB(p);
         
-        return menus;
-        
-        
+        return menus;    
     }
     
     public static Menu searchById(int id){
@@ -68,30 +63,17 @@ public class MenuSearcher{
         }
         
         return menu;
-        
     }
 
-    public static ArrayList<Menu> searchMenuDB(SearchParameters p) {
-        
-        ArrayList<Menu> menuList = new ArrayList();
-        
-        LocalDate menuDate = LocalDate.of(1900, Month.JANUARY, 15);
-        
-        Menu menu = new Menu(12463, "", "HOTEL EASTMAN", "BREAKFAST", "COMMERCIAL", "HOT SPRINGS, AR",
-                "CARD; 4.75X7.5", "EASTER", "", "1900-2822", "" , "", menuDate, "Hotel Eastman", "", "",
-                "", "UNDER REVIEW", 2, 67);
-            
-        menuList.add(menu);
-        
-        return menuList;    
+    public static ArrayList<Menu> searchMenuDB(SearchParameters p) throws ClassNotFoundException, SQLException {
+      
+        ArrayList<Menu> menuList;
+        try {
+            menuList = MenuDBAccess.retrieveByComplexSearch(p);   
+            return menuList;
+        }
+        catch(ClassNotFoundException | SQLException ex) {
+            return null;
+        }
     }
-    
-    /*
-     public static Menu retrieveByID(int menu_id)throws ClassNotFoundException, SQLException{
-         Menu menu;
-        
-        menu = new Menu(MenuDBAccess.retrieveFullMenuByID(menu_id));
-        return menu;
-     }
-   */
 }
