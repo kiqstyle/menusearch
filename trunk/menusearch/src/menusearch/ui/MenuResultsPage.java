@@ -1,16 +1,13 @@
 package menusearch.ui;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import menusearch.domain.Menu;
 import javax.swing.*;
-import menusearch.db.MenuDBAccess;
 import menusearch.db.SearchParameters;
 import menusearch.logic.MenuSearcher;
-import menusearch.ui.SearchMenusPanel;
 
 /**
  *
@@ -30,27 +27,31 @@ public class MenuResultsPage extends JPanel {
     
     /**
      * Use results of the search query to build a JList of Menu items displayed by their Sponsor, Year, number of Dishes and ID.
+     * @return ArrayList of searchResults
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     public ArrayList<Menu> menuListResults() throws ClassNotFoundException, SQLException {
         DefaultListModel model = new DefaultListModel();
         SearchMenusPanel searchMenusPanel = new SearchMenusPanel();
         SearchParameters p = searchMenusPanel.buildSearchParameters(); 
         ArrayList<Menu> searchResults = MenuSearcher.searchMenuDB(p);
-        
+     
+        /*
         // Test Menu Object
         LocalDate menu_date = LocalDate.now();
         Menu m1 = new Menu(12463, "", "HOTEL EASTMAN", "BREAKFAST", "COMMERCIAL", "HOT SPRINGS, AR",
                 "CARD; 4.75X7.5", "EASTER", "", "1900-2822", "" , "", menu_date, "Hotel Eastman", "", "",
                 "", "UNDER REVIEW", 2, 67);
         searchResults.add(m1);
+        */
         
-        if (searchResults.isEmpty()) {
-            model.addElement("No menus returned from that search!");
+        if (searchResults == null || searchResults.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No menus returned from that search!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else {
             for (Menu searchResult : searchResults) {
-                LocalDate menuResultDate = searchResult.getMenu_date();
-                model.addElement(searchResult.getSponsor() + ", Year: " + menuResultDate.getYear() + ", Dishes: " + searchResult.getDish_count() + ", ID: " + searchResult.getMenu_id());
+                model.addElement(searchResult);
             }
         }
     
@@ -67,9 +68,6 @@ public class MenuResultsPage extends JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jPanel2 = new javax.swing.JPanel();
         menusLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         menusList = new javax.swing.JList();
@@ -83,32 +81,6 @@ public class MenuResultsPage extends JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        jInternalFrame1.setVisible(true);
-
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 406, Short.MAX_VALUE)
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
-        );
-
-        jMenuItem1.setText("jMenuItem1");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
         );
 
         menusLabel.setFont(new java.awt.Font("Lucida Grande", 0, 20)); // NOI18N
@@ -148,35 +120,29 @@ public class MenuResultsPage extends JPanel {
                 .addComponent(menusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void menusListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menusListMouseClicked
 
         try {
-            // Gets a string by the menu clicked
-            String selected = menusList.getSelectedValue().toString();
-            // Get the Menu ID from the selected string
-            String menu_id  = selected.substring(selected.length() - 5);
-            // Get the menu associated with the menu_id
-            Menu m = MenuDBAccess.retrieveByMenuID(menu_id);
+            // Gets the Menu object that was clicked
+            Menu selected = (Menu) menusList.getSelectedValue();
             
             ViewMenu view = new ViewMenu();
             // Pass the Menu into the ViewMenu class to display the menu's detailed attributes
-            view.PopulateMenuPanel(m);
+            view.PopulateMenuPanel(selected);
             this.setVisible(false);
             view.setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(MenuResultsPage.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Database error! PLease try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }     
     }//GEN-LAST:event_menusListMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel menusLabel;
     private javax.swing.JList menusList;

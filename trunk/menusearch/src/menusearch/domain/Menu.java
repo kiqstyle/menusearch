@@ -391,4 +391,8 @@ public class Menu {
     public void setMenuPages(ArrayList<MenuPage> menuPages) {
         this.menuPages = menuPages;
     }
+    
+    public String toString() {
+        return sponsor + ", Year: " + menu_date.getYear() + ", Dishes: " + dish_count;
+    }
 }
