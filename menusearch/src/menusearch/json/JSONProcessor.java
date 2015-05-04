@@ -200,11 +200,12 @@ public class JSONProcessor {
              final String URL = "http://api.yummly.com/v1/api/recipes?_app_id=95a21eb2&_app_key=d703fa9e11ee34f104bc271ec3bbcdb9&";
 
        String query = URL;
-       
-       if(p.getSearchPhrase()!=null){//checks to see if a Search phrase exists. it it does, it puts it into the correct format
-           //String phrase = p.getSearchPhrase().replace(" ", "+");
+       //System.err.println("THe first part of the query is: " + query);
+       if(p.getSearchPhrase()!=null /*|| p.getSearchPhrase().equals(" ") == false*/){//checks to see if a Search phrase exists. it it does, it puts it into the correct format
+           String phrase = p.getSearchPhrase().replace(" ", "+");
+           //System.err.println("the Query is " + query);
            //System.out.println("checking to see if the replace works-" + phrase);
-           System.out.println("checking search phrase" + p.getSearchPhrase());
+           //System.out.println("checking search phrase" + p.getSearchPhrase());
            query = query + "q=" + p.getSearchPhrase();
        }
        if(p.getRequirePictures()!= null)
@@ -345,11 +346,10 @@ public class JSONProcessor {
     }
 }
    
- public static RecipeSummaryList parseRecipes(String query) throws IOException, JSONException {
+ public static RecipeSummaryList parseRecipes(String results) throws IOException, JSONException {
 
  RecipeSummaryList recipeSummary = new RecipeSummaryList();
  
- String results = JSONProcessor.searchYummly(query);
  JSONObject newObject = new JSONObject(results);
  JSONObject at = newObject.getJSONObject("attribution");
   
@@ -380,14 +380,13 @@ public class JSONProcessor {
 
  /**
      *
-     * @param query
+     * @param JSON string
      * @return
      * @throws java.io.IOException
      */
-    public static RecipeSummaryList parseRecipeMatches(String query ) throws IOException {
+    public static RecipeSummaryList parseRecipeMatches(String results ) throws IOException {
     CourseList courseList = new CourseList();
      RecipeSummaryList list = new RecipeSummaryList(); 
-     String results = JSONProcessor.searchYummly(query);
      JSONTokener tokenizer = new JSONTokener(results);
      JSONObject resultList  = new JSONObject(tokenizer);
      JSONArray matches = resultList.getJSONArray("matches");
@@ -490,20 +489,4 @@ public class JSONProcessor {
 }
    
 }
-    
-
-     
-
-   
-
- 
-
-
-     
-       
-   
-    
-    
-    
-    
 
