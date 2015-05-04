@@ -31,34 +31,38 @@ public class ViewMenu extends javax.swing.JPanel {
     public ViewMenu() throws ClassNotFoundException, SQLException {
         initComponents();
     }
-    
+    /**
+     * 
+     * @param m
+     * @return a full menu in detail with dishes
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public JPanel PopulateMenuPanel(Menu m) throws ClassNotFoundException, SQLException
     {
         DefaultListModel model = new DefaultListModel();
-        
-        /* sample menu for testing
-        
-        */
-    LocalDate dateTime = LocalDate.now();
+       jLabel9.setText(m.getName());
+       jLabel10.setText(m.getPlace());
+       jLabel11.setText(m.getLocation());
+       String dateTime = (m.getMenu_date().toString());
+       descriptionLabel.setText(m.getPhysical_description());
+       jLabel12.setText(dateTime);
+       jLabel13.setText(m.getLanguage());
+       jLabel14.setText(m.getVenue());
+       jLabel15.setText(m.getNotes());
+   
      
      
         ArrayList<Dish> clickedResults = DishDBAccess.retrieveByMenu(m.getMenu_id());
-        for(Dish dish : clickedResults){
+    for(Dish dish : clickedResults){
             System.out.println(dish.getName());
             model.addElement(dish.getName());
             
         }
-     
+    
         jList1.setModel(model);
        
-        jLabel9.setText(m.getName());
-       jLabel10.setText(m.getPlace());
-       jLabel11.setText(m.getLocation());
-       jLabel12.setText(dateTime.toString());
-       jLabel13.setText(m.getLanguage());
-       jLabel14.setText(m.getVenue());
-       jLabel15.setText(m.getKeywords());
-       jTextArea1.setText(m.getNotes());
+       
        MouseListener mouseListener = new MouseAdapter() {
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
@@ -85,7 +89,7 @@ public class ViewMenu extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         menuTitleLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
-        keywordsLabel = new javax.swing.JLabel();
+        Notes = new javax.swing.JLabel();
         placeLabel = new javax.swing.JLabel();
         locationLabel = new javax.swing.JLabel();
         menuDateLabel = new javax.swing.JLabel();
@@ -102,26 +106,35 @@ public class ViewMenu extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         descriptionLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+
+        menuTitleLabel.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         menuTitleLabel.setText("Menu");
 
+        nameLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         nameLabel.setText("Name");
 
-        keywordsLabel.setText("KeyWords");
+        Notes.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        Notes.setText("Notes");
 
+        placeLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         placeLabel.setText("Place");
 
+        locationLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         locationLabel.setText("Location");
 
+        menuDateLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         menuDateLabel.setText("Menu Date");
 
+        languageLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         languageLabel.setText("Language");
 
+        venueLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         venueLabel.setText("Venue");
 
         jLabel9.setText("jLabel9");
@@ -138,8 +151,10 @@ public class ViewMenu extends javax.swing.JPanel {
 
         jLabel15.setText("jLabel15");
 
+        dishesLabel.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         dishesLabel.setText("Dishes");
 
+        jList1.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -147,9 +162,8 @@ public class ViewMenu extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jList1);
 
+        descriptionLabel.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         descriptionLabel.setText("Description");
-
-        jButton1.setText("Back");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,23 +176,16 @@ public class ViewMenu extends javax.swing.JPanel {
                         .addComponent(nameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                         .addComponent(dishesLabel)
                         .addGap(80, 80, 80))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(keywordsLabel)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(menuTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(126, 126, 126))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel15)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1))))
+                                .addComponent(Notes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel15)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -202,9 +209,13 @@ public class ViewMenu extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel14))
                                     .addComponent(descriptionLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1)))
                         .addGap(27, 27, 27))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(157, 157, 157)
+                .addComponent(menuTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,12 +251,10 @@ public class ViewMenu extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(descriptionLabel))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(keywordsLabel)
-                        .addComponent(jLabel15))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Notes)
+                    .addComponent(jLabel15)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -262,9 +271,9 @@ public class ViewMenu extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Notes;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JLabel dishesLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -277,7 +286,6 @@ public class ViewMenu extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel keywordsLabel;
     private javax.swing.JLabel languageLabel;
     private javax.swing.JLabel locationLabel;
     private javax.swing.JLabel menuDateLabel;

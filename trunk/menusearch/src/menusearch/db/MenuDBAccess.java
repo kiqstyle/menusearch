@@ -18,6 +18,10 @@ import java.util.ArrayList;
  * @author Nicole Kim
  */
 public class MenuDBAccess {
+
+    public static int retrieveFullMenuByID(int menu_id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     static final class FIELDS {
         
@@ -611,6 +615,9 @@ public class MenuDBAccess {
         if( (date != null) && (!date.isEmpty()) ) {
             
             menu_date = LocalDate.parse( date );
+        } else {
+            
+            date = "No date";
         }
         
         String location = rs.getString(FIELDS.location);
@@ -625,6 +632,8 @@ public class MenuDBAccess {
             physical_description, occasion, notes, call_number, keywords,
             language, menu_date, location, location_type, currency,
             currency_symbol, status, page_count, dish_count);
+        
+      
         
         return menu;
     }
