@@ -18,10 +18,6 @@ import java.util.ArrayList;
  * @author Nicole Kim
  */
 public class MenuDBAccess {
-
-    public static int retrieveFullMenuByID(int menu_id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     static final class FIELDS {
         
@@ -69,13 +65,14 @@ public class MenuDBAccess {
         Statement statement = conn.createStatement(
             ResultSet.TYPE_SCROLL_INSENSITIVE, 
             ResultSet.CONCUR_READ_ONLY);
-
+        
+        System.err.println("MenuDBAccess executing query - " + query);
         ResultSet rs = statement.executeQuery(query);
         
         if(!rs.next()) {   menus = null;   /* If no menu is found. */   }
         else {    menus = buildMenuList(rs);    }
         
-        System.out.println("Received ArrayList<Menu>");
+        System.err.println("Received ArrayList<Menu>");
         
         statement.close();
         return menus;
@@ -177,7 +174,7 @@ public class MenuDBAccess {
             
             int thisDishID = rs.getInt("dish_id");
                 
-            System.out.println("Adding dish " + thisDishID + " to list");
+            System.err.println("Adding dish " + thisDishID + " to list");
                 
             dishIDList.add(thisDishID);
         }
@@ -580,6 +577,8 @@ public class MenuDBAccess {
         }
         
         query = queryEnder( query );
+        System.err.println("MenuDBAccess complex query - " + query);
+        
         complexSearchResults.addAll( retrieve(query) );
                 
         if ( complexSearchResults.isEmpty() ) { return null; }
@@ -615,6 +614,7 @@ public class MenuDBAccess {
         if( (date != null) && (!date.isEmpty()) ) {
             
             menu_date = LocalDate.parse( date );
+        
         } else {
             
             date = "No date";
@@ -656,7 +656,7 @@ public class MenuDBAccess {
             
             Menu menu = buildMenu(rs);
             
-            System.out.println("Added menu " + menu.getMenu_id() + " to list");
+            System.err.println("Added menu " + menu.getMenu_id() + " to list");
             
             menus.add(menu);
         }
@@ -702,7 +702,7 @@ public class MenuDBAccess {
      * @throws SQLException 
      */
     public static Menu retrieveFullMenuByID(Menu menu) throws 
-            ClassNotFoundException,SQLException {
+            ClassNotFoundException, SQLException {
         
         // It's possible a "shell" Menu object gets passed in with only
         // an ID. So first we need to make sure we have all the Menu info.
@@ -715,6 +715,27 @@ public class MenuDBAccess {
         populateMenuPages( workingMenu );
         
         return workingMenu; // Updated version of the passed Menu, populated
+    }
+    
+    /**
+     * Taking just a Menu ID, returns a complete Menu object with MenuPages, 
+     * MenuItems and Dishes.
+     * 
+     * @param menu_id
+     * @return 
+     */
+    public static Menu retrieveFullMenuByID(int menu_id_int) throws
+            ClassNotFoundException, SQLException {
+        
+        String menu_id_string = Integer.toString( menu_id_int );
+        Menu workingMenu = MenuDBAccess.retrieveByMenuID( menu_id_string );
+        
+        // Call the populateMenuPages method
+        // This sets off a chain reaction - populating this Menu's needed
+        // MenuPages, those MenuPages' needed MenuItems, and linking Dishes.
+        populateMenuPages( workingMenu );
+        
+        return workingMenu; // Full version of the identified Menu, populated
     }
 
     /**
@@ -735,6 +756,8 @@ public class MenuDBAccess {
         
         String query = ("SELECT * FROM menu_pages WHERE menu_id = \""
                 + menu_id + "\"");
+        
+        System.err.println("MenuDBAccess retrievePagesByID query is " + query);
         
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
@@ -776,11 +799,11 @@ public class MenuDBAccess {
      * @param query
      * @return Safe query to add to
      */
-    private static String queryOpener(String query) {
+    public static String queryOpener(String query) {
         
         int x = query.length();
         
-        if (query.substring(x - 2, x - 1).contains(";"))
+        if (query.substring(x - 2, x).contains(";"))
             {   query = query.substring(0, query.length() - 1);     }
     
         return query;
@@ -793,18 +816,18 @@ public class MenuDBAccess {
      * @param query
      * @return Safe query to run
      */
-    private static String queryEnder(String query) {
+    public static String queryEnder(String query) {
         
         int x = query.length();
         
         if ( query.substring( x - 5, x - 1 ).contains("OR") ) {
             
-            query = query.substring( x - 4, x - 1 );
+            query = query.substring( 0, x - 4 );
             query += ";" ;
         
         } else if ( query.substring( x - 7, x - 1 ).contains("AND") ) {
             
-            query = query.substring( x - 5, x - 1 );
+            query = query.substring( 0, x - 5 );
             query += ";" ;
         }
         
