@@ -17,7 +17,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ *This is a test for the method of parseRecipeMatches in JSONProcessor. 
  * @author kennethngai
  */
 public class recipeSummaryTest {

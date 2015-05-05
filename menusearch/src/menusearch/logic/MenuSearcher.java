@@ -41,8 +41,9 @@ public class MenuSearcher{
         
         try{
             menus = MenuDBAccess.retrieveByComplexSearch(p);
+
         }catch(ClassNotFoundException | SQLException e){
-            System.out.println("Exception");
+            System.err.println("Exception");
         }
         
         //menus = searchMenuDB(p);
@@ -66,14 +67,16 @@ public class MenuSearcher{
     }
 
     public static ArrayList<Menu> searchMenuDB(SearchParameters p) throws ClassNotFoundException, SQLException {
-      
-        ArrayList<Menu> menuList;
-        try {
-            menuList = MenuDBAccess.retrieveByComplexSearch(p);   
+ 
+        ArrayList<Menu> menuList = new ArrayList();
+        //try {
+            menuList = MenuDBAccess.retrieveByComplexSearch(p);  
             return menuList;
-        }
-        catch(ClassNotFoundException | SQLException ex) {
-            return null;
-        }
+        //}
+        //catch(ClassNotFoundException | SQLException ex) {
+                  //      System.out.println("Skipped the try block");
+
+           // return null;
+        //}
     }
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import menusearch.db.SearchParameters;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
@@ -85,7 +86,9 @@ public class MenuGraph extends JPanel {
 
         try {
             MenuResultsPage mp = new MenuResultsPage();
-            ArrayList<Menu> search = mp.menuListResults();
+            SearchMenusPanel x = new SearchMenusPanel();
+            SearchParameters p = x.buildSearchParameters();
+            ArrayList<Menu> search = mp.menuListResults(p);
             ArrayList<LocalDate> menu_date = null;
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (int i = 0; i < search.size(); i++) {

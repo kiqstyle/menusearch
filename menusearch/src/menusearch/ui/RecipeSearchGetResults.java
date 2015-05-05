@@ -46,294 +46,62 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jPanel1 = new javax.swing.JPanel();
-        Ingredients = new javax.swing.JLabel();
-        Allergies = new javax.swing.JLabel();
-        Diets = new javax.swing.JLabel();
-        Cuisines = new javax.swing.JLabel();
-        Holidays = new javax.swing.JLabel();
-        Nutritions = new javax.swing.JLabel();
-        Flavors = new javax.swing.JLabel();
-        ExcludeIngredients = new javax.swing.JLabel();
-        ExcludeCuisines = new javax.swing.JLabel();
-        ExcludeCourses = new javax.swing.JLabel();
-        ExcludeHolidays = new javax.swing.JLabel();
-        Ingredient = new javax.swing.JTextField();
-        Allergy = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        Cuisine = new javax.swing.JTextField();
-        Holiday = new javax.swing.JTextField();
-        Nutrition = new javax.swing.JTextField();
-        Flavor = new javax.swing.JTextField();
-        ExcludeIngredient = new javax.swing.JTextField();
-        ExcludeCuisine = new javax.swing.JTextField();
-        Courses = new javax.swing.JLabel();
-        Course = new javax.swing.JTextField();
-        ExcludeCourse = new javax.swing.JTextField();
-        ExcludeHoliday = new javax.swing.JTextField();
-        Clear = new javax.swing.JButton();
-        Search = new javax.swing.JButton();
-        Exit = new javax.swing.JButton();
-        DisplayResult = buildResultPanel();
-        Diet = new javax.swing.JTextField();
 
-        Ingredients.setText("Ingredient(s):");
+        jScrollPane1 = new javax.swing.JScrollPane();
+        recipePanel = new javax.swing.JPanel();
+        detailPanel = new javax.swing.JTextField();
 
-        Allergies.setText("Allergies:");
+        javax.swing.GroupLayout recipePanelLayout = new javax.swing.GroupLayout(recipePanel);
+        recipePanel.setLayout(recipePanelLayout);
+        recipePanelLayout.setHorizontalGroup(
+            recipePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 183, Short.MAX_VALUE)
+        );
+        recipePanelLayout.setVerticalGroup(
+            recipePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 383, Short.MAX_VALUE)
+        );
 
-        Diets.setText("Diet:");
+        jScrollPane1.setViewportView(recipePanel);
 
-        Cuisines.setText("Cuisines:");
-
-        Holidays.setText("Holidays:");
-
-        Nutritions.setText("Nutrition:");
-
-        Flavors.setText("Flavor:");
-
-        ExcludeIngredients.setText("Exclude Ingredients:");
-
-        ExcludeCuisines.setText("Exclude Cuisines:");
-
-        ExcludeCourses.setText("Exclude Courses:");
-
-        ExcludeHolidays.setText("Exclude Holidays:");
-
-        Holiday.addActionListener(new java.awt.event.ActionListener() {
+        detailPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HolidayActionPerformed(evt);
+                detailPanelActionPerformed(evt);
             }
         });
 
-        Nutrition.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NutritionActionPerformed(evt);
-            }
-        });
-
-        Courses.setText("Courses:");
-
-        Clear.setText("Clear");
-        Clear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClearActionPerformed(evt);
-            }
-        });
-
-        Search.setText("Search");
-        Search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchActionPerformed(evt);
-            }
-        });
-
-        Exit.setText("Exit");
-        Exit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExitActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Ingredients, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Allergies)
-                            .addComponent(Diets)
-                            .addComponent(Cuisines)
-                            .addComponent(Holidays)
-                            .addComponent(Nutritions)
-                            .addComponent(Flavors)
-                            .addComponent(Courses))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Ingredient)
-                            .addComponent(Allergy)
-                            .addComponent(jTextField3)
-                            .addComponent(Cuisine)
-                            .addComponent(Holiday)
-                            .addComponent(Nutrition)
-                            .addComponent(Flavor)
-                            .addComponent(Course)
-                            .addComponent(Diet, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ExcludeIngredients)
-                            .addComponent(ExcludeCuisines)
-                            .addComponent(ExcludeCourses)
-                            .addComponent(ExcludeHolidays)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(Clear)
-                        .addGap(36, 36, 36)
-                        .addComponent(Search)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
-                        .addComponent(Exit)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ExcludeIngredient)
-                    .addComponent(ExcludeCuisine)
-                    .addComponent(ExcludeCourse)
-                    .addComponent(ExcludeHoliday, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DisplayResult, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(Ingredients, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ExcludeIngredients)
-                            .addComponent(ExcludeIngredient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(Ingredient, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Diet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(ExcludeCuisines)
-                                            .addComponent(ExcludeCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ExcludeCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Cuisines)
-                                            .addComponent(Cuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(ExcludeCourses)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(Courses)
-                                                .addComponent(Course, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addGap(6, 6, 6))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Allergies)
-                                    .addComponent(Allergy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Diets)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Holidays)
-                                    .addComponent(Holiday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Nutritions)
-                                    .addComponent(Nutrition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Flavors)
-                                    .addComponent(Flavor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ExcludeHolidays)
-                                    .addComponent(ExcludeHoliday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(59, 59, 59)))
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Clear)
-                            .addComponent(Search)
-                            .addComponent(Exit))
-                        .addGap(93, 93, 93))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(DisplayResult, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(detailPanel))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
-
-       this.add(jPanel1);
-
-//        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-//        this.setLayout(layout);
-//        layout.setHorizontalGroup(
-//                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                        .addGroup(layout.createSequentialGroup()
-//                                .addComponent(GetRecipeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                                .addGap(0, 38, Short.MAX_VALUE))
-//        );
-//        layout.setVerticalGroup(
-//                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                        .addComponent(GetRecipeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
-//        );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NutritionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NutritionActionPerformed
+    private void detailPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailPanelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NutritionActionPerformed
+    }//GEN-LAST:event_detailPanelActionPerformed
 
-    private void HolidayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HolidayActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_HolidayActionPerformed
-
-    private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
-        Ingredient.setText("");
-        Allergy.setText("");
-        Diets.setText("");
-        Cuisine.setText("");
-        Course.setText("");
-        Holiday.setText("");
-        Nutritions.setText("");
-        Flavors.setText("");
-        ExcludeIngredient.setText("");
-        ExcludeCuisines.setText("");
-        ExcludeCourse.setText("");
-        ExcludeHoliday.setText("");
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ClearActionPerformed
-
-    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
-        System.exit(0);       
-    }//GEN-LAST:event_ExitActionPerformed
-
-    private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
-         String Ingredients, ExcludeIngredients, Allergies, Diet, Cuisines, ExcludeCuisines, Courses, ExcludeCourses, Holidays, ExcludeHolidays, Nutrition, Flavor,
-          result;
-        Ingredients = Ingredient.getText();
-        Allergies = Allergy.getText();
-        Diet = Diets.getText();
-        Cuisines = Cuisine.getText();
-        Courses = Course.getText();
-        Holidays = Holiday.getText();
-        Nutrition = Nutritions.getText();
-        Flavor = Flavors.getText();
-        ExcludeIngredients = ExcludeIngredient.getText();
-        ExcludeCuisines = ExcludeCuisine.getText();
-        ExcludeCourses = ExcludeCourse.getText();
-        ExcludeHolidays = ExcludeHoliday.getText();
-        
-         /*Code here to get search results and place in Results Field */
-        RecipeSummaryList recipeSummaries;
-
-        String all = "";
-        recipeSummaries = RecipeSearch.search(all, Ingredients, ExcludeIngredients, 
-         Allergies, Diet, Cuisines, ExcludeCuisines, Courses, ExcludeCourses,
-         Holidays, ExcludeHolidays, Nutrition, 0, 0, Flavor, 100);
-        
- 
+    public void showResult(RecipeSummaryList recipeSummaries){ 
         if (recipeSummaries != null) {
             ArrayList<RecipeSummary> recipes = recipeSummaries.getMatches();
             for (final RecipeSummary recipeSummary : recipes) {
             
-                JButton b = new JButton(recipeSummary.getId() + ": " + recipeSummary.getRecipeName());
+                JButton b = new JButton(recipeSummary.getId() + " " + recipeSummary.getRecipeName());
                 b.setBorderPainted(false);
                 b.setForeground(Color.BLUE);
                 b.setCursor(Cursor.getPredefinedCursor(12));
@@ -356,83 +124,11 @@ public class RecipeSearchGetResults extends javax.swing.JPanel {
             }
             recipePanel.revalidate();
         }
-
-
-    }//GEN-LAST:event_SearchActionPerformed
-
-    private JPanel buildResultPanel() {
-
-        recipePanel = new JPanel();
-
-        detailPanel = new JTextArea();
-
-        recipePanel.setLayout(new BoxLayout(recipePanel, BoxLayout.PAGE_AXIS));
-
-        detailPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        JPanel result = new JPanel();
-
-        GroupLayout layout = new GroupLayout(result);
-
-        result.setLayout(layout);
-
-        detailPanel.setBackground(Color.WHITE);
-
-        layout.setHorizontalGroup(
-
-                layout.createSequentialGroup()
-                        .addGap(10)
-                        .addComponent(recipePanel, 100, 200, 400)
-                        .addGap(10)
-                        .addComponent(detailPanel, 150, 250, 400)
-                        .addGap(10)
-
-        );
-
-        layout.setVerticalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(recipePanel)
-                                        .addComponent(detailPanel)
-                        )
-
-        );
-
-        return result;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Allergies;
-    private javax.swing.JTextField Allergy;
-    private javax.swing.JButton Clear;
-    private javax.swing.JTextField Course;
-    private javax.swing.JLabel Courses;
-    private javax.swing.JTextField Cuisine;
-    private javax.swing.JLabel Cuisines;
-    private javax.swing.JTextField Diet;
-    private javax.swing.JLabel Diets;
-    private javax.swing.JPanel DisplayResult;
-    private javax.swing.JTextField ExcludeCourse;
-    private javax.swing.JLabel ExcludeCourses;
-    private javax.swing.JTextField ExcludeCuisine;
-    private javax.swing.JLabel ExcludeCuisines;
-    private javax.swing.JTextField ExcludeHoliday;
-    private javax.swing.JLabel ExcludeHolidays;
-    private javax.swing.JTextField ExcludeIngredient;
-    private javax.swing.JLabel ExcludeIngredients;
-    private javax.swing.JButton Exit;
-    private javax.swing.JTextField Flavor;
-    private javax.swing.JLabel Flavors;
-    private javax.swing.JTextField Holiday;
-    private javax.swing.JLabel Holidays;
-    private javax.swing.JTextField Ingredient;
-    private javax.swing.JLabel Ingredients;
-    private javax.swing.JTextField Nutrition;
-    private javax.swing.JLabel Nutritions;
-    private javax.swing.JButton Search;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField detailPanel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel recipePanel;
-    private javax.swing.JTextArea detailPanel;
     // End of variables declaration//GEN-END:variables
 }

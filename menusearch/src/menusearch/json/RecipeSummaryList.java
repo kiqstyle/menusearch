@@ -12,7 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.*;
 
-
+/**
+ * This is the domain class for RecipeSummaryList where it holds info on the search the user has made
+ * and contains an arraylist of the recipes that match the search the user has made. 
+ * 
+ * @author kennethngai
+ */
 
 public class RecipeSummaryList {
 

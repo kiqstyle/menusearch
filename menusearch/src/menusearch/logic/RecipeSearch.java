@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import menusearch.json.JSONProcessor;
 import menusearch.json.RecipeSummaryList;
 import menusearch.json.Parameters;
+import menusearch.json.RecipeSummary;
 import org.json.JSONException;
 
 
@@ -24,13 +25,14 @@ public class RecipeSearch {
             String eCuisines, String aCourses, String eCourses, String aHollidays,
             String eHollidays, String nutrition, int nmax, int nmin, String flavor,
             int m) {
-        
+        System.err.println("The search phrase really is: " + searchPhrase);
+        System.err.println("The ingredients were " + aIngredients + " " + eIngredients + " " +aAllergy + " " +aDiet + " " + aCuisines + " " + eCuisines + " " + aHollidays);
         ArrayList<RecipeSummaryList> recipeList = null;
         JSONProcessor jsonp = new JSONProcessor();
         Parameters p = new Parameters();
         String result;
         RecipeSummaryList recipe = null;
-        
+        System.err.println("We're in the RecipeSearch class");
         if (!searchPhrase.equals("")) 
             p.setSearchPhrase(searchPhrase);  
         if (!aIngredients.equals(""))
@@ -59,12 +61,21 @@ public class RecipeSearch {
             p.setFlavorAttributes(flavor, Boolean.TRUE, m);
         
         try {
+            System.err.println("The search phrase was: "+p.getSearchPhrase());
+            System.err.println();
             result = JSONProcessor.buildQuery(p);
+            System.err.println("-----------------------------------------------------------------");
+            System.err.println(result);
             
-            recipe = JSONProcessor.parseRecipes(result);
+            recipe = JSONProcessor.parseRecipeMatches(result);
+            System.err.println("-----Your search reulsts are! ----------");
+            for (RecipeSummary x : recipe.getMatches())
+            {
+                System.err.println(x.getId() + ", " + x.getRecipeName());
+            }
                    
         } catch (IOException | JSONException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
         
         return recipe;

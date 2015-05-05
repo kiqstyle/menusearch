@@ -6,6 +6,7 @@
 package menusearch.ui;
 
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import menusearch.db.SearchParameters;
@@ -248,6 +249,13 @@ public class SearchMenusPanel extends javax.swing.JPanel {
         else 
                 { aYear = menuYearTextField.getText();
                yearAsNumber = Integer.parseInt(aYear);
+               year[0] = yearAsNumber;
+               year[1] = yearAsNumber;
+               
+               for (int i : year)
+               {
+                   System.out.println("The year is " + i);
+               }
                 }
 
         if(menuSponsorTextField.getText().isEmpty())
@@ -310,8 +318,19 @@ public class SearchMenusPanel extends javax.swing.JPanel {
     
     private void menuPanelSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPanelSearchButtonActionPerformed
         
+        /*
+        try {
+            SearchParameters p = buildSearchParameters();
+            MenuResultsPage x = new MenuResultsPage();
+            x.menuListResults(p);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SearchMenusPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchMenusPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      */
         
-        buildSearchParameters();
+        
         
     }//GEN-LAST:event_menuPanelSearchButtonActionPerformed
     public void searchBtnAddActionListener(ActionListener al) {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.json.*;
 
 /**
- *
+ * This is the an RecipeSummary object that contains a recipe information. 
  * @author kennethngai
  */
 public class RecipeSummary {
