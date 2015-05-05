@@ -464,12 +464,14 @@ public class MenuDBAccess {
                 ArrayList<Integer> dishIDResults = 
                         getDishIDsByName( paramSet.getGeneralQuery() );
                 
-                for (int dishID : dishIDResults) {   
+                if(dishIDResults != null) {
+                    for (int dishID : dishIDResults) {   
                     
-                    Dish thisDish = new Dish(dishID);
-                    complexSearchResults.addAll( searchByDish(thisDish) );
+                        Dish thisDish = new Dish(dishID);
+                        complexSearchResults.addAll( searchByDish(thisDish) );
                 
-                }   
+                    }   
+                }
             }
                              
             // This seems to be how the NYPL Menus site works now - take
@@ -492,9 +494,12 @@ public class MenuDBAccess {
                         
                     }
                     
-                    if ( complexSearchResults.isEmpty() ) { return null; }
-                    else { return complexSearchResults; }
-                
+                    if ( complexSearchResults.isEmpty() ) { 
+                        
+                        return null; 
+                    }
+                    
+                    else { return complexSearchResults; }  
             }
             
             // Possibly the user made a general query AND one more specific.
@@ -579,7 +584,10 @@ public class MenuDBAccess {
         query = queryEnder( query );
         System.err.println("MenuDBAccess complex query - " + query);
         
-        complexSearchResults.addAll( retrieve(query) );
+        if ( retrieve(query) != null ) {
+            
+            complexSearchResults.addAll( retrieve(query) );
+        }
                 
         if ( complexSearchResults.isEmpty() ) { return null; }
         else { return complexSearchResults; }
@@ -823,14 +831,55 @@ public class MenuDBAccess {
         if ( query.substring( x - 5, x - 1 ).contains("OR") ) {
             
             query = query.substring( 0, x - 4 );
+            
+            if ( unclosedParenthesesDetect( query ) ) {
+                
+                query += ")" ;
+            
+            }
+            
             query += ";" ;
         
         } else if ( query.substring( x - 7, x - 1 ).contains("AND") ) {
             
             query = query.substring( 0, x - 5 );
+            
+            if ( unclosedParenthesesDetect( query ) ) {
+                
+                query += ")" ;
+            
+            }
+            
             query += ";" ;
         }
         
+        query.replaceAll("WHERE AND", "WHERE"); // Seems to be a recurring issue
+        
         return query;
+    }
+    
+    /**
+     * Tests a string for mismatched parentheses, helpful in ensuring properly
+     * formatted SQL queries
+     * 
+     * @param string String to test
+     * @return true/false there are mismatched parentheses
+     */
+    public static boolean unclosedParenthesesDetect(String s) {
+        
+        int openParenthesesCount = 0, closeParenthesesCount = 0;
+        
+        for( int i = 0; i < s.length(); i++ ) {
+            if( s.charAt(i) == '(' ) {  openParenthesesCount++;  } 
+        }
+        
+        for( int j = 0; j < s.length(); j++ ) {
+            if( s.charAt(j) == ')' ) {  closeParenthesesCount++;  } 
+        }
+    
+        // Return true if there are unclosed parentheses detected
+        if ( openParenthesesCount != closeParenthesesCount ) { return true; }
+        
+        return false;
     }
 }

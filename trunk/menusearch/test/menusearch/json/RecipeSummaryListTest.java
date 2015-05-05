@@ -14,7 +14,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * This is a test of the parseRecipe method in JSONProcssor.
  * @author kennethngai
  */
 public class RecipeSummaryListTest {
@@ -22,12 +22,9 @@ public class RecipeSummaryListTest {
     public RecipeSummaryListTest() {
     
     
-    
     }
     
-    
-    
-       
+   
     @Before
     public void setUp() throws IOException {
    

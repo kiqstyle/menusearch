@@ -1,11 +1,15 @@
 package menusearch.ui;
 
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import menusearch.domain.Menu;
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import menusearch.db.SearchParameters;
 import menusearch.logic.MenuSearcher;
 
@@ -15,6 +19,7 @@ import menusearch.logic.MenuSearcher;
  */
 public class MenuResultsPage extends JPanel {
 
+    
     /**
      * Creates new form MenuResultsPage
      * @throws java.lang.ClassNotFoundException
@@ -22,8 +27,10 @@ public class MenuResultsPage extends JPanel {
      */
     public MenuResultsPage() throws ClassNotFoundException, SQLException {
         initComponents();
-        menuListResults();
+    
     }
+    
+   
     
     /**
      * Use results of the search query to build a JList of Menu items displayed by their Sponsor, Year, number of Dishes and ID.
@@ -31,12 +38,12 @@ public class MenuResultsPage extends JPanel {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    public ArrayList<Menu> menuListResults() throws ClassNotFoundException, SQLException {
+    public ArrayList<Menu> menuListResults(SearchParameters p) throws ClassNotFoundException, SQLException {
         DefaultListModel model = new DefaultListModel();
         SearchMenusPanel searchMenusPanel = new SearchMenusPanel();
-        SearchParameters p = searchMenusPanel.buildSearchParameters(); 
-        ArrayList<Menu> searchResults = MenuSearcher.searchMenuDB(p);
-     
+        ArrayList<Menu> searchResults = new ArrayList();
+          searchResults =  MenuSearcher.searchMenuDB(p);
+
         /*
         // Test Menu Object
         LocalDate menu_date = LocalDate.now();
@@ -44,8 +51,9 @@ public class MenuResultsPage extends JPanel {
                 "CARD; 4.75X7.5", "EASTER", "", "1900-2822", "" , "", menu_date, "Hotel Eastman", "", "",
                 "", "UNDER REVIEW", 2, 67);
         searchResults.add(m1);
+        searchResults.add(m1);
         */
-        
+
         if (searchResults == null || searchResults.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No menus returned from that search!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -54,9 +62,9 @@ public class MenuResultsPage extends JPanel {
                 model.addElement(searchResult);
             }
         }
-    
+
         menusList.setModel(model);
-        
+
         return searchResults;
     }
     
@@ -124,21 +132,25 @@ public class MenuResultsPage extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void menuListAddListSelectionListener(ListSelectionListener sl) {
+    
+    menusList.addListSelectionListener(sl);
+    
+    }
+    
+    public void menuListMouseclickedListener(MouseListener evt)
+    {
+        menusList.addMouseListener(evt);
+    }
+    public Menu getSelection()
+    {
+        Menu selected = (Menu) menusList.getSelectedValue();
+        
+        return selected;
+    }
+    
     private void menusListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menusListMouseClicked
 
-        try {
-            // Gets the Menu object that was clicked
-            Menu selected = (Menu) menusList.getSelectedValue();
-            
-            ViewMenu view = new ViewMenu();
-            // Pass the Menu into the ViewMenu class to display the menu's detailed attributes
-            view.PopulateMenuPanel(selected);
-            this.setVisible(false);
-            view.setVisible(true);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(MenuResultsPage.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Database error! PLease try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }     
     }//GEN-LAST:event_menusListMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

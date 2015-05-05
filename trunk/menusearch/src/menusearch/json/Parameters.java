@@ -15,6 +15,8 @@ import java.util.*;
  * If you are not including a particular parameter in a search --  don't call it's set method!
  */
  public class Parameters{
+     
+       
         private String searchPhrase;
         private Boolean requiresPictures;
         private ArrayList<String> allowedIngredients = new ArrayList();
@@ -57,6 +59,7 @@ import java.util.*;
       /**
        * 
        * @param t is true if you would like to require pictures or false if you don't
+       * If true the search results will only contain recipes that have pitures
        */
       public void requirePictures(Boolean t)
       {
@@ -78,6 +81,7 @@ import java.util.*;
        */
       public void addAllowedIngredients(String i)
       {
+          i = i.replace(" ", "%20");
           allowedIngredients.add(i);
       }
       
@@ -116,7 +120,17 @@ import java.util.*;
       /**
        * 
        * @param a is an allergy that the recipe must be safe for.
-       * Sting a must be in the format 396^Dairy-Free, 393^Gluten-Free, etc.
+       * the parameter must be one of the following values:
+       * "396^Dairy-Free"
+       * "397^Egg-Free"
+       * "393^Gluten-Free"
+       * "394^Peanut-Free"
+       * "398^Seafood-Free"
+       * "399^Sesame-Free"
+       * "400^Soy-Free"
+       * "401^Sulfite-Free"
+       * "395^Tree Nut-Free"
+       * "392^Wheat-Free
        */
       public void addAllowedAllergy(String a)
       {
@@ -135,7 +149,12 @@ import java.util.*;
       /**
        * 
        * @param d is a specific diet that must be accounted for in the search
-       * String d must be in the format 390^Pescetarian, 388^Lacto vegetarian, etc.
+       * String d must be one of the following values:
+       * "388^Lacto vegetarian"
+       * "389^Ovo vegetarian"
+       * "390^Pescetarian"
+       * "386^Vegan""387^Lacto-ovo vegetarian"
+       * "403^Paleo"
        */
       public void addAllowedDiet(String d)
       {
@@ -154,6 +173,32 @@ import java.util.*;
       /**
        * 
        * @param c a type of cuisine to filter the results
+       * Only the foloowing cuisines are supported:
+       * American
+       * Italian
+       * Asian
+       * Mexican
+       * Southern & Soul Food
+       * French
+       * Southwestern
+       * Barbecue
+       * Indian
+       * Chinese
+       * Cajun & Creole
+       * English
+       * Mediterranean
+       * Greek
+       * Spanish
+       * German
+       * Thai
+       * Moroccan
+       * Irish
+       * Japanese
+       * Cuban
+       * Hawaiin
+       * Swedish
+       * Hungarian
+       * Portugese
        */
       public void addAllowedCuisines(String c)
       {
@@ -172,6 +217,7 @@ import java.util.*;
       /**
        * 
        * @param c String containing cuisine to be excluded from search results
+       * The only cuisines supported are: American, Italian, Asian, Mexican, Southern & Soul Food, French, Southwestern, Barbecue, Indian, Chinese, Cajun & Creole, English, Mediterranean, Greek, Spanish, German, Thai, Moroccan, Irish, Japanese, Cuban, Hawaiin, Swedish, Hungarian, Portugese
        */
       public void addExcludedCuisines(String c)
       {
@@ -190,6 +236,19 @@ import java.util.*;
       /**
        * 
        * @param c String containing a course to be used in filtering search results
+       * The supported courses are:
+       * Main Dishes
+       * Desserts
+       * Side Dishes
+       * Lunch and Snacks
+       * Appetizers
+       * Salads
+       * Breads
+       * Breakfast and Brunch
+       * Soups
+       * Beverages
+       * Condiments and Sauces
+       * Cocktails
        */
       public void addAllowedCourses(String c)
       {
@@ -224,8 +283,16 @@ import java.util.*;
       }
       
       /**
-       * 
        * @param h String containing holiday to be included in search results
+       * The supported Holidays are:
+       * Christmas
+       * Summer
+       * Thanksgiving
+       * New Year
+       * Super Bowl / Game Day
+       * Halloween
+       * Hanukkah
+       * 4th of July
        */
       
       public void addAllowedHoliday(String h)
@@ -262,7 +329,7 @@ import java.util.*;
       
       /**
        * 
-       * @param m String contains the max amount of prep time desired in Seconds
+       * @param m String contains the max amount of prep time allowed in Seconds
        */
       public void setMaxTotalTimeInSeconds(String m)
       {
@@ -271,7 +338,7 @@ import java.util.*;
       
       /**
        * 
-       * @return String maxTotalTimeInSeconds
+       * @return String maxTotalTimeInSeconds returns the max amount of prep time in seconds
        */
       public String getMaxTotalTimeInSeconds()
       {
@@ -309,7 +376,7 @@ import java.util.*;
       
       /**
        * 
-       * @param r is max number of results you would like to receive
+       * @param r is max number of recipes you would like your search to return
        */
       public void setMaxResult(String r)
       {
@@ -318,7 +385,7 @@ import java.util.*;
       
       /**
        * 
-       * @return maxResult
+       * @return maxResult is the maximum number of recipes you would like returned by your search
        */
       public String getMaxResult()
       {

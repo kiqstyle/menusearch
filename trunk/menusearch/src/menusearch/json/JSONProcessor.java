@@ -21,9 +21,12 @@ import menusearch.domain.*;
 
 
 /**
- *
- 
+ * @author MatthewShields
+ * @author KennethNgai
+ * 
+ * This class handles all interaction with both Yummly API's as well as all JSON parsing.
  */
+
 public class JSONProcessor {
     
 
@@ -34,6 +37,9 @@ public class JSONProcessor {
      * @param json formated JSON string containing all the information for one recipe
      * @return Recipe object
      * @throws IOException 
+     * 
+     * This method takes a formated json string containing one recipe, parses it, and saves it into a recipe object which is then returned. 
+     * **You must call the getRecipeAPI() method prior to calling this method.
      */
     public static Recipe parseRecipe(String json) throws IOException, JSONException
     {
@@ -168,6 +174,10 @@ public class JSONProcessor {
      * @param searchID is the ID of the recipe you would like to search for 
      * @return a string containing one recipe in JSON format.
      * @throws IOException 
+     * 
+     * This method creates a formated URL that then connects to Yummly and returns a JSON string for the recipeID provided.
+     * 
+     * RecipeID can be obtained only by doing a general search through yummly.
      */
    public static String getRecipeAPI(String searchID) throws IOException
    {
@@ -345,6 +355,13 @@ public class JSONProcessor {
             reader.close();
     }
 }
+   /**
+    * 
+    * @param results: requires the JSON string of the parameters the user enter for the search
+    * @return a RecipeSummaryList where it contains information about the recipes that matches the search the user made
+    * @throws IOException
+    * @throws JSONException 
+    */
    
  public static RecipeSummaryList parseRecipes(String results) throws IOException, JSONException {
 
@@ -380,8 +397,8 @@ public class JSONProcessor {
 
  /**
      *
-     * @param JSON string
-     * @return
+     * @param JSON string: requires the JSON string of the parameters the user enter for the search
+     * @return RecipeSummaryList: a RecipeSummaryList where it contains information about the recipes that matches the search the user made
      * @throws java.io.IOException
      */
     public static RecipeSummaryList parseRecipeMatches(String results ) throws IOException {

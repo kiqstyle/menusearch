@@ -8,6 +8,15 @@ package menusearch.ui;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import menusearch.db.SearchParameters;
+import menusearch.domain.Menu;
 
 /**
  *
@@ -16,12 +25,7 @@ import java.awt.event.ActionListener;
 public class MenuSearchjFrame1 extends javax.swing.JFrame {
 
 
-    public void displayMenuResults()
-    {
- 
-        CardLayout cl = (CardLayout)(jPanel1.getLayout());
-        cl.show(jPanel1, "MenuResults");
-    }
+  
     /**
      * Creates new form MenuSearchjFrame1
      */
@@ -33,8 +37,22 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
        
       @Override
       public void actionPerformed(ActionEvent arg0) {
-      CardLayout cl = (CardLayout)(jPanel1.getLayout());
+      //menuResultsPage1.repaint();
+          
+          
+          SearchParameters p = searchMenusPanel1.buildSearchParameters();
+          try {
+              menuResultsPage1.menuListResults(p);
+          } catch (ClassNotFoundException ex) {
+              Logger.getLogger(MenuSearchjFrame1.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (SQLException ex) {
+              Logger.getLogger(MenuSearchjFrame1.class.getName()).log(Level.SEVERE, null, ex);
+          }
+          
+          CardLayout cl = (CardLayout)(jPanel1.getLayout());
         cl.show(jPanel1, "MenuResults");
+
+     
       }
     });
         
@@ -48,6 +66,64 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
         cl.show(jPanel1, "searchRecipeResult");
       }
     });
+    
+    menuResultsPage1.menuListAddListSelectionListener(new ListSelectionListener() {
+      
+       
+      @Override
+      public void valueChanged(ListSelectionEvent arg0) {
+      //CardLayout cl = (CardLayout)(jPanel1.getLayout());
+       //Menu m = menuResultsPage1.getSelection();
+       
+      
+        //cl.show(jPanel1, "viewMenu");
+      }
+    });
+    
+     menuResultsPage1.menuListMouseclickedListener(new MouseListener() {
+      
+       
+      @Override
+      public void mouseExited(MouseEvent arg0) {
+      //CardLayout cl = (CardLayout)(jPanel1.getLayout());
+        //cl.show(jPanel1, "viewMenu");
+       
+      }
+      @Override
+      public void mouseEntered(MouseEvent arg0) {
+         // CardLayout cl = (CardLayout)(jPanel1.getLayout());
+         // cl.show(jPanel1, "viewMenu");
+      }
+      
+      @Override
+      public void mousePressed(MouseEvent arg0) {
+           CardLayout cl = (CardLayout)(jPanel1.getLayout());
+           Menu m = menuResultsPage1.getSelection();
+          try {
+              viewMenu1.PopulateMenuPanel(m);
+          } catch (ClassNotFoundException ex) {
+              Logger.getLogger(MenuSearchjFrame1.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (SQLException ex) {
+              Logger.getLogger(MenuSearchjFrame1.class.getName()).log(Level.SEVERE, null, ex);
+          }
+           viewMenu1.repaint();
+           viewMenu1.revalidate();
+           
+          cl.show(jPanel1, "viewMenu"); 
+      }
+      
+      @Override
+      public void mouseReleased(MouseEvent arg0) {
+          //CardLayout cl = (CardLayout)(jPanel1.getLayout());
+          //cl.show(jPanel1, "viewMenu");
+      }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+    });
+    
         
     }
 
@@ -74,7 +150,13 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
             e2.printStackTrace();
         }
         searchRecipePanel1 = new menusearch.ui.SearchRecipePanel();
-        recipeSearchGetResults2 = new menusearch.ui.RecipeSearchGetResults();
+        try {
+            viewMenu1 = new menusearch.ui.ViewMenu();
+        } catch (java.lang.ClassNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (java.sql.SQLException e2) {
+            e2.printStackTrace();
+        }
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,7 +185,7 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(0, 504, Short.MAX_VALUE))
+                .addGap(0, 904, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,8 +204,10 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
         });
         jPanel1.add(searchMenusPanel1, "searchMenu");
         jPanel1.add(menuResultsPage1, "MenuResults");
+
+        searchRecipePanel1.setPreferredSize(new java.awt.Dimension(1500, 514));
         jPanel1.add(searchRecipePanel1, "searchRecipe");
-        jPanel1.add(recipeSearchGetResults2, "searchRecipeResult");
+        jPanel1.add(viewMenu1, "viewMenu");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,8 +219,8 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 966, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,6 +289,8 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -213,9 +299,9 @@ public class MenuSearchjFrame1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private menusearch.ui.MenuResultsPage menuResultsPage1;
-    private menusearch.ui.RecipeSearchGetResults recipeSearchGetResults2;
     private menusearch.ui.SearchMenusPanel searchMenusPanel1;
     private menusearch.ui.SearchRecipePanel searchRecipePanel1;
+    private menusearch.ui.ViewMenu viewMenu1;
     // End of variables declaration//GEN-END:variables
 
     
