@@ -23,8 +23,8 @@ public class MenuDBAccessTest {
     
     public void printTestHeader() {
         
-        System.out.print("STARTING ");
-        System.out.println(
+        System.err.print("STARTING ");
+        System.err.println(
                 Thread.currentThread().getStackTrace()[2].getMethodName());
     }
     
@@ -431,5 +431,44 @@ public class MenuDBAccessTest {
             
             fail("MenuPage ID incorrect, did not get to test ArrayList size.");
         }        
+    }
+    
+    @Test
+    public void testQueryOpener() {
+        
+        printTestHeader();
+        
+        String query = "SELECT * FROM blahblah WHERE t=8;";
+        
+        String openQuery = MenuDBAccess.queryOpener( query );
+        System.err.println("Open query - " + openQuery);
+        
+        assertEquals("SELECT * FROM blahblah WHERE t=8", openQuery);
+    }
+    
+    @Test
+    public void testQueryEnder_AND() {
+        
+        printTestHeader();
+        
+        String query = "SELECT * FROM blahblah WHERE t=8 AND ";
+        
+        String endedQuery = MenuDBAccess.queryEnder( query );
+        System.err.println("Ended query - " + endedQuery);
+        
+        assertEquals("SELECT * FROM blahblah WHERE t=8;", endedQuery);
+    }
+    
+    @Test
+    public void testQueryEnder_OR() {
+        
+        printTestHeader();
+        
+        String query = "SELECT * FROM blahblah WHERE t=8 OR ";
+        
+        String endedQuery = MenuDBAccess.queryEnder( query );
+        System.err.println("Ended query - " + endedQuery);
+        
+        assertEquals("SELECT * FROM blahblah WHERE t=8;", endedQuery);
     }
 }
