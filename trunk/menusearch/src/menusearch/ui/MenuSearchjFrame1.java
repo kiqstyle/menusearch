@@ -21,6 +21,7 @@ import menusearch.domain.Menu;
 /**
  *
  * @author matthewshields
+ * @author kennethngai
  */
 public class MenuSearchjFrame1 extends javax.swing.JFrame {
 
