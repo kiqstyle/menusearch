@@ -1,0 +1,1 @@
+This is a software engineering class project. We are building an alternate, non-browser based tool for searching through the NYPL menu database, and tying it together with recipes from Yummly's data feed.
